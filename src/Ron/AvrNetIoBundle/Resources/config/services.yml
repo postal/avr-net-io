@@ -1,0 +1,7 @@
+parameters:
+#    avr_net_io.example.class: Ron\AvrNetIoBundle\Example
+
+services:
+#    avr_net_io.example:
+#        class: %avr_net_io.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

@@ -1,0 +1,3 @@
+avr_net_io_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: AvrNetIoBundle:Default:index }
