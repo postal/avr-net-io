@@ -7,7 +7,7 @@ use Ron\AvrNetIoBundle\Avr\AvrNetIo;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function indexAction()
     {
         $avr = new AvrNetIo('192.168.178.178');
         if (!$avr->connect()) {
@@ -25,4 +25,15 @@ class DefaultController extends Controller
         return $response;
     }
 
+    public function setPortAction($port, $value = false)
+    {
+        $avr = new AvrNetIo('192.168.178.178');
+        if (!$avr->connect()) {
+            die("Verbindung nicht möglich!");
+        }
+        $avr->setPort($port, $value);
+        $params = array('avr' => $avr);
+        $response = $this->render('AvrNetIoBundle:Default:index.html.twig', $params);
+        return $response;
+    }
 }
