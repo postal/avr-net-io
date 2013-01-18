@@ -9,8 +9,8 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        #$avr = new AvrNetIo('192.168.178.178');
-        $avr = new AvrNetIo('keller.servebeer.com');
+        $avr = new AvrNetIo('192.168.178.178');
+        #$avr = new AvrNetIo('keller.servebeer.com');
         if (!$avr->connect()) {
             die("Verbindung nicht möglich!");
         }
@@ -26,14 +26,20 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function setPortAction($port, $value = false)
+    public function setPortAction($port, $value)
     {
         $avr = new AvrNetIo('192.168.178.178');
         if (!$avr->connect()) {
             die("Verbindung nicht möglich!");
         }
+        $value = 1 == $value ? AvrNetIo::PORT_ON : AvrNetIo::PORT_OFF;
         $avr->setPort($port, $value);
-        $params = array('avr' => $avr);
+
+
+        $params = array(
+            'avr' => $avr,
+            'version' => var_export($avr->getVersion(), true),
+        );
         $response = $this->render('AvrNetIoBundle:Default:index.html.twig', $params);
         return $response;
     }

@@ -4,12 +4,16 @@ Werte des AVR-NET-IO
     <tr><th>IP</th><td>{{ avr.ip }}</td></tr>
     <tr><th>Gateway</th><td>{{ avr.gw }}</td></tr>
     <tr><th>Netmask</th><td>{{ avr.mask }}</td></tr>
-    <tr><th>Version</th><td>{#}{ avr.version }#}</td></tr>
-    <tr><th>Port 1</th><td>{{ avr.port(1) }}</td></tr>
-    <tr><th>ADC 1</th><td>{{ avr.adc(1) }}</td></tr>
-    <tr><th>ADC 2</th><td>{{ avr.adc(2) }}</td></tr>
-    <tr><th>ADC 3</th><td>{{ avr.adc(3) }}</td></tr>
-    <tr><th>ADC 4</th><td>{{ avr.adc(4) }}</td></tr>
+    <tr><th>Version</th><td>{{ version }}</td></tr>
+    {% for i in 1..8 %}
+        <tr><th>Input {{ i }}</th><td>{{ avr.input(i) }}</td></tr>
+    {% endfor %}
+    {% for i in 1..8 %}
+    <tr><th>Output {{ i }}</th><td>{{ avr.output(i) }}</td></tr>
+    {% endfor %}
+    {% for i in 1..4 %}
+        <tr><th>ADC {{ i }}</th><td>{{ avr.adc(i) }}</td></tr>
+    {% endfor %}
 </table>
 {#
 echo "IP: ".$avr->getIp()."<br />\r\n";
@@ -18,6 +22,9 @@ echo "Netmask: ".$avr->getMask()."<br />\r\n";
 var_dump($avr->getVersion());
 echo "<br />";
 echo "Port 1:".$avr->getPort(1)."<br />\r\n";
+echo "Port 2:".$avr->getPort(2)."<br />\r\n";
+echo "Port 3:".$avr->getPort(3)."<br />\r\n";
+echo "Port 4:".$avr->getPort(4)."<br />\r\n";
 echo "ADC1 1:".$avr->getAdc(1)."<br />\r\n";
 
 var_dump($avr->getData());
