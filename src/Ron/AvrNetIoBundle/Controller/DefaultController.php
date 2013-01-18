@@ -7,9 +7,10 @@ use Ron\AvrNetIoBundle\Avr\AvrNetIo;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function indexAction()
     {
-        $avr = new AvrNetIo('192.168.178.178');
+        #$avr = new AvrNetIo('192.168.178.178');
+        $avr = new AvrNetIo('keller.servebeer.com');
         if (!$avr->connect()) {
             die("Verbindung nicht möglich!");
         }
