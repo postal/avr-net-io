@@ -9,9 +9,7 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        $avr = new AvrNetIo('192.168.178.178');
-        #$avr = new AvrNetIo('keller.servebeer.com');
-        if (!$avr->connect()) {
+        if (!$avr = $this->getAvr()) {
             die("Verbindung nicht möglich!");
         }
 
@@ -28,19 +26,37 @@ class DefaultController extends Controller
 
     public function setPortAction($port, $value)
     {
-        $avr = new AvrNetIo('192.168.178.178');
-        if (!$avr->connect()) {
+        #$avr = new AvrNetIo('192.168.178.178');
+
+        if (!$avr = $this->getAvr()) {
             die("Verbindung nicht möglich!");
         }
+
         $value = 1 == $value ? AvrNetIo::PORT_ON : AvrNetIo::PORT_OFF;
         $avr->setPort($port, $value);
-
 
         $params = array(
             'avr' => $avr,
             'version' => var_export($avr->getVersion(), true),
         );
         $response = $this->render('AvrNetIoBundle:Default:index.html.twig', $params);
+
         return $response;
+    }
+
+    public function switchFloorLightAction()
+    {
+        $this->getAvr();
+    }
+
+    protected function getAvr()
+    {
+        $avr = $this->container->get('avr');
+        if (!$avr->connect()) {
+            return false;
+        }
+
+        return $avr;
+
     }
 }

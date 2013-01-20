@@ -1,39 +1,79 @@
+{% extends ("AvrNetIoBundle::base.html.twig") %}
 
-Werte des AVR-NET-IO
-<table>
-    <tr><th>IP</th><td>{{ avr.ip }}</td></tr>
-    <tr><th>Gateway</th><td>{{ avr.gw }}</td></tr>
-    <tr><th>Netmask</th><td>{{ avr.mask }}</td></tr>
-    <tr><th>Version</th><td>{{ version }}</td></tr>
-    {% for i in 1..8 %}
-        <tr><th>Input {{ i }}</th><td>{{ avr.input(i) }}</td></tr>
-    {% endfor %}
-    {% for i in 1..8 %}
-    <tr><th>Output {{ i }}</th><td>{{ avr.output(i) }}</td></tr>
-    {% endfor %}
-    {% for i in 1..4 %}
-        <tr><th>ADC {{ i }}</th><td>{{ avr.adc(i) }}</td></tr>
-    {% endfor %}
-</table>
-{#
-echo "IP: ".$avr->getIp()."<br />\r\n";
-echo "Gateway: ".$avr->getGw()."<br />\r\n";
-echo "Netmask: ".$avr->getMask()."<br />\r\n";
-var_dump($avr->getVersion());
-echo "<br />";
-echo "Port 1:".$avr->getPort(1)."<br />\r\n";
-echo "Port 2:".$avr->getPort(2)."<br />\r\n";
-echo "Port 3:".$avr->getPort(3)."<br />\r\n";
-echo "Port 4:".$avr->getPort(4)."<br />\r\n";
-echo "ADC1 1:".$avr->getAdc(1)."<br />\r\n";
 
-var_dump($avr->getData());
-echo "<br />\r\n";
-var_dump($avr->getStatus(AvrNetIo::STATUS_RAW));
-echo "\r\n";
+{% block header %}
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-for ($i=1; $i<5; $i++) {
-echo "ADC #$i: ".$avr->getAdc($i)."<br />\r\n";
-}
-Hello {{ name }}!
-#}
+            $("select").on("change", function (event, ui) {
+                var inputName = $(this).attr('name').substr(7);
+                $.ajax({
+                    url: "/setport/" + inputName + '/' + $(this).val(),
+                    context: ''
+                }).done(function() {
+
+                });
+            });
+        });
+    </script>
+    <div data-role="header">
+        <h1>Werte des Avrs</h1>
+    </div>
+{% endblock header %}
+
+{% block content %}
+    <style type="text/css">
+        .ui-li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
+            display: block !important;
+            padding: 0.9em 75px 0.9em 15px !important;
+        }
+
+        div.ui-slider-switch {
+            position: absolute !important;
+            right: 0 !important;
+            top: 0.5em;
+        }
+
+    </style>
+    <ul data-role="listview" data-inset="true">
+        {% for i in 1..8 %}
+            <li data-role="fieldcontain">
+                <label for="output{{ i }}">Output {{ i }}</label>
+                <select name="output-{{ i }}" id="output-{{ i }}" data-role="slider" data-mini="true">
+                    <option value="0">Off</option>
+                    <option value="1" {% if avr.output(i) == 1 %}selected="selected"{% endif %}>On</option>
+                </select>
+            </li>
+        {% endfor %}
+    </ul>
+    {# <table>
+        <tr>
+            <th>IP</th>
+            <td>{{ avr.ip }}</td>
+        </tr>
+        <tr>
+            <th>Gateway</th>
+            <td>{{ avr.gw }}</td>
+        </tr>
+        <tr>
+            <th>Netmask</th>
+            <td>{{ avr.mask }}</td>
+        </tr>
+        <tr>
+            <th>Version</th>
+            <td>{% if version is defined %}{{ version }}{% endif %}</td>
+        </tr>
+        {% for i in 1..8 %}
+            <tr>
+                <th>Input {{ i }}</th>
+                <td>{{ avr.input(i) }}</td>
+            </tr>
+        {% endfor %}
+        {% for i in 1..4 %}
+            <tr>
+                <th>ADC {{ i }}</th>
+                <td>{{ avr.adc(i) }}</td>
+            </tr>
+        {% endfor %}
+    </table> #}
+{% endblock %}
