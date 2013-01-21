@@ -27,7 +27,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ]
+    bundles:        ['AvrNetIoBundle']
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -58,3 +58,8 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+services:
+    avr:
+        class: Ron\AvrNetIoBundle\Avr\AvrNetIo
+        arguments: ["%avr_ip%"]
