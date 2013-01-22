@@ -36,12 +36,19 @@
 
     </style>
     <ul data-role="listview" data-inset="true">
-        {% for i in 1..8 %}
+        <li data-role="fieldcontain">
+            <label for="output1">Flurlicht</label>
+            <select name="output-{{ i }}" id="output-{{ i }}" data-role="slider" data-mini="true">
+                <option value="0">Aus</option>
+                <option value="1" {% if avr.output(i) == 1 %}selected="selected"{% endif %}>An</option>
+            </select>
+        </li>
+        {% for i in 2..8 %}
             <li data-role="fieldcontain">
-                <label for="output{{ i }}">Output {{ i }}</label>
+                <label for="output{{ i }}">Digitaler Ausgang {{ i }}</label>
                 <select name="output-{{ i }}" id="output-{{ i }}" data-role="slider" data-mini="true">
-                    <option value="0">Off</option>
-                    <option value="1" {% if avr.output(i) == 1 %}selected="selected"{% endif %}>On</option>
+                    <option value="0">Aus</option>
+                    <option value="1" {% if avr.output(i) == 1 %}selected="selected"{% endif %}>An</option>
                 </select>
             </li>
         {% endfor %}
