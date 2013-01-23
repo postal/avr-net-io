@@ -4,3 +4,12 @@ avr_net_io_homepage:
 avr_set_port:
     pattern: /setport/{port}/{value}
     defaults: { _controller: AvrNetIoBundle:Default:setPort }
+_login:
+    pattern: /login
+    defaults: { _controller: AvrNetIoBundle:Secured:login }
+_logout:
+    pattern: /logout
+    defaults: { _controller: AvrNetIoBundle:Secured:logout }
+_login_check:
+    pattern: /login_check
+    defaults: { _controller: AvrNetIoBundle:Secured:loginCheck }

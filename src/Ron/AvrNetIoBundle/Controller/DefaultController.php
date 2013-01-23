@@ -49,6 +49,10 @@ class DefaultController extends Controller
         $this->getAvr();
     }
 
+    public function loginAction(){
+
+    }
+
     protected function getAvr()
     {
         $avr = $this->container->get('avr');
@@ -59,4 +63,5 @@ class DefaultController extends Controller
         return $avr;
 
     }
+
 }

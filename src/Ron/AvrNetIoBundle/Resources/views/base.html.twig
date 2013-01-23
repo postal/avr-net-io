@@ -6,13 +6,28 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css"/>
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("select").on("change", function (event, ui) {
+                var inputName = $(this).attr('name').substr(7);
+                $.ajax({
+                    url:"/setport/" + inputName + '/' + $(this).val(),
+                    context:''
+                }).done(function () {
+
+                        });
+            });
+        });
+    </script>
+
 </head>
 <body>
 
 <div data-role="page">
     {% block header %}
         <div data-role="header">
-            <h1>My Title</h1>
+            <h1>Werte des Avrs</h1>
         </div>
     {% endblock header %}
     {% block content %}
