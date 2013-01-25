@@ -1,26 +1,6 @@
 {% extends ("AvrNetIoBundle::base.html.twig") %}
 
 
-{% block header %}
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $("select").on("change", function (event, ui) {
-                var inputName = $(this).attr('name').substr(7);
-                $.ajax({
-                    url: "/setport/" + inputName + '/' + $(this).val(),
-                    context: ''
-                }).done(function() {
-
-                });
-            });
-        });
-    </script>
-    <div data-role="header">
-        <h1>Werte des Avrs</h1>
-    </div>
-{% endblock header %}
-
 {% block content %}
     <style type="text/css">
         .ui-li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
