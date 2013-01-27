@@ -17,7 +17,7 @@
     </style>
     <ul data-role="listview" data-inset="true">
         <li data-role="fieldcontain">
-            <label for="output1">Flurlicht</label>
+            <label for="output-1">Flurlicht</label>
             <select name="output-1" id="output-1" data-role="slider" data-mini="false">
                 <option value="0">Aus</option>
                 <option value="1" {% if avr.output(1) == 1 %}selected="selected"{% endif %}>An</option>
@@ -33,34 +33,4 @@
             </li>
         {% endfor %}
     </ul>
-    {# <table>
-        <tr>
-            <th>IP</th>
-            <td>{{ avr.ip }}</td>
-        </tr>
-        <tr>
-            <th>Gateway</th>
-            <td>{{ avr.gw }}</td>
-        </tr>
-        <tr>
-            <th>Netmask</th>
-            <td>{{ avr.mask }}</td>
-        </tr>
-        <tr>
-            <th>Version</th>
-            <td>{% if version is defined %}{{ version }}{% endif %}</td>
-        </tr>
-        {% for i in 1..8 %}
-            <tr>
-                <th>Input {{ i }}</th>
-                <td>{{ avr.input(i) }}</td>
-            </tr>
-        {% endfor %}
-        {% for i in 1..4 %}
-            <tr>
-                <th>ADC {{ i }}</th>
-                <td>{{ avr.adc(i) }}</td>
-            </tr>
-        {% endfor %}
-    </table> #}
 {% endblock %}

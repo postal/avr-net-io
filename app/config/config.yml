@@ -62,4 +62,4 @@ swiftmailer:
 services:
     avr:
         class: Ron\AvrNetIoBundle\Avr\AvrNetIo
-        arguments: ["%avr_ip%"]
+        arguments: ["%avr_ip%", "%avr_port%"]

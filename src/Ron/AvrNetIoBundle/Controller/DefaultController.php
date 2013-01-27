@@ -9,8 +9,9 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        if (!$avr = $this->getAvr()) {
-            die("Verbindung nicht möglich!");
+        $avr = $this->getAvr();
+        if (false === $avr) {
+            return $this->redirect($this->generateUrl('_connection_fail'));
         }
 
         $params = array(
@@ -29,7 +30,7 @@ class DefaultController extends Controller
         #$avr = new AvrNetIo('192.168.178.178');
 
         if (!$avr = $this->getAvr()) {
-            die("Verbindung nicht möglich!");
+            $this->redirect($this->generateUrl('_connection_fail'));
         }
 
         $value = 1 == $value ? AvrNetIo::PORT_ON : AvrNetIo::PORT_OFF;
@@ -49,19 +50,26 @@ class DefaultController extends Controller
         $this->getAvr();
     }
 
-    public function loginAction(){
+    public function loginAction()
+    {
 
     }
 
     protected function getAvr()
     {
         $avr = $this->container->get('avr');
-        if (!$avr->connect()) {
+        if (false === $avr->connect()) {
             return false;
         }
 
         return $avr;
+    }
 
+    public function connectionFailAction()
+    {
+        $response = $this->render('AvrNetIoBundle:Default:connection_fail.html.twig', array());
+
+        return $response;
     }
 
 }

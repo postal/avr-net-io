@@ -13,3 +13,6 @@ _logout:
 _login_check:
     pattern: /login_check
     defaults: { _controller: AvrNetIoBundle:Secured:loginCheck }
+_connection_fail:
+    pattern: /connectionFail
+    defaults: { _controller: AvrNetIoBundle:Default:connectionFail }

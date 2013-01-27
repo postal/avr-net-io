@@ -1,0 +1,16 @@
+{% extends ("AvrNetIoBundle::base.html.twig") %}
+
+{% block header %}
+    <div data-role="header">
+        <h1>Werte des Avrs</h1>
+        {% if app.user %}
+            <a href="{{ path('_logout') }}" data-role="button" data-inline="true" date-mini="true">Logout</a>
+        {% else %}
+            <a href="{{ path('_login') }}" data-role="button" data-inline="true" data-mini="true">Login</a>
+        {% endif %}
+    </div>
+{% endblock header %}
+
+{% block content %}
+    <h4>Connection Fail</h4>
+{% endblock %}
