@@ -1,28 +1,31 @@
 <?php
 namespace Ron\AvrNetIoBundle\Avr;
 
-    /*
-     * AvrNetIo PHP Class von Sascha Kimmel steht unter einer Creative Commons
-     * Namensnennung-Weitergabe unter gleichen Bedingungen 3.0 Deutschland Lizenz.
-     * http://creativecommons.org/licenses/by-sa/3.0/de/
-     *
-     * Anleitung und Infos:
-     * http://www.sascha-kimmel.de/2010/02/avr-net-io-mit-php-ansteuern/
-     *
-     */
-    /**
-     *
-     */
+
 /**
  *
+ * Nach Vorlage von:
+ * AvrNetIo PHP Class von Sascha Kimmel steht unter einer Creative Commons
+ * Namensnennung-Weitergabe unter gleichen Bedingungen 3.0 Deutschland Lizenz.
+ * http://creativecommons.org/licenses/by-sa/3.0/de/
+ *
+ * Anleitung und Infos:
+ * http://www.sascha-kimmel.de/2010/02/avr-net-io-mit-php-ansteuern/
+ *
+ * @author Ronny Seiler
  */
 class AvrNetIo
 {
 
     /**
-     * @var
+     * @var string
      */
-    protected $ip;
+    protected $connIp;
+    /**
+     * @var int
+     */
+    protected $connPort = 50290;
+
     /**
      * @var
      */
@@ -61,9 +64,45 @@ class AvrNetIo
     /**
      * @param $ip
      */
-    public function __construct($ip)
+    public function __construct($ip, $port = null)
     {
-        $this->ip = $ip;
+        $this->setconnIp($ip);
+
+        if (null != $port && is_int($port)) {
+            $this->setConnPort($port);
+        }
+    }
+
+    /**
+     * @param string $connIp
+     */
+    public function setConnIp($connIp)
+    {
+        $this->connIp = $connIp;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConnIp()
+    {
+        return $this->connIp;
+    }
+
+    /**
+     * @param int $connPort
+     */
+    public function setConnPort($connPort)
+    {
+        $this->connPort = $connPort;
+    }
+
+    /**
+     * @return int
+     */
+    public function getConnPort()
+    {
+        return $this->connPort;
     }
 
     /**
@@ -71,7 +110,8 @@ class AvrNetIo
      */
     public function connect()
     {
-        $this->conn = fsockopen($this->ip, 50290, $errno, $errstr, $this->timeout);
+        $this->conn = @fsockopen($this->getConnPort(), $this->getConnPort(), $errno, $errstr, $this->timeout);
+
         return (bool)$this->conn;
     }
 
