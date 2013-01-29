@@ -110,7 +110,7 @@ class AvrNetIo
      */
     public function connect()
     {
-        $this->conn = @fsockopen($this->getConnPort(), $this->getConnPort(), $errno, $errstr, $this->timeout);
+        $this->conn = @fsockopen($this->getConnIp(), $this->getConnPort(), $errno, $errstr, $this->timeout);
 
         return (bool)$this->conn;
     }

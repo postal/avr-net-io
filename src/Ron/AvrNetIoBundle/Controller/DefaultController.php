@@ -10,6 +10,7 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $avr = $this->getAvr();
+
         if (false === $avr) {
             return $this->redirect($this->generateUrl('_connection_fail'));
         }
@@ -27,8 +28,6 @@ class DefaultController extends Controller
 
     public function setPortAction($port, $value)
     {
-        #$avr = new AvrNetIo('192.168.178.178');
-
         if (!$avr = $this->getAvr()) {
             $this->redirect($this->generateUrl('_connection_fail'));
         }
@@ -38,7 +37,6 @@ class DefaultController extends Controller
 
         $params = array(
             'avr' => $avr,
-            'version' => var_export($avr->getVersion(), true),
         );
         $response = $this->render('AvrNetIoBundle:Default:index.html.twig', $params);
 
@@ -58,6 +56,7 @@ class DefaultController extends Controller
     protected function getAvr()
     {
         $avr = $this->container->get('avr');
+
         if (false === $avr->connect()) {
             return false;
         }
