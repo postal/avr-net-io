@@ -4,6 +4,15 @@ avr_net_io_homepage:
 avr_set_port:
     pattern: /setport/{port}/{value}
     defaults: { _controller: AvrNetIoBundle:Default:setPort }
+avr_output:
+    pattern:  /output
+    defaults: { _controller: AvrNetIoBundle:Default:avrOutput }
+avr_info:
+    pattern: /info
+    defaults: { _controller: AvrNetIoBundle:Default:avrInfo }
+avr_input:
+    pattern: /input
+    defaults: { _controller: AvrNetIoBundle:Default:avrInput }
 _login:
     pattern: /login
     defaults: { _controller: AvrNetIoBundle:Secured:login }

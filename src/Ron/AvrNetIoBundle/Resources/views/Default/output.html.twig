@@ -1,5 +1,6 @@
 {% extends ("AvrNetIoBundle::base.html.twig") %}
 
+{% block title %}<h1>Digitale Ausgänge</h1>{% endblock title %}
 
 {% block content %}
     <style type="text/css">
@@ -25,7 +26,7 @@
         </li>
         {% for i in 2..8 %}
             <li data-role="fieldcontain">
-                <label for="output{{ i }}">Digitaler Ausgang {{ i }}</label>
+                <label for="output-{{ i }}">Digitaler Ausgang {{ i }}</label>
                 <select name="output-{{ i }}" id="output-{{ i }}" data-role="slider" data-mini="false">
                     <option value="0">Aus</option>
                     <option value="1" {% if avr.output(i) == 1 %}selected="selected"{% endif %}>An</option>

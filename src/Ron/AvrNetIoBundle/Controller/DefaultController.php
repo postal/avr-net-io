@@ -9,6 +9,11 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
+        return $this->forward('AvrNetIoBundle:Default:avrOutput');
+    }
+
+    public function avrOutputAction()
+    {
         $avr = $this->getAvr();
 
         if (false === $avr) {
@@ -19,7 +24,7 @@ class DefaultController extends Controller
             'avr' => $avr,
         );
 
-        $response = $this->render('AvrNetIoBundle:Default:index.html.twig', $params);
+        $response = $this->render('AvrNetIoBundle:Default:output.html.twig', $params);
 
         $avr->disconnect();
 
@@ -38,7 +43,7 @@ class DefaultController extends Controller
         $params = array(
             'avr' => $avr,
         );
-        $response = $this->render('AvrNetIoBundle:Default:index.html.twig', $params);
+        $response = $this->render('AvrNetIoBundle:Default:output.html.twig', $params);
 
         return $response;
     }
@@ -62,6 +67,38 @@ class DefaultController extends Controller
         }
 
         return $avr;
+    }
+
+    public function avrInfoAction()
+    {
+        if (!$avr = $this->getAvr()) {
+            $this->redirect($this->generateUrl('_connection_fail'));
+        }
+
+        $params = array(
+            'avr' => $avr,
+        );
+
+        $response = $this->render('AvrNetIoBundle:Default:info.html.twig', $params);
+
+        return $response;
+
+    }
+
+    public function avrInputAction()
+    {
+        if (!$avr = $this->getAvr()) {
+            $this->redirect($this->generateUrl('_connection_fail'));
+        }
+
+        $params = array(
+            'avr' => $avr,
+        );
+
+        $response = $this->render('AvrNetIoBundle:Default:input.html.twig', $params);
+
+        return $response;
+
     }
 
     public function connectionFailAction()
