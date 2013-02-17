@@ -91,8 +91,12 @@ class DefaultController extends Controller
             $this->redirect($this->generateUrl('_connection_fail'));
         }
 
+#	$temp = exec('cat /sys/bus/w1/devices/10-0008025fd9a1/w1_slave | cut -d "="  -f2 |tail -n1');
+#	$temp = round($temp / 1000, 3);
+        $temp = exec('echo $(echo "scale=3; $(grep \'t=\' /sys/bus/w1/devices/w1_bus_master1/10-0008025fd9a1/w1_slave | awk -F \'t=\' \'{print $2}\') / 1000" | bc -l)');
         $params = array(
             'avr' => $avr,
+            'temp' => $temp,
         );
 
         $response = $this->render('AvrNetIoBundle:Default:input.html.twig', $params);
