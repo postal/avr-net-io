@@ -1,4 +1,5 @@
 parameters:
+   temperature.image.path: '\home\pi\temperature'
 #    avr_net_io.example.class: Ron\AvrNetIoBundle\Example
 
 services:
