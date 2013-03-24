@@ -2,11 +2,43 @@
 
 namespace Ron\AvrNetIoBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Ron\AvrNetIoBundle\Avr\AvrNetIo;
+use \Symfony\Bundle\FrameworkBundle\Controller;
+use \Symfony\Component\HttpFoundation\Response;
+use \Ron\AvrNetIoBundle\Avr\AvrNetIo;
 
 class DefaultController extends Controller
 {
+    protected $periods = array(
+        'hour' => 'Stunde',
+        'day' => 'Tag',
+        'week' => 'Woche',
+        'month' => 'Monat',
+        'year' => 'Jahr',
+    );
+
+
+    /**
+     * @return array
+     */
+    public function getPeriods()
+    {
+        return $this->periods;
+    }
+
+
+    /**
+     * Liefert den Namen zu einer PeriodenId
+     * @param string $periodId
+     * @return string|false
+     */
+    public function getPeriodName($periodId)
+    {
+        if (isset($this->periods[$periodId])) {
+            return $this->periods[$periodId];
+        }
+        return false;
+    }
+
     public function indexAction()
     {
         return $this->forward('AvrNetIoBundle:Default:avrOutput');
@@ -29,6 +61,54 @@ class DefaultController extends Controller
         $avr->disconnect();
 
         return $response;
+    }
+
+    /**
+     * @param string $periodId
+     * @return Response
+     */
+    public function avrOutputTemperatureAction($periodId)
+    {
+        if (!in_array($periodId, keys($this->getPeriods()))) {
+            $periodId = 'day';
+        }
+
+        $filename = $periodId . '.png';
+        if (file_exists($this->container->get('temperature.image.path')) . '/' . $filename) {
+            $imagePath = $this->container->get('temperature.image.path') . '/' . $filename;
+        }
+
+        $params = array(
+#            'avr' => $avr,
+            'image_path' => $imagePath,
+            'period_title' => $this->getPeriodName($periodId),
+        );
+
+        $response = $this->render('AvrNetIoBundle:Default:output_temperature.html.twig', $params);
+
+        return $response;
+    }
+
+    public function outputTemperatureImageAction($periodId)
+    {
+        if (!in_array($periodId, keys($this->getPeriods()))) {
+            $periodId = 'day';
+        }
+
+        $filename = $periodId . '.png';
+        $headers = array(
+            'Content-Type' => 'image/png',
+            'Content-Disposition' => 'inline; filename="image.png"'
+        );
+
+        if (file_exists($this->container->get('temperature.image.path')) . '/' . $filename) {
+            $imagePath = $this->container->get('temperature.image.path') . '/' . $filename;
+        }
+        $data = file_get_contents($imagePath);
+
+        return new Response($data, 200, $headers);
+
+
     }
 
     public function setPortAction($port, $value)

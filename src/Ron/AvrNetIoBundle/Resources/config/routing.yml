@@ -13,6 +13,12 @@ avr_info:
 avr_input:
     pattern: /input
     defaults: { _controller: AvrNetIoBundle:Default:avrInput }
+avr_output_temp_image:
+    pattern: /output/temperature/image/{period}
+    defaults: { _controller: AvrNetIoBundle:Default:avrOutputTemperatureImage }
+avr_output_temp:
+    pattern: /output/temperature/{period}
+    defaults: { _controller: AvrNetIoBundle:Default:avrOutputTemperature }
 _login:
     pattern: /login
     defaults: { _controller: AvrNetIoBundle:Secured:login }
