@@ -18,6 +18,7 @@
     </style>
 
     <div>
-        <img src="{{ image_path }}" alt="{{ image_path }}" />
+
+        <img src="{{ path('avr_output_temp_image', {'period': period}) }}" alt="{{ image_path }}" />
     </div>
 {% endblock %}
