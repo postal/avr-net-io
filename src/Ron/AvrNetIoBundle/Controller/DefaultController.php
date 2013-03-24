@@ -6,8 +6,14 @@ use \Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use \Symfony\Component\HttpFoundation\Response;
 use \Ron\AvrNetIoBundle\Avr\AvrNetIo;
 
+/**
+ *
+ */
 class DefaultController extends Controller
 {
+    /**
+     * @var array
+     */
     protected $periods = array(
         'hour' => 'Stunde',
         'day' => 'Tag',
@@ -39,11 +45,17 @@ class DefaultController extends Controller
         return false;
     }
 
+    /**
+     * @return Response
+     */
     public function indexAction()
     {
         return $this->forward('AvrNetIoBundle:Default:avrOutput');
     }
 
+    /**
+     * @return Response
+     */
     public function avrOutputAction()
     {
         $avr = $this->getAvr();
@@ -83,6 +95,10 @@ class DefaultController extends Controller
         return $response;
     }
 
+    /**
+     * @param $period
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function outputTemperatureImageAction($period)
     {
         if (!in_array($period, array_keys($this->getPeriods()))) {
@@ -105,6 +121,11 @@ class DefaultController extends Controller
 
     }
 
+    /**
+     * @param $port
+     * @param $value
+     * @return Response
+     */
     public function setPortAction($port, $value)
     {
         if (!$avr = $this->getAvr()) {
@@ -122,16 +143,25 @@ class DefaultController extends Controller
         return $response;
     }
 
+    /**
+     *
+     */
     public function switchFloorLightAction()
     {
         $this->getAvr();
     }
 
+    /**
+     *
+     */
     public function loginAction()
     {
 
     }
 
+    /**
+     * @return bool
+     */
     protected function getAvr()
     {
         $avr = $this->container->get('avr');
@@ -143,11 +173,12 @@ class DefaultController extends Controller
         return $avr;
     }
 
+    /**
+     * @return Response
+     */
     public function avrInfoAction()
     {
-        if (!$avr = $this->getAvr()) {
-            $this->redirect($this->generateUrl('_connection_fail'));
-        }
+        $avr = $this->getAvr();
 
         $params = array(
             'avr' => $avr,
@@ -159,11 +190,12 @@ class DefaultController extends Controller
 
     }
 
+    /**
+     * @return Response
+     */
     public function avrInputAction()
     {
-        if (!$avr = $this->getAvr()) {
-            $this->redirect($this->generateUrl('_connection_fail'));
-        }
+        $avr = $this->getAvr();
 
         $params = array(
             'avr' => $avr,
@@ -175,6 +207,9 @@ class DefaultController extends Controller
 
     }
 
+    /**
+     * @return mixed
+     */
     public function connectionFailAction()
     {
         $response = $this->render('AvrNetIoBundle:Default:connection_fail.html.twig', array());
