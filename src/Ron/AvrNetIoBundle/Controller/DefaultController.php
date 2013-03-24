@@ -64,24 +64,18 @@ class DefaultController extends Controller
     }
 
     /**
-     * @param string $periodId
+     * @param string $period
      * @return Response
      */
-    public function avrOutputTemperatureAction($periodId)
+    public function avrOutputTemperatureAction($period)
     {
-        if (!in_array($periodId, keys($this->getPeriods()))) {
+        if (!in_array($period, keys($this->getPeriods()))) {
             $periodId = 'day';
         }
 
-        $filename = $periodId . '.png';
-        if (file_exists($this->container->get('temperature.image.path')) . '/' . $filename) {
-            $imagePath = $this->container->get('temperature.image.path') . '/' . $filename;
-        }
-
         $params = array(
-#            'avr' => $avr,
-            'image_path' => $imagePath,
-            'period_title' => $this->getPeriodName($periodId),
+            'period_title' => $this->getPeriodName($period),
+            'period' => $period,
         );
 
         $response = $this->render('AvrNetIoBundle:Default:output_temperature.html.twig', $params);
@@ -89,13 +83,13 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function outputTemperatureImageAction($periodId)
+    public function outputTemperatureImageAction($period)
     {
-        if (!in_array($periodId, keys($this->getPeriods()))) {
-            $periodId = 'day';
+        if (!in_array($period, keys($this->getPeriods()))) {
+            $period = 'day';
         }
 
-        $filename = $periodId . '.png';
+        $filename = $period . '.png';
         $headers = array(
             'Content-Type' => 'image/png',
             'Content-Disposition' => 'inline; filename="image.png"'
