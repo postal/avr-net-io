@@ -2,7 +2,7 @@
 
 namespace Ron\AvrNetIoBundle\Controller;
 
-use \Symfony\Bundle\FrameworkBundle\Controller;
+use \Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use \Symfony\Component\HttpFoundation\Response;
 use \Ron\AvrNetIoBundle\Avr\AvrNetIo;
 
@@ -69,7 +69,7 @@ class DefaultController extends Controller
      */
     public function avrOutputTemperatureAction($period)
     {
-        if (!in_array($period, keys($this->getPeriods()))) {
+        if (!in_array($period, array_keys($this->getPeriods()))) {
             $periodId = 'day';
         }
 
@@ -85,7 +85,7 @@ class DefaultController extends Controller
 
     public function outputTemperatureImageAction($period)
     {
-        if (!in_array($period, keys($this->getPeriods()))) {
+        if (!in_array($period, array_keys($this->getPeriods()))) {
             $period = 'day';
         }
 
@@ -95,8 +95,8 @@ class DefaultController extends Controller
             'Content-Disposition' => 'inline; filename="image.png"'
         );
 
-        if (file_exists($this->container->get('temperature.image.path')) . '/' . $filename) {
-            $imagePath = $this->container->get('temperature.image.path') . '/' . $filename;
+        if (file_exists($this->container->getParameter('temperature.image.path')) . '/' . $filename) {
+            $imagePath = $this->container->getParameter('temperature.image.path') . '/' . $filename;
         }
         $data = file_get_contents($imagePath);
 
