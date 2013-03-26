@@ -105,9 +105,9 @@ class DefaultController extends Controller
             $period = 'day';
         }
 
-        $filename = $period . '.png';
+        $filename = $period . '.svg';
         $headers = array(
-            'Content-Type' => 'image/png',
+            'Content-Type' => 'image/svg+xml',
             'Content-Disposition' => 'inline; filename="image.png"'
         );
 
