@@ -12,5 +12,4 @@ parameters:
     locale: en
     secret: c1bbfa74b9fea35c6cfaf8269bc73961a9ddb3f2
     database_path: null
-    avr_ip: "192.168.178.178"
-    avr_port: "50290"
+

@@ -12,8 +12,8 @@
             $("select").on("change", function (event, ui) {
                 var inputName = $(this).attr('name').substr(7);
                 $.ajax({
-                    url:"/setport/" + inputName + '/' + $(this).val(),
-                    context:''
+                    url: "/setport/" + inputName + '/' + $(this).val(),
+                    context: ''
                 }).done(function () {
 
                         });

@@ -3,12 +3,9 @@
 {% block title %}<h1>Informationen - Avr-Net-Io</h1>{% endblock title %}
 
 {% block content %}
-
-
     <div class="ui-grid-a ui-responsive">
         {% if false == avr  %}
-            <div class="ui-block-a"><div class="ui-body ui-body-d">Verbindung zu Avr</div></div>
-            <div class="ui-block-b"><div class="ui-body ui-body-d">fehlgeschlagen</div></div>
+            <div class="ui-block-a"><div class="ui-body ui-body-d">{% trans %}Connection failed{% endtrans %}</div></div>
         {% else %}
             <div class="ui-block-a"><div class="ui-body ui-body-d">IP</div></div>
             <div class="ui-block-b"><div class="ui-body ui-body-d">{{ avr.ip }}</div></div>

@@ -3,11 +3,13 @@
 namespace Ron\AvrNetIoBundle\Controller;
 
 use \Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use \Symfony\Component\HttpFoundation\Response;
 use \Ron\AvrNetIoBundle\Avr\AvrNetIo;
+use \Symfony\Component\HttpFoundation\Response;
+
 
 /**
- *
+ * Class DefaultController
+ * @package Ron\AvrNetIoBundle\Controller
  */
 class DefaultController extends Controller
 {
@@ -54,15 +56,17 @@ class DefaultController extends Controller
     }
 
     /**
+     * Show output informations
+     *
      * @return Response
      */
     public function avrOutputAction()
     {
         $avr = $this->getAvr();
 
-        if (false === $avr) {
-            return $this->redirect($this->generateUrl('_connection_fail'));
-        }
+        # if (false === $avr) {
+        #     return $this->redirect($this->generateUrl('_connection_fail'));
+        # }
 
         $params = array(
             'avr' => $avr,
@@ -70,7 +74,8 @@ class DefaultController extends Controller
 
         $response = $this->render('AvrNetIoBundle:Default:output.html.twig', $params);
 
-        $avr->disconnect();
+
+        $this->disconnect($avr);
 
         return $response;
     }
@@ -160,7 +165,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @return bool
+     * @return bool|object
      */
     protected function getAvr()
     {
@@ -195,12 +200,15 @@ class DefaultController extends Controller
      */
     public function avrInputAction()
     {
-        $avr = $this->getAvr();
 
 #	$temp = exec('cat /sys/bus/w1/devices/10-0008025fd9a1/w1_slave | cut -d "="  -f2 |tail -n1');
 #	$temp = round($temp / 1000, 3);
-        $temp = exec('echo $(echo "scale=3; $(grep \'t=\' /sys/bus/w1/devices/w1_bus_master1/10-0008025fd9a1/w1_slave | awk -F \'t=\' \'{print $2}\') / 1000" | bc -l)');
-        $temp = $temp - 6; // temperature correction
+        $avr = $this->getAvr();
+        $temp = exec(
+            'echo $(echo "scale=3; $(grep \'t=\' /sys/bus/w1/devices/w1_bus_master1/10-0008025fd9a1/w1_slave | awk -F \'t=\' \'{print $2}\') / 1000" | bc -l)'
+        );
+
+        $temp = $temp - 8; // temperature correction
 
         $params = array(
             'avr' => $avr,
@@ -214,13 +222,26 @@ class DefaultController extends Controller
     }
 
     /**
-     * @return mixed
+     * @return Response
      */
     public function connectionFailAction()
     {
         $response = $this->render('AvrNetIoBundle:Default:connection_fail.html.twig', array());
 
         return $response;
+    }
+
+    /**
+     * Disconnect the Avr
+     *
+     * @param $avr
+     * @return bool
+     */
+    private function disconnect($avr)
+    {
+        if ($avr instanceof AvrNetIo) {
+            return $avr->disconnect();
+        }
     }
 
 }

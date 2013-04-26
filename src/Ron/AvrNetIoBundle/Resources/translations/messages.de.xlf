@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Output</source>
+                <target>Ausgang</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Input</source>
+                <target>Eingang</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Temperature rack</source>
+                <target>Temperatur Serverschrank</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Digital outputs</source>
+                <target>Digitale Ausgänge</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Connection failed</source>
+                <target>Verbindung fehlgeschlagen</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Analog inputs Avr-Net-Io</source>
+                <target>Analoge Eingänge Avr-Net-Io</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

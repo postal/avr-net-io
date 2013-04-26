@@ -1,0 +1,7 @@
+parameters:
+#    ron_raspberry_pi.example.class: Ron\RaspberryPiBundle\Example
+
+services:
+#    ron_raspberry_pi.example:
+#        class: %ron_raspberry_pi.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

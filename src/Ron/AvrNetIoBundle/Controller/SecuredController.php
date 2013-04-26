@@ -29,7 +29,6 @@ class SecuredController extends Controller
      */
     public function securityCheckAction()
     {
-        echo "Hhuhu";exit;
         // The security layer will intercept this request
     }
 

@@ -360,6 +360,4 @@ class AvrNetIo
     {
         return ($result == 'ACK');
     }
-
-
 }
