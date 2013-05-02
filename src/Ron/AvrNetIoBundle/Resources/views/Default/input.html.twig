@@ -25,6 +25,15 @@
                 </div>
             </div>
         {% endif %}
+        {% if motion != '' %}
+            <div class="ui-block-a"><div class="ui-body ui-body-d">Bewegung im HWR</div></div>
+            <div class="ui-block-b">
+                <div class="ui-body ui-body-d">
+                    <a href="{{ path('ron_raspberry_pi_pir', { 'period': 'day' }) }}">
+                        {% if motion == 1 %}Bewegung erkannt{% else %}Keine Bewegung erkannt{% endif %}</a>
+                </div>
+            </div>
+        {% endif %}
         {% if false == avr  %}
             <div class="ui-block-a"><div class="ui-body ui-body-d">Verbindung zu Avr</div></div>
             <div class="ui-block-b"><div class="ui-body ui-body-d">fehlgeschlagen</div></div>

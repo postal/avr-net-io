@@ -209,10 +209,12 @@ class DefaultController extends Controller
         );
 
         $temp = $temp - 8; // temperature correction
+        $motion = exec('gpio -g read 7');
 
         $params = array(
             'avr' => $avr,
             'temp' => $temp,
+            'motion' => $motion,
         );
 
         $response = $this->render('AvrNetIoBundle:Default:input.html.twig', $params);

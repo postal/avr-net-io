@@ -1,4 +1,5 @@
 parameters:
+    pir.image.path: '/home/pi/motion'
 #    ron_raspberry_pi.example.class: Ron\RaspberryPiBundle\Example
 
 services:

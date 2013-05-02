@@ -1,3 +1,9 @@
 ron_raspberry_pi_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: RonRaspberryPiBundle:Default:index }
+ron_raspberry_pi_pir_image:
+    pattern: /output/motion/image/{period}
+    defaults: { _controller: RonRaspberryPiBundle:Pir:outputPirImage }
+ron_raspberry_pi_pir:
+    pattern: /output/motion/{period}
+    defaults: { _controller: RonRaspberryPiBundle:Pir:outputPir }
