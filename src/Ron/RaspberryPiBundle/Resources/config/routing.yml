@@ -1,3 +1,6 @@
 ron_raspberry_pi_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: RonRaspberryPiBundle:Default:index }
+RonRaspberryPiBundle_gas:
+    resource: "@RonRaspberryPiBundle/Resources/config/routing/gas.yml"
+    prefix:   /gas
