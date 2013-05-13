@@ -1,0 +1,17 @@
+Ron\RaspberryPiBundle\Entity\Energy:
+    type: entity
+    table: null
+    repositoryClass: Ron\RaspberryPiBundle\Entity\EnergyRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        value:
+            type: string
+            length: '15'
+        createdAt:
+            type: datetime
+            column: created_at
+    lifecycleCallbacks: {  }
