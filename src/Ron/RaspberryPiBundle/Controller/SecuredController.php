@@ -1,6 +1,5 @@
 <?php
-
-namespace Ron\AvrNetIoBundle\Controller;
+namespace Ron\RaspberryPiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -19,7 +18,7 @@ class SecuredController extends Controller
             $error = $this->get('request')->getSession()->get(SecurityContext::AUTHENTICATION_ERROR);
         }
 
-        return $this->render('AvrNetIoBundle:Secured:login.html.twig', array(
+        return $this->render('RonRaspberryPiBundle:Secured:login.html.twig', array(
             'last_username' => $this->get('request')->getSession()->get(SecurityContext::LAST_USERNAME),
             'error'         => $error,
         ));
