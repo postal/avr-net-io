@@ -1,4 +1,4 @@
-{% extends ("AvrNetIoBundle::base.html.twig") %}
+{% extends ("RonRaspberryPiBundle::base.html.twig") %}
 
 {% block title %}<h1>{% trans %}Analog inputs Avr-Net-Io{% endtrans %}</h1>{% endblock title %}
 
@@ -22,6 +22,15 @@
             <div class="ui-block-b">
                 <div class="ui-body ui-body-d">
                     <a href="{{ path('avr_output_temp', { 'period': 'day' }) }}">{{ temp }} °C</a>
+                </div>
+            </div>
+        {% endif %}
+        {% if motion != '' %}
+            <div class="ui-block-a"><div class="ui-body ui-body-d">Bewegung im HWR</div></div>
+            <div class="ui-block-b">
+                <div class="ui-body ui-body-d">
+                    <a href="{{ path('ron_raspberry_pi_pir', { 'period': 'day' }) }}">
+                        {% if motion == 1 %}Bewegung erkannt{% else %}Keine Bewegung erkannt{% endif %}</a>
                 </div>
             </div>
         {% endif %}
