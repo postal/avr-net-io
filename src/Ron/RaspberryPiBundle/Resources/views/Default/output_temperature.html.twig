@@ -1,6 +1,6 @@
-{% extends ("AvrNetIoBundle::base.html.twig") %}
+{% extends ("RonRaspberryPiBundle::base.html.twig") %}
 
-{% block title %}<h1>Bewegung ({{ period_title }})</h1>{% endblock title %}
+{% block title %}<h1>Temperaturverlauf ({{ period_title }})</h1>{% endblock title %}
 
 {% block content %}
     <style type="text/css">
@@ -15,13 +15,13 @@
             top: 0.5em;
         }
         .graph-temperature {
-	        width:100%;
+            width:100%;
             height: 100%;
         }
 
     </style>
 
     <div style="text-align: center;">
-        <img class="graph-temperature" src="{{ path('ron_raspberry_pi_pir_image', {'period': period}) }}" alt="{{ period_title }}" />
+        <img class="graph-temperature" src="{{ path('avr_output_temp_image', {'period': period}) }}" alt="{{ period_title }}" />
     </div>
 {% endblock %}

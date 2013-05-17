@@ -1,0 +1,54 @@
+{% extends 'RonRaspberryPiBundle:base.html.twig' %}
+
+
+{% block title %}<h1>IO - RaspberryPi</h1>{% endblock title %}
+{% block content %}
+<div data-role="content">
+    <a href="{{ path('avr_input') }}"
+        {% if 'avr_input' == app.request.attributes.get('_route') %}
+       class="ui-btn-active ui-state-persist"
+
+    <p>Accordion mit Funktionen</p>
+    <li>Temperatur</li>
+    <li>Bewegung</li>
+    <li>Licht</li>
+    <li>Heizung</li>
+
+</div>
+{% endblock content %}
+    {% block footer %}
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li>
+                        <a href="{{ path('avr_output') }}"
+                                {% if 'avr_output' == app.request.attributes.get('_route') %}
+                            class="ui-btn-active ui-state-persist"
+                                {% endif %}>AVR-NET-IO</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('avr_output') }}"
+                                {% if 'avr_output' == app.request.attributes.get('_route') %}
+                            class="ui-btn-active ui-state-persist"
+                                {% endif %}>Output</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('avr_input') }}"
+                                {% if 'avr_input' == app.request.attributes.get('_route') %}
+                            class="ui-btn-active ui-state-persist"
+                                {% endif %}>Input</a></li>
+                    <li>
+                        <a href="{{ path('avr_info') }}"
+                                {% if 'avr_info' == app.request.attributes.get('_route') %}
+                            class="ui-btn-active ui-state-persist"
+                                {% endif %}>Info</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /navbar -->
+        </div>
+    {% endblock footer %}
+</div>
+
+</body>
+</html>
