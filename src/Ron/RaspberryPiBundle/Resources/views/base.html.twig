@@ -37,10 +37,6 @@
     {% endblock header %}
     {% block content %}
         <div data-role="content">
-                        <a href="{{ path('avr_input') }}"
-                                {% if 'avr_input' == app.request.attributes.get('_route') %}
-                            class="ui-btn-active ui-state-persist"
-
             <p>Hello world</p>
         </div>
     {% endblock content %}
@@ -50,7 +46,7 @@
                 <ul>
                     <li>
                         <a href="{{ path('avr_output') }}"
-                                {% if 'avr_output' == app.request.attributes.get('_route') %}
+                                {% if 'rpi_output' == app.request.attributes.get('_route') %}
                             class="ui-btn-active ui-state-persist"
                                 {% endif %}>RaspberryPi</a>
                     </li>
@@ -61,7 +57,7 @@
                                 {% endif %}>Output</a>
                     </li>
                     <li>
-                        <a href="{{ path('avr_input') }}"
+                        <a href="{{ path('rpi_input') }}"
                                 {% if 'avr_input' == app.request.attributes.get('_route') %}
                             class="ui-btn-active ui-state-persist"
                                 {% endif %}>Input</a></li>

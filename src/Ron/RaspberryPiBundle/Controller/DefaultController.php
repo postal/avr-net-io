@@ -45,7 +45,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('RonRaspberryPiBundle:Default:home.html.twig');
+        return $this->forward('RonRaspberryPiBundle:Default:showInput');
     }
 
     /**
@@ -191,7 +191,7 @@ class DefaultController extends Controller
     /**
      * @return Response
      */
-    public function avrInputAction()
+    public function showInputAction()
     {
 
 #	$temp = exec('cat /sys/bus/w1/devices/10-0008025fd9a1/w1_slave | cut -d "="  -f2 |tail -n1');
