@@ -83,7 +83,7 @@ class PirController extends Controller
             'period' => $period,
         );
 
-        $response = $this->render('AvrNetIoBundle:Default:output_pir.html.twig', $params);
+        $response = $this->render('RonRaspberryPiBundle:Default:output_pir.html.twig', $params);
 
         return $response;
     }
