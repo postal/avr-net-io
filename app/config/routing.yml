@@ -1,3 +1,7 @@
+ron_consumption:
+    resource: "@RonConsumptionBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ron_raspberry_pi:
     resource: "@RonRaspberryPiBundle/Resources/config/routing.yml"
     prefix:   /

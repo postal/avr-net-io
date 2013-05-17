@@ -1,6 +1,6 @@
-avr_net_io_homepage:
-    pattern:  /
-    defaults: { _controller: AvrNetIoBundle:Default:index }
+#avr_net_io_homepage:
+#    pattern:  /
+#    defaults: { _controller: AvrNetIoBundle:Default:index }
 avr_set_port:
     pattern: /setport/{port}/{value}
     defaults: { _controller: AvrNetIoBundle:Default:setPort }

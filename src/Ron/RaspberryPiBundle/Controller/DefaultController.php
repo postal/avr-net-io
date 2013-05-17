@@ -45,7 +45,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('RonRaspberryPiBundle:Default:home.html.twig');
+        return $this->forward('RonRaspberryPiBundle:Default:avrInput');
     }
 
     /**

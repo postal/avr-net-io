@@ -1,6 +1,6 @@
 <?php
 
-namespace Ron\RaspberryPiBundle\Form;
+namespace Ron\ConsumptionBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,12 +19,12 @@ class GasType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ron\RaspberryPiBundle\Entity\Gas'
+            'data_class' => 'Ron\ConsumptionBundle\Entity\Gas'
         ));
     }
 
     public function getName()
     {
-        return 'ron_raspberrypibundle_gastype';
+        return 'ron_consumptionbundle_gastype';
     }
 }

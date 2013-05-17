@@ -40,6 +40,3 @@ ron_raspberry_pi_pir_image:
 ron_raspberry_pi_pir:
     pattern: /output/motion/{period}
     defaults: { _controller: RonRaspberryPiBundle:Pir:outputPir }
-RonRaspberryPiBundle_gas:
-    resource: "@RonRaspberryPiBundle/Resources/config/routing/gas.yml"
-    prefix:   /gas

@@ -1,0 +1,30 @@
+gas:
+    pattern:  /
+    defaults: { _controller: "RonConsumptionBundle:Gas:index" }
+
+gas_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "RonConsumptionBundle:Gas:show" }
+
+gas_new:
+    pattern:  /new
+    defaults: { _controller: "RonConsumptionBundle:Gas:new" }
+
+gas_create:
+    pattern:  /create
+    defaults: { _controller: "RonConsumptionBundle:Gas:create" }
+    requirements: { _method: post }
+
+gas_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "RonConsumptionBundle:Gas:edit" }
+
+gas_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "RonConsumptionBundle:Gas:update" }
+    requirements: { _method: post|put }
+
+gas_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "RonConsumptionBundle:Gas:delete" }
+    requirements: { _method: post|delete }

@@ -1,12 +1,12 @@
 <?php
 
-namespace Ron\RaspberryPiBundle\Controller;
+namespace Ron\ConsumptionBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Ron\RaspberryPiBundle\Entity\Gas;
-use Ron\RaspberryPiBundle\Form\GasType;
+use Ron\ConsumptionBundle\Entity\Gas;
+use Ron\ConsumptionBundle\Form\GasType;
 
 /**
  * Gas controller.
@@ -22,9 +22,9 @@ class GasController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('RonRaspberryPiBundle:Gas')->findAll();
+        $entities = $em->getRepository('RonConsumptionBundle:Gas')->findAll();
 
-        return $this->render('RonRaspberryPiBundle:Gas:index.html.twig', array(
+        return $this->render('RonConsumptionBundle:Gas:index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -47,7 +47,7 @@ class GasController extends Controller
             return $this->redirect($this->generateUrl('gas_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('RonRaspberryPiBundle:Gas:new.html.twig', array(
+        return $this->render('RonConsumptionBundle:Gas:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -63,7 +63,7 @@ class GasController extends Controller
         $entity->setCreatedAt(new \DateTime());
         $form   = $this->createForm(new GasType(), $entity);
 
-        return $this->render('RonRaspberryPiBundle:Gas:new.html.twig', array(
+        return $this->render('RonConsumptionBundle:Gas:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -77,7 +77,7 @@ class GasController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RonRaspberryPiBundle:Gas')->find($id);
+        $entity = $em->getRepository('RonConsumptionBundle:Gas')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Gas entity.');
@@ -85,7 +85,7 @@ class GasController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('RonRaspberryPiBundle:Gas:show.html.twig', array(
+        return $this->render('RonConsumptionBundle:Gas:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),        ));
     }
@@ -98,7 +98,7 @@ class GasController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RonRaspberryPiBundle:Gas')->find($id);
+        $entity = $em->getRepository('RonConsumptionBundle:Gas')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Gas entity.');
@@ -107,7 +107,7 @@ class GasController extends Controller
         $editForm = $this->createForm(new GasType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('RonRaspberryPiBundle:Gas:edit.html.twig', array(
+        return $this->render('RonConsumptionBundle:Gas:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -122,7 +122,7 @@ class GasController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RonRaspberryPiBundle:Gas')->find($id);
+        $entity = $em->getRepository('RonConsumptionBundle:Gas')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Gas entity.');
@@ -139,7 +139,7 @@ class GasController extends Controller
             return $this->redirect($this->generateUrl('gas_edit', array('id' => $id)));
         }
 
-        return $this->render('RonRaspberryPiBundle:Gas:edit.html.twig', array(
+        return $this->render('RonConsumptionBundle:Gas:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -157,7 +157,7 @@ class GasController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RonRaspberryPiBundle:Gas')->find($id);
+            $entity = $em->getRepository('RonConsumptionBundle:Gas')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Gas entity.');
