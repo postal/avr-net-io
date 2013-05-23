@@ -1,0 +1,30 @@
+energy:
+    pattern:  /
+    defaults: { _controller: "RonConsumptionBundle:Energy:index" }
+
+energy_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "RonConsumptionBundle:Energy:show" }
+
+energy_new:
+    pattern:  /new
+    defaults: { _controller: "RonConsumptionBundle:Energy:new" }
+
+energy_create:
+    pattern:  /create
+    defaults: { _controller: "RonConsumptionBundle:Energy:create" }
+    requirements: { _method: post }
+
+energy_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "RonConsumptionBundle:Energy:edit" }
+
+energy_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "RonConsumptionBundle:Energy:update" }
+    requirements: { _method: post|put }
+
+energy_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "RonConsumptionBundle:Energy:delete" }
+    requirements: { _method: post|delete }

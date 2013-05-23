@@ -1,0 +1,9 @@
+RonConsumptuinBundle_gas:
+    resource: "@RonConsumptionBundle/Resources/config/routing/gas.yml"
+    prefix:   /gas
+RonConsumptionBundle_energy:
+    resource: "@RonConsumptionBundle/Resources/config/routing/energy.yml"
+    prefix:   /energy
+RonConsumptionBundle_water:
+    resource: "@RonConsumptionBundle/Resources/config/routing/water.yml"
+    prefix:   /water

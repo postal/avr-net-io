@@ -1,0 +1,30 @@
+water:
+    pattern:  /
+    defaults: { _controller: "RonConsumptionBundle:Water:index" }
+
+water_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "RonConsumptionBundle:Water:show" }
+
+water_new:
+    pattern:  /new
+    defaults: { _controller: "RonConsumptionBundle:Water:new" }
+
+water_create:
+    pattern:  /create
+    defaults: { _controller: "RonConsumptionBundle:Water:create" }
+    requirements: { _method: post }
+
+water_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "RonConsumptionBundle:Water:edit" }
+
+water_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "RonConsumptionBundle:Water:update" }
+    requirements: { _method: post|put }
+
+water_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "RonConsumptionBundle:Water:delete" }
+    requirements: { _method: post|delete }
