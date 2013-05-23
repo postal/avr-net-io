@@ -1,42 +1,42 @@
 <?php
 
-namespace Ron\RaspberryPiBundle\Controller;
+namespace Ron\ConsumptionBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Ron\RaspberryPiBundle\Entity\Gas;
-use Ron\RaspberryPiBundle\Form\GasType;
+use Ron\ConsumptionBundle\Entity\Water;
+use Ron\ConsumptionBundle\Form\WaterType;
 
 /**
- * Gas controller.
+ * Water controller.
  *
  */
-class GasController extends Controller
+class WaterController extends Controller
 {
     /**
-     * Lists all Gas entities.
+     * Lists all Water entities.
      *
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('RonRaspberryPiBundle:Gas')->findAll();
+        $entities = $em->getRepository('RonConsumptionBundle:Water')->findAll();
 
-        return $this->render('RonRaspberryPiBundle:Gas:index.html.twig', array(
+        return $this->render('RonConsumptionBundle:Water:index.html.twig', array(
             'entities' => $entities,
         ));
     }
 
     /**
-     * Creates a new Gas entity.
+     * Creates a new Water entity.
      *
      */
     public function createAction(Request $request)
     {
-        $entity  = new Gas();
-        $form = $this->createForm(new GasType(), $entity);
+        $entity  = new Water();
+        $form = $this->createForm(new WaterType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -44,70 +44,69 @@ class GasController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('gas_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('water_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('RonRaspberryPiBundle:Gas:new.html.twig', array(
+        return $this->render('RonConsumptionBundle:Water:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-     * Displays a form to create a new Gas entity.
+     * Displays a form to create a new Water entity.
      *
      */
     public function newAction()
     {
-        $entity = new Gas();
-        $entity->setCreatedAt(new \DateTime());
-        $form   = $this->createForm(new GasType(), $entity);
+        $entity = new Water();
+        $form   = $this->createForm(new WaterType(), $entity);
 
-        return $this->render('RonRaspberryPiBundle:Gas:new.html.twig', array(
+        return $this->render('RonConsumptionBundle:Water:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-     * Finds and displays a Gas entity.
+     * Finds and displays a Water entity.
      *
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RonRaspberryPiBundle:Gas')->find($id);
+        $entity = $em->getRepository('RonConsumptionBundle:Water')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Gas entity.');
+            throw $this->createNotFoundException('Unable to find Water entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('RonRaspberryPiBundle:Gas:show.html.twig', array(
+        return $this->render('RonConsumptionBundle:Water:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),        ));
     }
 
     /**
-     * Displays a form to edit an existing Gas entity.
+     * Displays a form to edit an existing Water entity.
      *
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RonRaspberryPiBundle:Gas')->find($id);
+        $entity = $em->getRepository('RonConsumptionBundle:Water')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Gas entity.');
+            throw $this->createNotFoundException('Unable to find Water entity.');
         }
 
-        $editForm = $this->createForm(new GasType(), $entity);
+        $editForm = $this->createForm(new WaterType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('RonRaspberryPiBundle:Gas:edit.html.twig', array(
+        return $this->render('RonConsumptionBundle:Water:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -115,31 +114,31 @@ class GasController extends Controller
     }
 
     /**
-     * Edits an existing Gas entity.
+     * Edits an existing Water entity.
      *
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('RonRaspberryPiBundle:Gas')->find($id);
+        $entity = $em->getRepository('RonConsumptionBundle:Water')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Gas entity.');
+            throw $this->createNotFoundException('Unable to find Water entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new GasType(), $entity);
+        $editForm = $this->createForm(new WaterType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('gas_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('water_edit', array('id' => $id)));
         }
 
-        return $this->render('RonRaspberryPiBundle:Gas:edit.html.twig', array(
+        return $this->render('RonConsumptionBundle:Water:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -147,7 +146,7 @@ class GasController extends Controller
     }
 
     /**
-     * Deletes a Gas entity.
+     * Deletes a Water entity.
      *
      */
     public function deleteAction(Request $request, $id)
@@ -157,21 +156,21 @@ class GasController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RonRaspberryPiBundle:Gas')->find($id);
+            $entity = $em->getRepository('RonConsumptionBundle:Water')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Gas entity.');
+                throw $this->createNotFoundException('Unable to find Water entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('gas'));
+        return $this->redirect($this->generateUrl('water'));
     }
 
     /**
-     * Creates a form to delete a Gas entity by id.
+     * Creates a form to delete a Water entity by id.
      *
      * @param mixed $id The entity id
      *

@@ -1,14 +1,14 @@
-Ron\RaspberryPiBundle\Entity\Gas:
+Ron\ConsumptionBundle\Entity\Water:
     type: entity
     table: null
-    repositoryClass: Ron\RaspberryPiBundle\Entity\GasRepository
+    repositoryClass: Ron\ConsumptionBundle\Entity\WaterRepository
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
-        verbrauch:
+        value:
             type: string
             length: '15'
         createdAt:

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ron\RaspberryPiBundle\Entity;
+namespace Ron\ConsumptionBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 

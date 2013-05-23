@@ -1,13 +1,13 @@
 <?php
 
-namespace Ron\RaspberryPiBundle\Entity;
+namespace Ron\ConsumptionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Water
+ * Gas
  */
-class Water
+class Gas
 {
     /**
      * @var integer
@@ -17,7 +17,7 @@ class Water
     /**
      * @var string
      */
-    private $value;
+    private $verbrauch;
 
     /**
      * @var \DateTime
@@ -36,33 +36,33 @@ class Water
     }
 
     /**
-     * Set value
+     * Set verbrauch
      *
-     * @param string $value
-     * @return Water
+     * @param string $verbrauch
+     * @return Gas
      */
-    public function setValue($value)
+    public function setVerbrauch($verbrauch)
     {
-        $this->value = $value;
+        $this->verbrauch = $verbrauch;
     
         return $this;
     }
 
     /**
-     * Get value
+     * Get verbrauch
      *
      * @return string 
      */
-    public function getValue()
+    public function getVerbrauch()
     {
-        return $this->value;
+        return $this->verbrauch;
     }
 
     /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return Water
+     * @return Gas
      */
     public function setCreatedAt($createdAt)
     {

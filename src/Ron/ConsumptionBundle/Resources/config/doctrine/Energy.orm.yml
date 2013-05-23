@@ -1,7 +1,7 @@
-Ron\RaspberryPiBundle\Entity\Water:
+Ron\ConsumptionBundle\Entity\Energy:
     type: entity
     table: null
-    repositoryClass: Ron\RaspberryPiBundle\Entity\WaterRepository
+    repositoryClass: Ron\ConsumptionBundle\Entity\EnergyRepository
     fields:
         id:
             type: integer
