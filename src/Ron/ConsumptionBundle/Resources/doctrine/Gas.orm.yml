@@ -1,0 +1,17 @@
+Ron\ConsumptionBundle\Entity\Gas:
+    type: entity
+    table: null
+    repositoryClass: Ron\ConsumptionBundle\Entity\GasRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        verbrauch:
+            type: string
+            length: '15'
+        createdAt:
+            type: datetime
+            column: created_at
+    lifecycleCallbacks: {  }

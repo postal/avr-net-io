@@ -1,0 +1,33 @@
+#avr_net_io_homepage:
+#    pattern:  /
+#    defaults: { _controller: AvrNetIoBundle:Default:index }
+avr_set_port:
+    pattern: /setport/{port}/{value}
+    defaults: { _controller: AvrNetIoBundle:Default:setPort }
+avr_output:
+    pattern:  /output
+    defaults: { _controller: AvrNetIoBundle:Default:avrOutput }
+avr_info:
+    pattern: /info
+    defaults: { _controller: AvrNetIoBundle:Default:avrInfo }
+avr_input:
+    pattern: /input
+    defaults: { _controller: AvrNetIoBundle:Default:avrInput }
+avr_output_temp_image:
+    pattern: /output/temperature/image/{period}
+    defaults: { _controller: AvrNetIoBundle:Default:outputTemperatureImage }
+avr_output_temp:
+    pattern: /output/temperature/{period}
+    defaults: { _controller: AvrNetIoBundle:Default:avrOutputTemperature }
+#_login:
+#    pattern: /login
+#    defaults: { _controller: AvrNetIoBundle:Secured:login }
+#_logout:#
+#    pattern: /logout
+#    defaults: { _controller: AvrNetIoBundle:Secured:logout }
+#_login_check:
+#    pattern: /login_check
+#    defaults: { _controller: AvrNetIoBundle:Secured:loginCheck }
+_connection_fail:
+    pattern: /connectionFail
+    defaults: { _controller: AvrNetIoBundle:Default:connectionFail }

@@ -1,5 +1,5 @@
 parameters:
-    temperature.image.path: '/home/pi/temperature'
+#    temperature.image.path: '/home/pi/temperature'
     avr.ip: "192.168.178.178"
     avr.port: "50290"
 

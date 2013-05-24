@@ -1,5 +1,4 @@
 <?php
-
 namespace Ron\RaspberryPiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

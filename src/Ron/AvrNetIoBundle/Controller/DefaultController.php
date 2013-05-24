@@ -52,7 +52,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->forward('AvrNetIoBundle:Default:avrOutput');
+        return $this->forward('RonRaspberryPiBundle:Default:avrOutput');
     }
 
     /**
@@ -72,7 +72,7 @@ class DefaultController extends Controller
             'avr' => $avr,
         );
 
-        $response = $this->render('AvrNetIoBundle:Default:output.html.twig', $params);
+        $response = $this->render('RonRaspberryPiBundle:Default:output.html.twig', $params);
 
 
         $this->disconnect($avr);
@@ -95,7 +95,7 @@ class DefaultController extends Controller
             'period' => $period,
         );
 
-        $response = $this->render('AvrNetIoBundle:Default:output_temperature.html.twig', $params);
+        $response = $this->render('RonRaspberryPiBundle:Default:output_temperature.html.twig', $params);
 
         return $response;
     }
@@ -143,7 +143,7 @@ class DefaultController extends Controller
         $params = array(
             'avr' => $avr,
         );
-        $response = $this->render('AvrNetIoBundle:Default:output.html.twig', $params);
+        $response = $this->render('RonRaspberryPiBundle:Default:output.html.twig', $params);
 
         return $response;
     }
@@ -189,7 +189,7 @@ class DefaultController extends Controller
             'avr' => $avr,
         );
 
-        $response = $this->render('AvrNetIoBundle:Default:info.html.twig', $params);
+        $response = $this->render('RonRaspberryPiBundle:Default:info.html.twig', $params);
 
         return $response;
 
@@ -217,7 +217,7 @@ class DefaultController extends Controller
             'motion' => $motion,
         );
 
-        $response = $this->render('AvrNetIoBundle:Default:input.html.twig', $params);
+        $response = $this->render('RonRaspberryPiBundle:Default:input.html.twig', $params);
 
         return $response;
 
@@ -228,7 +228,7 @@ class DefaultController extends Controller
      */
     public function connectionFailAction()
     {
-        $response = $this->render('AvrNetIoBundle:Default:connection_fail.html.twig', array());
+        $response = $this->render('RonRaspberryPiBundle:Default:connection_fail.html.twig', array());
 
         return $response;
     }
