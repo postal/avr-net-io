@@ -12,7 +12,7 @@ class EnergyType extends AbstractType
     {
         $builder
             ->add('value')
-            ->add('createdAt')
+    #        ->add('createdAt')
         ;
     }
 

@@ -1,0 +1,30 @@
+consumption:
+    pattern:  /
+    defaults: { _controller: "RonConsumptionBundle:Default:index" }
+
+consumption_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "RonConsumptionBundle:Default:show" }
+
+consumption_new:
+    pattern:  /new
+    defaults: { _controller: "RonConsumptionBundle:Default:new" }
+
+consumption_create:
+    pattern:  /create
+    defaults: { _controller: "RonConsumptionBundle:Default:create" }
+    requirements: { _method: post }
+
+consumption_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "RonConsumptionBundle:Default:edit" }
+
+consumption_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "RonConsumptionBundle:Default:update" }
+    requirements: { _method: post|put }
+
+consumption_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "RonConsumptionBundle:Default:delete" }
+    requirements: { _method: post|delete }

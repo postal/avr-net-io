@@ -10,31 +10,34 @@
 namespace Ron\ConsumptionBundle\Form;
 
 
+use Ron\ConsumptionBundle\Entity\Energy;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ConsumptionType extends AbstractTypepe
+class ConsumptionType extends AbstractType
 {
 
     /**
      * @param FormBuilderInterfacerface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterfacerface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('value')
-            ->add('createdAt');
+            ->add('gas', 'text') #new GasType())
+            ->add('energy', 'text') #new EnergyType())
+            ->add('water', 'text')#new WaterType())
+            ;
     }
 
     /**
      * @param OptionsResolverInterfaceterface $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterfaceterface $resolver)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ron\ConsumptionBundle\Entity\Energy'
+            'data_class' => 'Ron\ConsumptionBundle\Entity\Consumption'
         ));
     }
 

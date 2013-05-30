@@ -1,1 +1,6 @@
-Hello {{ name }}!
+{% extends '::base.html.twig' %}
+{% block content %}
+    <form method="post" action="{{ path('consumption_create') }}"
+    {{ form_widget(form) }}
+    <input type="submit" value="speichern">
+{% endblock %}
