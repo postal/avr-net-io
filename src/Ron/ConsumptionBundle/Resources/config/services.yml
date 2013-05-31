@@ -1,4 +1,5 @@
 parameters:
+    temperature.image.path: '/home/pi/temperature'
 #    ron_consumption.example.class: Ron\ConsumptionBundle\Example
 
 services:
