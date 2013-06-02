@@ -48,20 +48,27 @@
                     <ul>
                         <li>
                             <a href="{{ path('rpi_input') }}"
-                                    {% if 'rpi_input' == app.request.attributes.get('_route') %}
+                                    {% if 'avr_net_io_homepage' == app.request.attributes.get('_route') %}
                                 class="ui-btn-active ui-state-persist"
                                     {% endif %}>RaspberryPi</a>
                         </li>
                         <li>
                             <a href="{{ path('rpi_input') }}"
-                                    {% if 'avr_input' == app.request.attributes.get('_route') %}
+                                    {% if 'rpi_input' == app.request.attributes.get('_route') %}
                                 class="ui-btn-active ui-state-persist"
-                                    {% endif %}>Input</a></li>
+                                    {% endif %}>Input</a>
+                        </li>
                         <li>
                             <a href="{{ path('avr_info') }}"
                                     {% if 'avr_info' == app.request.attributes.get('_route') %}
                                 class="ui-btn-active ui-state-persist"
                                     {% endif %}>Info</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('RonConsumptionBundle_index') }}"
+                                    {% if 'RonConsumptionBundle_index' == app.request.attributes.get('_route') %}
+                                class="ui-btn-active ui-state-persist"
+                                    {% endif %}>Verbrauch</a>
                         </li>
                     </ul>
                 </div>
