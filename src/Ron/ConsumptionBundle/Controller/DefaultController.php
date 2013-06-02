@@ -14,11 +14,18 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        $form = $this->createForm(new ConsumptionType());
+        $em = $this->getDoctrine()->getManager();
+        $energyList = $em->getRepository('RonConsumptionBundle:Energy')->findAll();
+        $gasList = $em->getRepository('RonConsumptionBundle:Gas')->findAll();
+        $waterList = $em->getRepository('RonConsumptionBundle:Water')->findAll();
+
         $data = array(
-            'form' => $form->createView()
+          'energy' => $energyList,
+          'gas' => $gasList,
+          'water' => $waterList,
         );
-        return $this->render('RonConsumptionBundle:Default:index.html.twig', $data);
+
+        return $this->render('RonConsumptionBundle:Consumption:index.html.twig', $data);
     }
 
     public function newAction()

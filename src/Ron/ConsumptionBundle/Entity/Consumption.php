@@ -13,6 +13,7 @@ namespace Ron\ConsumptionBundle\Entity;
 class Consumption
 {
 
+    protected $date;
     protected $gas;
     protected $energy;
     protected $water;
