@@ -1,33 +1,67 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: ron
- * Date: 30.05.13
- * Time: 21:19
- * To change this template use File | Settings | File Templates.
- */
 
 namespace Ron\ConsumptionBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Consumption
+ */
 class Consumption
 {
-
-    protected $date;
-    protected $gas;
-    protected $energy;
-    protected $water;
+    /**
+     * @var integer
+     */
+    private $id;
 
     /**
-     * @param mixed $energy
+     * @var string
+     */
+    private $energy;
+
+    /**
+     * @var string
+     */
+    private $water;
+
+    /**
+     * @var string
+     */
+    private $gas;
+
+    /**
+     * @var \DateTime
+     */
+    private $createDate;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set energy
+     *
+     * @param string $energy
+     * @return Consumption
      */
     public function setEnergy($energy)
     {
         $this->energy = $energy;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * Get energy
+     *
+     * @return string 
      */
     public function getEnergy()
     {
@@ -35,15 +69,45 @@ class Consumption
     }
 
     /**
-     * @param mixed $gas
+     * Set water
+     *
+     * @param string $water
+     * @return Consumption
+     */
+    public function setWater($water)
+    {
+        $this->water = $water;
+
+        return $this;
+    }
+
+    /**
+     * Get water
+     *
+     * @return string 
+     */
+    public function getWater()
+    {
+        return $this->water;
+    }
+
+    /**
+     * Set gas
+     *
+     * @param string $gas
+     * @return Consumption
      */
     public function setGas($gas)
     {
         $this->gas = $gas;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * Get gas
+     *
+     * @return string 
      */
     public function getGas()
     {
@@ -51,18 +115,25 @@ class Consumption
     }
 
     /**
-     * @param mixed $water
+     * Set createDate
+     *
+     * @param \DateTime $createDate
+     * @return Consumption
      */
-    public function setWater($water)
+    public function setCreateDate($createDate)
     {
-        $this->water = $water;
+        $this->createDate = $createDate;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * Get createDate
+     *
+     * @return \DateTime 
      */
-    public function getWater()
+    public function getCreateDate()
     {
-        return $this->water;
+        return $this->createDate;
     }
 }

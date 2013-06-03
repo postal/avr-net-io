@@ -1,7 +1,7 @@
-{% extends '::base.html.twig' %}
+{% extends 'RonConsumptionBundle::base.html.twig' %}
 
 {% block content %}
-    <h1>Energy creation</h1>
+    <h1>Consumption creation</h1>
 
     <form action="{{ path('consumption_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}

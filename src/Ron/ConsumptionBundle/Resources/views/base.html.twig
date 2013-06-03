@@ -13,14 +13,14 @@
                                 {% endif %}>RaspberryPi</a>
                     </li>
                     <li>
-                        <a href="{{ path('RonConsumptionBundle_index') }}"
-                                {% if 'RonConsumptionBundle_index' == app.request.attributes.get('_route') %}
+                        <a href="{{ path('consumption') }}"
+                                {% if 'consumption' == app.request.attributes.get('_route') %}
                             class="ui-btn-active ui-state-persist"
                                 {% endif %}>Übersicht</a>
                     </li>
                     <li>
-                        <a href="{{ path('RonConsumptionBundle_new') }}"
-                                {% if 'RonConsumptionBundle_new' == app.request.attributes.get('_route') %}
+                        <a href="{{ path('consumption_new') }}"
+                                {% if 'consumption_new' == app.request.attributes.get('_route') %}
                             class="ui-btn-active ui-state-persist"
                                 {% endif %}>Neu</a>
                     </li>

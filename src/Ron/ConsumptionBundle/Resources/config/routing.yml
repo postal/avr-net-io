@@ -1,23 +1,4 @@
-RonConsumptionBundle_new:
-    pattern: /consumption/new
-    defaults: { _controller: "RonConsumptionBundle:Default:new" }
-RonConsumptionBundle_new:
-    pattern: /consumption/create
-    defaults: { _controller: "RonConsumptionBundle:Default:create" }
-    requirements: { _method: post }
-RonConsumptionBundle_index:
-    pattern: /consumption
-    defaults: { _controller: "RonConsumptionBundle:Default:index" }
 
-RonConsumptionBundle_gas:
-    resource: "@RonConsumptionBundle/Resources/config/routing/gas.yml"
-    prefix:   /gas
-RonConsumptionBundle_energy:
-    resource: "@RonConsumptionBundle/Resources/config/routing/energy.yml"
-    prefix:   /energy
-RonConsumptionBundle_water:
-    resource: "@RonConsumptionBundle/Resources/config/routing/water.yml"
-    prefix:   /water
 RonConsumptionBundle_consumption:
     resource: "@RonConsumptionBundle/Resources/config/routing/consumption.yml"
     prefix:   /consumption
