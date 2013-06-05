@@ -35,12 +35,13 @@ class ConsumptionController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity  = new Consumption();
+        $entity = new Consumption();
         $form = $this->createForm(new ConsumptionType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $entity->setCreateDate(new \DateTime());
             $em->persist($entity);
             $em->flush();
 
@@ -49,7 +50,7 @@ class ConsumptionController extends Controller
 
         return $this->render('RonConsumptionBundle:Consumption:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         ));
     }
 
@@ -60,24 +61,24 @@ class ConsumptionController extends Controller
     public function newAction()
     {
         $entity = new Consumption();
-        $form   = $this->createForm(new ConsumptionType(), $entity);
+        $form = $this->createForm(new ConsumptionType(), $entity);
 
         return $this->render('RonConsumptionBundle:Consumption:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         ));
     }
 
     /**
      * Finds and displays a Consumption entity.
 
-RonConsumptionBundle_gas:
+    RonConsumptionBundle_gas:
     resource: "@RonConsumptionBundle/Resources/config/routing/gas.yml"
     prefix:   /gas
-RonConsumptionBundle_energy:
+    RonConsumptionBundle_energy:
     resource: "@RonConsumptionBundle/Resources/config/routing/energy.yml"
     prefix:   /energy
-RonConsumptionBundle_water:
+    RonConsumptionBundle_water:
     resource: "@RonConsumptionBundle/Resources/config/routing/water.yml"
     prefix:   /water
      *
@@ -95,8 +96,9 @@ RonConsumptionBundle_water:
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('RonConsumptionBundle:Consumption:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+            'entity' => $entity,
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
@@ -117,8 +119,8 @@ RonConsumptionBundle_water:
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('RonConsumptionBundle:Consumption:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -149,8 +151,8 @@ RonConsumptionBundle_water:
         }
 
         return $this->render('RonConsumptionBundle:Consumption:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -190,7 +192,6 @@ RonConsumptionBundle_water:
     {
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
-            ->getForm()
-        ;
+            ->getForm();
     }
 }

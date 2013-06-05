@@ -1,17 +1,18 @@
-{% extends '::base.html.twig' %}
+{% extends 'RonConsumptionBundle::base.html.twig' %}
 
-{% block body -%}
-    <h1>Consumption list</h1>
+{% block title %}<h1>{% trans %}Consumption list{% endtrans %}</h1>{% endblock title %}
+{% block content %}
+
 
     <table class="records_list">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Energy</th>
-                <th>Water</th>
-                <th>Gas</th>
-                <th>Createdate</th>
-                <th>Actions</th>
+                <th>{% trans %}Id{% endtrans %}</th>
+                <th>{% trans %}Energy{% endtrans %}</th>
+                <th>{% trans %}Water{% endtrans %}</th>
+                <th>{% trans %}Gas{% endtrans %}</th>
+                <th>{% trans %}Createdate{% endtrans %}</th>
+                <th>{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>

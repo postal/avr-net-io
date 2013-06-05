@@ -65,8 +65,8 @@
                                     {% endif %}>Info</a>
                         </li>
                         <li>
-                            <a href="{{ path('RonConsumptionBundle_index') }}"
-                                    {% if 'RonConsumptionBundle_index' == app.request.attributes.get('_route') %}
+                            <a href="{{ path('consumption') }}"
+                                    {% if 'consumption' == app.request.attributes.get('_route') %}
                                 class="ui-btn-active ui-state-persist"
                                     {% endif %}>Verbrauch</a>
                         </li>
