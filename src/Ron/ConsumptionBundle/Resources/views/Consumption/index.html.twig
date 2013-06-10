@@ -7,16 +7,16 @@
         google.load("visualization", "1", {packages:["corechart"]});
         google.setOnLoadCallback(drawChart);
         function drawChart() {
-            var data = google.visualization.arrayToDataTable([
+            var data = google.visual</thead>ization.arrayToDataTable([
                 ['Datum', 'Wasser', 'Strom', 'Gas'],
                 {% for consumption in data %}
                     [
-                        '{{ consumption.createDate('d.M.Y')}}',
-                        '{{ consumption.water }}',
-                        '{{ consumption.energy }}',
-                        '{{ consumption.gas }}',
+                        '{{ consumption[0]}}',
+                        {{ consumption[1] }},
+                        {{ consumption[2] }},
+                        {{ consumption[3] }},
 
-                    ]
+                    ],
                 {% endfor %}
             ]);
 

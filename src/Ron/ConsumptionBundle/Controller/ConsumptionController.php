@@ -34,7 +34,7 @@ class ConsumptionController extends Controller
 
         return $this->render('RonConsumptionBundle:Consumption:index.html.twig', array(
             'entities' => $entities,
-            'data' => json_encode($data)
+            'data' => $data
         ));
     }
 

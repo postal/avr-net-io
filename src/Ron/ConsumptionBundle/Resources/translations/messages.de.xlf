@@ -38,6 +38,10 @@
         <source>edit</source>
         <target>Bearbeiten</target>
       </trans-unit>
+      <trans-unit id="554649e7d226037a51e8a4396feacf15" resname="Verbrauchsliste">
+        <source>Consumption List</source>
+        <target>Verbrauchsliste</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

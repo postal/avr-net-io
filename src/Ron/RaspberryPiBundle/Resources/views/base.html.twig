@@ -25,10 +25,11 @@
 </head>
 <body>
 
+{% block page %}
 <div data-role="page">
     {% block header %}
         <div data-role="header">
-            {% block title %}<h1>Werte des Avrs</h1>{% endblock title %}
+            {% block title %}<h1>Raspberry Pi</h1>{% endblock title %}
             {% if app.user %}
                 <a href="{{ path('_logout') }}" data-role="button" data-inline="true" date-mini="true">Logout</a>
             {% else %}
@@ -42,7 +43,7 @@
         </div>
     {% endblock content %}
     {% block footer %}
-        {% if app.user %}
+        {% if app.user %}</thead>
             <div data-role="footer" data-position="fixed">
                 <div data-role="navbar">
                     <ul>
@@ -79,6 +80,6 @@
         {% endif %}
     {% endblock footer %}
 </div>
-
+{% endblock page %}
 </body>
 </html>

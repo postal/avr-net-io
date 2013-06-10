@@ -17,7 +17,7 @@ avr_output_temp_image:
     pattern: /output/temperature/image/{period}
     defaults: { _controller: RonRaspberryPiBundle:Default:outputTemperatureImage }
 avr_output_temp:
-    pattern: /output/temperature/{period}
+    pattern: /output/temperature
     defaults: { _controller: RonRaspberryPiBundle:Default:avrOutputTemperature }
 _login:
     pattern: /login
