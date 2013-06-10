@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'RonConsumptionBundle::base.html.twig' %}
 
 {% block content %}
     <h1>Consumption</h1>
@@ -30,12 +30,12 @@
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('consumption') }}">
+        <a data-role="button" href="{{ path('consumption') }}">
             Back to the list
         </a>
     </li>
     <li>
-        <a href="{{ path('consumption_edit', { 'id': entity.id }) }}">
+        <a data-role="button" href="{{ path('consumption_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>

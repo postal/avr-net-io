@@ -11,18 +11,18 @@
                 ['Datum', 'Wasser', 'Strom', 'Gas'],
                 {% for consumption in data %}
                     [
-                        '{{ consumption.createDate('d.M.Y')}}',
-                        '{{ consumption.water }}',
-                        '{{ consumption.energy }}',
-                        '{{ consumption.gas }}',
-
-                    ]
+                        '{{ consumption[0] }}',
+                        {{ consumption[1] }},
+                        {{ consumption[2] }},
+                        {{ consumption[3] }},
+                    ],
                 {% endfor %}
             ]);
 
             var options = {
                 title: 'Ressourcenverbrauch',
-                hAxis: {title: 'Datum',  titleTextStyle: {color: 'red'}}
+                hAxis: {title: 'Datum'},
+                backgroundColor: 'none'
             };
 
             var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
@@ -47,7 +47,7 @@
             <tbody>
             {% for entity in entities %}
                 <tr>
-                    <td><a href="{{ path('consumption_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                    <td>{{ entity.id }}</a></td>
                     <td>{{ entity.energy }}</td>
                     <td>{{ entity.water }}</td>
                     <td>{{ entity.gas }}</td>
@@ -55,10 +55,10 @@
                     <td>
                         <ul>
                             <li>
-                                <a href="{{ path('consumption_show', { 'id': entity.id }) }}">{% trans %}show{% endtrans %}</a>
+                                <a data-icon="info" data-mini="true" data-role="button" href="{{ path('consumption_show', { 'id': entity.id }) }}">{% trans %}show{% endtrans %}</a>
                             </li>
                             <li>
-                                <a href="{{ path('consumption_edit', { 'id': entity.id }) }}">{% trans %}edit{% endtrans %}</a>
+                                <a data-icon="edit" data-mini="true" data-role="button" href="{{ path('consumption_edit', { 'id': entity.id }) }}">{% trans %}edit{% endtrans %}</a>
                             </li>
                         </ul>
                     </td>
