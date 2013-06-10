@@ -1,8 +1,38 @@
 {% extends 'RonConsumptionBundle::base.html.twig' %}
 
-{% block title %}<h1>{% trans %}Consumption list{% endtrans %}</h1>{% endblock title %}
+{% block title %}<h1>{% trans %}Verbrauchsliste{% endtrans %}</h1>{% endblock title %}
 {% block content %}
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Datum', 'Wasser', 'Strom', 'Gas'],
+                {% for consumption in data %}
+                    [
+                        '{{ consumption.createDate('d.M.Y')}}',
+                        '{{ consumption.water }}',
+                        '{{ consumption.energy }}',
+                        '{{ consumption.gas }}',
+
+                    ]
+                {% endfor %}
+            ]);
+
+            var options = {
+                title: 'Ressourcenverbrauch',
+                hAxis: {title: 'Datum',  titleTextStyle: {color: 'red'}}
+            };
+
+            var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+
     <div data-role="content">
+        <div id="chart_div" style="width: 450px; height: 250px;"></div>
+
         <table data-role="table" class="ui-responsive" id="consumption-table">
             <thead>
             <tr>
@@ -21,14 +51,14 @@
                     <td>{{ entity.energy }}</td>
                     <td>{{ entity.water }}</td>
                     <td>{{ entity.gas }}</td>
-                    <td>{% if entity.createDate %}{{ entity.createDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{% if entity.createDate %}{{ entity.createDate|date('d.m.Y H:i:s') }}{% endif %}</td>
                     <td>
                         <ul>
                             <li>
-                                <a href="{{ path('consumption_show', { 'id': entity.id }) }}">show</a>
+                                <a href="{{ path('consumption_show', { 'id': entity.id }) }}">{% trans %}show{% endtrans %}</a>
                             </li>
                             <li>
-                                <a href="{{ path('consumption_edit', { 'id': entity.id }) }}">edit</a>
+                                <a href="{{ path('consumption_edit', { 'id': entity.id }) }}">{% trans %}edit{% endtrans %}</a>
                             </li>
                         </ul>
                     </td>

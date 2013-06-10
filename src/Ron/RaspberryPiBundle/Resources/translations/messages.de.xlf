@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="de" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="f6039d44b29456b20f8f373155ae4973" resname="Username">
+        <source>Username</source>
+        <target>Benutzername</target>
+      </trans-unit>
+      <trans-unit id="dc647eb65e6711e155375218212b3964" resname="Password">
+        <source>Password</source>
+        <target>Passwort</target>
+      </trans-unit>
+      <trans-unit id="cf626cc41a3f049c53fb542953cc7c15" resname="Digital outputs">
+        <source>Digital outputs</source>
+        <target>Digitale Ausgänge</target>
+      </trans-unit>
+      <trans-unit id="1be415f041c0d8f2e10093a7b4236694" resname="Connection failed">
+        <source>Connection failed</source>
+        <target>Verbindung fehlgeschlagen</target>
+      </trans-unit>
+      <trans-unit id="c7b2ed516f24cd856ba378db833cd153" resname="Analog inputs Avr-Net-Io">
+        <source>Analog inputs Avr-Net-Io</source>
+        <target>Analoge Eingänge</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

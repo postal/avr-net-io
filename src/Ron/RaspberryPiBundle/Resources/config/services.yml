@@ -1,5 +1,6 @@
 parameters:
     pir.image.path: '/home/pi/motion'
+    avr.enabled: false
 #    ron_raspberry_pi.example.class: Ron\RaspberryPiBundle\Example
 
 services:

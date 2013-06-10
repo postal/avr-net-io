@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="de" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="bf065f76ff2d7590549c5acc19477ee9" resname="Consumption list">
+        <source>Consumption list</source>
+        <target>Verbrauchsliste</target>
+      </trans-unit>
+      <trans-unit id="5cc28f31113ec7cd7e546b836ccae2b9" resname="Energy">
+        <source>Energy</source>
+        <target>Energie</target>
+      </trans-unit>
+      <trans-unit id="635459702f9817de29e608fa3395637c" resname="Gas">
+        <source>Gas</source>
+        <target>Gas</target>
+      </trans-unit>
+      <trans-unit id="27634ff8002b12e75d98e07ccd005d18" resname="Water">
+        <source>Water</source>
+        <target>Wasser</target>
+      </trans-unit>
+      <trans-unit id="490aa6e856ccf208a054389e47ce0d06" resname="Id">
+        <source>Id</source>
+        <target>Id</target>
+      </trans-unit>
+      <trans-unit id="2131401d5a97c505b3b39bac6d4897e4" resname="Createdate">
+        <source>Createdate</source>
+        <target>Erstelldatum</target>
+      </trans-unit>
+      <trans-unit id="06df33001c1d7187fdd81ea1f5b277aa" resname="Actions">
+        <source>Actions</source>
+        <target>Aktionen</target>
+      </trans-unit>
+      <trans-unit id="a7dd12b1dab17d25467b0b0a4c8d4a92" resname="show">
+        <source>show</source>
+        <target>Detail</target>
+      </trans-unit>
+      <trans-unit id="de95b43bceeb4b998aed4aed5cef1ae7" resname="edit">
+        <source>edit</source>
+        <target>Bearbeiten</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

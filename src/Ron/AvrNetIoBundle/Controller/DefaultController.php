@@ -84,11 +84,28 @@ class DefaultController extends Controller
      * @param string $period
      * @return Response
      */
-    public function avrOutputTemperatureAction($period)
+    public function avrOutputTemperaturePeriodAction($period)
     {
         if (!in_array($period, array_keys($this->getPeriods()))) {
             $periodId = 'day';
         }
+
+        $params = array(
+            'periods' => $this->periods,
+        );
+
+        $response = $this->render('RonRaspberryPiBundle:Default:output_temperatures.html.twig', $params);
+
+        return $response;
+    }
+
+    /**
+     * @param string $period
+     * @return Response
+     */
+    public function avrOutputTemperatureAction()
+    {
+        $periods = array('hour','day','month','year');
 
         $params = array(
             'period_title' => $this->getPeriodName($period),

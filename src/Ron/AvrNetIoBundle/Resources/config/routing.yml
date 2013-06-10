@@ -16,8 +16,11 @@ avr_input:
 avr_output_temp_image:
     pattern: /output/temperature/image/{period}
     defaults: { _controller: AvrNetIoBundle:Default:outputTemperatureImage }
-avr_output_temp:
+avr_output_temp_period:
     pattern: /output/temperature/{period}
+    defaults: { _controller: AvrNetIoBundle:Default:avrOutputTemperaturePeriod }
+avr_output_temp:
+    pattern: /output/temperature
     defaults: { _controller: AvrNetIoBundle:Default:avrOutputTemperature }
 #_login:
 #    pattern: /login

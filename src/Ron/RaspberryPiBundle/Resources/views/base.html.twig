@@ -58,12 +58,14 @@
                                 class="ui-btn-active ui-state-persist"
                                     {% endif %}>Input</a>
                         </li>
+                        {% if avr_enabled == true %}
                         <li>
                             <a href="{{ path('avr_info') }}"
                                     {% if 'avr_info' == app.request.attributes.get('_route') %}
                                 class="ui-btn-active ui-state-persist"
                                     {% endif %}>Info</a>
                         </li>
+                        {% endif %}
                         <li>
                             <a href="{{ path('consumption') }}"
                                     {% if 'consumption' == app.request.attributes.get('_route') %}

@@ -23,9 +23,18 @@ class ConsumptionController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('RonConsumptionBundle:Consumption')->findAll();
+        foreach($entities as $entity){
+            $data[] = array(
+                $entity->getCreateDate()->format('d.m.Y'),
+                $entity->getWater(),
+                $entity->getGas(),
+                $entity->getEnergy()
+            );
+        }
 
         return $this->render('RonConsumptionBundle:Consumption:index.html.twig', array(
             'entities' => $entities,
+            'data' => json_encode($data)
         ));
     }
 
@@ -48,9 +57,11 @@ class ConsumptionController extends Controller
             return $this->redirect($this->generateUrl('consumption_show', array('id' => $entity->getId())));
         }
 
+
         return $this->render('RonConsumptionBundle:Consumption:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
+            'data' => $data,
         ));
     }
 
@@ -61,6 +72,7 @@ class ConsumptionController extends Controller
     public function newAction()
     {
         $entity = new Consumption();
+        $entity->setCreateDate(new \DateTime());
         $form = $this->createForm(new ConsumptionType(), $entity);
 
         return $this->render('RonConsumptionBundle:Consumption:new.html.twig', array(

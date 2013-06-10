@@ -1,20 +1,12 @@
 {% extends 'RonConsumptionBundle::base.html.twig' %}
-
+{% block title %}<h1>Verbrauch eintragen</h1>{% endblock title %}
 {% block content %}
-    <h1>Consumption creation</h1>
 
     <form action="{{ path('consumption_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <p>
-            <button type="submit">Create</button>
+            <button type="submit">Speichern</button>
         </p>
     </form>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('consumption') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
 {% endblock %}

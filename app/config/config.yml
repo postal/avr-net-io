@@ -21,7 +21,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-
+    globals:
+        avr_enabled: false
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"

@@ -3,18 +3,18 @@
 
 {% block title %}<h1>IO - RaspberryPi</h1>{% endblock title %}
 {% block content %}
-<div data-role="content">
-    <a href="{{ path('avr_input') }}"
-        {% if 'avr_input' == app.request.attributes.get('_route') %}
-       class="ui-btn-active ui-state-persist"
+    <div data-role="content">
+        <a href="{{ path('avr_input') }}"
+            {% if 'avr_input' == app.request.attributes.get('_route') %}
+           class="ui-btn-active ui-state-persist"
+        {% endif %}
+        <p>Accordion mit Funktionen</p>
+        <li>Temperatur</li>
+        <li>Bewegung</li>
+        <li>Licht</li>
+        <li>Heizung</li>
 
-    <p>Accordion mit Funktionen</p>
-    <li>Temperatur</li>
-    <li>Bewegung</li>
-    <li>Licht</li>
-    <li>Heizung</li>
-
-</div>
+    </div>
 {% endblock content %}
     {% block footer %}
         <div data-role="footer" data-position="fixed">
@@ -48,7 +48,3 @@
             <!-- /navbar -->
         </div>
     {% endblock footer %}
-</div>
-
-</body>
-</html>
