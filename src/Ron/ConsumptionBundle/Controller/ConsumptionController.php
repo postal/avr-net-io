@@ -27,8 +27,8 @@ class ConsumptionController extends Controller
             $data[] = array(
                 $entity->getCreateDate()->format('d.m.Y'),
                 $entity->getWater(),
+                $entity->getEnergy(),
                 $entity->getGas(),
-                $entity->getEnergy()
             );
         }
 
@@ -46,7 +46,7 @@ class ConsumptionController extends Controller
     {
         $entity = new Consumption();
         $form = $this->createForm(new ConsumptionType(), $entity);
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -61,7 +61,7 @@ class ConsumptionController extends Controller
         return $this->render('RonConsumptionBundle:Consumption:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
-            'data' => $data,
+#            'data' => $data,
         ));
     }
 

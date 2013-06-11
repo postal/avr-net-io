@@ -105,7 +105,7 @@ class DefaultController extends Controller
      */
     public function avrOutputTemperatureAction()
     {
-        $periods = array('hour','day','month','year');
+        $periods = array('hour', 'day', 'month', 'year');
 
         $params = array(
             'period_title' => $this->getPeriodName($period),
@@ -136,6 +136,11 @@ class DefaultController extends Controller
         if (file_exists($this->container->getParameter('temperature.image.path')) . '/' . $filename) {
             $imagePath = $this->container->getParameter('temperature.image.path') . '/' . $filename;
         }
+
+        if (!file_exists($imagePath)) {
+            return new Response('', 404);
+        }
+
         $data = file_get_contents($imagePath);
 
         return new Response($data, 200, $headers);
