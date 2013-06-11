@@ -54,7 +54,7 @@ class ConsumptionController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('consumption_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('consumption', array('id' => $entity->getId())));
         }
 
 
