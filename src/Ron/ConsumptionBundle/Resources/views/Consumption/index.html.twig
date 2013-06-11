@@ -22,7 +22,8 @@
 
             var options = {
                 title: 'Ressourcenverbrauch',
-                hAxis: {title: 'Datum',  titleTextStyle: {color: 'red'}}
+                hAxis: {title: 'Datum',  titleTextStyle: {color: 'red'}},
+                backgroundColor: 'none'
             };
 
             var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
@@ -55,10 +56,10 @@
                     <td>
                         <ul>
                             <li>
-                                <a href="{{ path('consumption_show', { 'id': entity.id }) }}">{% trans %}show{% endtrans %}</a>
+                                <a data-role="button" date-mini="true" href="{{ path('consumption_show', { 'id': entity.id }) }}">{% trans %}show{% endtrans %}</a>
                             </li>
                             <li>
-                                <a href="{{ path('consumption_edit', { 'id': entity.id }) }}">{% trans %}edit{% endtrans %}</a>
+                                <a data-role="button" date-mini="true" href="{{ path('consumption_edit', { 'id': entity.id }) }}">{% trans %}edit{% endtrans %}</a>
                             </li>
                         </ul>
                     </td>

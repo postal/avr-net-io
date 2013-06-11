@@ -793,4 +793,7 @@ a.ui-link-inherit {
 	outline-width: 1px;
 	outline-style: auto;
 }
-			
+
+ul {
+    list-style: none outside none;
+}
