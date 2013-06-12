@@ -21,65 +21,68 @@
             });
         });
     </script>
-
+    {% block style %}
+    {% endblock style %}
 </head>
 <body>
 
 {% block page %}
-<div data-role="page">
-    {% block header %}
-        <div data-role="header">
-            {% block title %}<h1>Raspberry Pi</h1>{% endblock title %}
-            {% if app.user %}
-                <a href="{{ path('_logout') }}" data-role="button" data-inline="true" date-mini="true">Logout</a>
-            {% else %}
-                <a href="{{ path('_login') }}" data-role="button" data-inline="true" data-mini="true">Login</a>
-            {% endif %}
-        </div>
-    {% endblock header %}
-    {% block content %}
-        <div data-role="content">
-            <p>Hello world</p>
-        </div>
-    {% endblock content %}
-    {% block footer %}
-        {% if app.user %}</thead>
-            <div data-role="footer" data-position="fixed">
-                <div data-role="navbar">
-                    <ul>
-                        <li>
-                            <a href="{{ path('rpi_input') }}"
-                                    {% if 'avr_net_io_homepage' == app.request.attributes.get('_route') %}
-                                class="ui-btn-active ui-state-persist"
-                                    {% endif %}>RaspberryPi</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('rpi_input') }}"
-                                    {% if 'rpi_input' == app.request.attributes.get('_route') %}
-                                class="ui-btn-active ui-state-persist"
-                                    {% endif %}>Input</a>
-                        </li>
-                        {% if avr_enabled == true %}
-                        <li>
-                            <a href="{{ path('avr_info') }}"
-                                    {% if 'avr_info' == app.request.attributes.get('_route') %}
-                                class="ui-btn-active ui-state-persist"
-                                    {% endif %}>Info</a>
-                        </li>
-                        {% endif %}
-                        <li>
-                            <a href="{{ path('consumption') }}"
-                                    {% if 'consumption' == app.request.attributes.get('_route') %}
-                                class="ui-btn-active ui-state-persist"
-                                    {% endif %}>Verbrauch</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /navbar -->
+    <div data-role="page">
+        {% block header %}
+            <div data-role="header">
+                {% block title %}<h1>Raspberry Pi</h1>{% endblock title %}
+                {% if app.user %}
+                    <a href="{{ path('_logout') }}" data-role="button" data-inline="true" date-mini="true">Logout</a>
+                {% else %}
+                    <a href="{{ path('_login') }}" data-role="button" data-inline="true" data-mini="true">Login</a>
+                {% endif %}
             </div>
-        {% endif %}
-    {% endblock footer %}
-</div>
+        {% endblock header %}
+
+        <div data-role="content">
+            {% block content %}
+                <p>Hello world</p>
+            {% endblock content %}
+        </div>
+
+        {% block footer %}
+            {% if app.user %}
+                <div data-role="footer" data-position="fixed">
+                    <div data-role="navbar">
+                        <ul>
+                            <li>
+                                <a href="{{ path('rpi_input') }}"
+                                        {% if 'avr_net_io_homepage' == app.request.attributes.get('_route') %}
+                                    class="ui-btn-active ui-state-persist"
+                                        {% endif %}>RaspberryPi</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('rpi_input') }}"
+                                        {% if 'rpi_input' == app.request.attributes.get('_route') %}
+                                    class="ui-btn-active ui-state-persist"
+                                        {% endif %}>Input</a>
+                            </li>
+                            {% if avr_enabled == true %}
+                                <li>
+                                    <a href="{{ path('avr_info') }}"
+                                            {% if 'avr_info' == app.request.attributes.get('_route') %}
+                                        class="ui-btn-active ui-state-persist"
+                                            {% endif %}>Info</a>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a href="{{ path('consumption') }}"
+                                        {% if 'consumption' == app.request.attributes.get('_route') %}
+                                    class="ui-btn-active ui-state-persist"
+                                        {% endif %}>Verbrauch</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /navbar -->
+                </div>
+            {% endif %}
+        {% endblock footer %}
+    </div>
 {% endblock page %}
 </body>
 </html>

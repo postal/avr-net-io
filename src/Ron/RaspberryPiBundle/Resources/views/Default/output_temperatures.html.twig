@@ -1,8 +1,21 @@
 {% extends ("RonRaspberryPiBundle::base.html.twig") %}
 
 {% block title %}<h1>Temperaturverlauf</h1>{% endblock title %}
+{% block page %}
+    {% for period, period_title in periods %}
+        <div data-role="page" id="{{ period }}">
 
-{% block content %}
+            <div data-role="content">
+                <div style="text-align: center;">
+                    <img class="graphkey,-temperature" src="{{ path('avr_output_temp_image', {'period': period}) }}"
+                         alt="{{ period_title }}"/>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock page %}
+
+{% block style %}
     <style type="text/css">
         .ui-li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
             display: block !important;
@@ -19,14 +32,5 @@
             width: 100%;
             height: 100%;
         }
-
     </style>
-    {% for period, period_title in periods %}
-        <div data-role="page">
-            <div style="text-align: center;">
-                <img class="graphkey,-temperature" src="{{ path('avr_output_temp_image', {'period': period}) }}"
-                     alt="{{ period_title }}"/>
-            </div>
-        </div>
-    {% endfor %}
-{% endblock %}
+{% endblock style %}
