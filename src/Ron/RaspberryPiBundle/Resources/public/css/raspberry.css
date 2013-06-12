@@ -816,3 +816,7 @@ a.ui-link-inherit {
 ul {
     list-style: none outside none;
 }
+
+.ui-content {
+    padding: 0;
+}
