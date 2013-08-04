@@ -1,0 +1,12 @@
+{% extends 'RonConsumptionBundle::base.html.twig' %}
+{% block title %}<h1>Verbrauch importieren</h1>{% endblock title %}
+{% block content %}
+    <form  action="{{ path('consumption_import') }}"  method="post" enctype="multipart/form-data" >
+        {{ form_widget(form) }}
+
+        <p>
+            <button type="submit">importieren</button>
+        </p>
+    </form>
+
+{% endblock %}

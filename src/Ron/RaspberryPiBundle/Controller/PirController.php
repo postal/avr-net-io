@@ -72,10 +72,10 @@ class PirController extends Controller
      * @param string $period
      * @return Response
      */
-    public function outputPirAction($period)
+    public function outputPirAction($period = null)
     {
         if (!in_array($period, array_keys($this->getPeriods()))) {
-            $periodId = 'day';
+            $period = 'day';
         }
 
         $params = array(
@@ -84,6 +84,20 @@ class PirController extends Controller
         );
 
         $response = $this->render('RonRaspberryPiBundle:Default:output_pir.html.twig', $params);
+
+        return $response;
+    }
+
+    /**
+     * @return Response
+     */
+    public function pirsAction()
+    {
+        $params = array(
+            'period' => $this->getPeriods(),
+        );
+
+        $response = $this->render('RonRaspberryPiBundle:Default:output_pirs.html.twig', $params);
 
         return $response;
     }
