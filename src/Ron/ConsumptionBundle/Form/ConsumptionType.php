@@ -15,7 +15,7 @@ class ConsumptionType extends AbstractType
             ->add('water')
             ->add('gas')
             ->add('createDate', 'date',  array(
-                'widget' => 'single_text',
+       #         'widget' => 'single_text',
                 'format' => 'dd.MM.yyyy',
                  )
             )
