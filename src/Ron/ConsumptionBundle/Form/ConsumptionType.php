@@ -14,12 +14,12 @@ class ConsumptionType extends AbstractType
             ->add('energy')
             ->add('water')
             ->add('gas')
-            ->add('createDate', 'date',  array(
-                'widget' => 'single_text',
-                'format' => 'dd.MM.yyyy',
-                 )
-            )
-        ;
+            ->add('createDate', 'date', array(
+                    'widget' => 'single_text',
+                    'format' => 'dd.MM.yyyy',
+                    'attr' => array('type' => 'date')
+                )
+            );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

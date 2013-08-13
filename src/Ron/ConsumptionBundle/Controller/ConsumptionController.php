@@ -2,11 +2,15 @@
 
 namespace Ron\ConsumptionBundle\Controller;
 
+use Ron\ConsumptionBundle\Entity\ConsumptionImport;
+use Ron\ConsumptionBundle\Model\ConsumptionCalculation;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Ron\ConsumptionBundle\Entity\Consumption;
 use Ron\ConsumptionBundle\Form\ConsumptionType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Consumption controller.
@@ -21,20 +25,35 @@ class ConsumptionController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        /**
+         * @var $repo \Ron\ConsumptionBundle\Entity\ConsumptionRepository
+         */
+        $repo = $em->getRepository('RonConsumptionBundle:Consumption');
+        # $entities = $repo->findAll();
+        $entities = $repo->findBy(array(), array('createDate' => 'ASC'));
+        #$entities = $repo->findBy(array());
 
-        $entities = $em->getRepository('RonConsumptionBundle:Consumption')->findAll();
-        foreach($entities as $entity){
+
+        #      var_dump($entities);
+        foreach ($entities as $entity) {
+            #     echo $entity->getCreateDate()->format();
             $data[] = array(
                 $entity->getCreateDate()->format('d.m.Y'),
-                $entity->getWater(),
-                $entity->getEnergy(),
-                $entity->getGas(),
+                round($entity->getWater()),
+                round($entity->getEnergy()),
+                round($entity->getGas()),
             );
         }
 
+        $calc = new ConsumptionCalculation();
+        $dataNew = $calc->getConsumptionMonthly($entities);
+        #  var_dump($dataNew);
+        #  var_dump($data);
+
         return $this->render('RonConsumptionBundle:Consumption:index.html.twig', array(
             'entities' => $entities,
-            'data' => $data
+            'data' => $data,
+            'dataAvg' => $dataNew,
         ));
     }
 
@@ -46,11 +65,10 @@ class ConsumptionController extends Controller
     {
         $entity = new Consumption();
         $form = $this->createForm(new ConsumptionType(), $entity);
-        $form->handleRequest($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity->setCreateDate(new \DateTime());
             $em->persist($entity);
             $em->flush();
 
@@ -153,7 +171,7 @@ class ConsumptionController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new ConsumptionType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -205,5 +223,43 @@ class ConsumptionController extends Controller
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
             ->getForm();
+    }
+
+    public function importAction(Request $request)
+    {
+#        $import = new ConsumptionImport();
+        $builder = $this->createFormBuilder(array());
+        $form = $builder->add('import_file', 'file')
+            ->add('name')->setAttribute('csrf', false)->getForm();
+
+        $form->submit($request);
+
+        if ($form->isValid()) {
+            $data = $form->getData();
+            /**
+             * @var $file UploadedFile
+             */
+            $file = $data['import_file'];
+            var_dump($data);
+            #$file->move('/tmp/','import.csv');
+            #           $file->openFile('r')->fgetcsv(';')
+            #var_dump($file);
+#$fileContent = file_get_contents('/tmp/import.csv');
+            while ($row = $file->openFile()->fgetcsv(';')) {
+                var_dump($row);
+                $content[] = $row;
+            }
+            var_dump($content);
+#var_dump($file->openFile()->fgetcsv(';'));
+            #$file = $form->getExtraData();
+#            var_dump($data);
+#           var_dump($file);
+        } else {
+            $form->getErrors();
+
+        }
+
+        return $this->render('RonConsumptionBundle:Consumption:import.html.twig', array('form' => $form->createView()));
+
     }
 }

@@ -28,3 +28,7 @@ consumption_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "RonConsumptionBundle:Consumption:delete" }
     requirements: { _method: post|delete }
+consumption_import:
+    pattern:  /import
+    defaults: { _controller: "RonConsumptionBundle:Consumption:import" }
+
