@@ -4,24 +4,24 @@
 {% block content %}
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
-        google.load("visualization", "1", {packages:["corechart"]});
+        google.load("visualization", "1", {packages: ["corechart"]});
         google.setOnLoadCallback(drawChart);
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
                 ['Datum', 'Wasser', 'Strom', 'Gas'],
                 {% for consumption in data %}
-                    [
-                        '{{ consumption[0] }}',
-                        {{ consumption[1] }},
-                        {{ consumption[2] }},
-                        {{ consumption[3] }},
-                    ],
+                [
+                    '{{ consumption[0] }}',
+                    {{ consumption[1] }},
+                    {{ consumption[2] }},
+                    {{ consumption[3] }},
+                ],
                 {% endfor %}
             ]);
 
             var options = {
                 title: 'Ressourcenverbrauch',
-                hAxis: {title: 'Datum',  titleTextStyle: {color: 'red'}},
+                hAxis: {title: 'Datum', titleTextStyle: {color: 'red'}},
                 backgroundColor: 'none'
             };
 
@@ -29,10 +29,36 @@
             chart.draw(data, options);
         }
     </script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages: ["corechart"]});
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Datum', 'Wasser', 'Strom', 'Gas'],
+                {% for date, consumption in data %}
+                [
+                    '{{ consumption['date'] }}',
+                    {{ consumption['energy'] }},
+                    {{ consumption['water'] }},
+                    {{ consumption['gas'] }},
+                ],
+                {% endfor %}
+            ]);
 
+            var options = {
+                title: 'Ressourcenverbrauch',
+                hAxis: {title: 'Datum', titleTextStyle: {color: 'red'}},
+                backgroundColor: 'none'
+            };
+
+            var chart = new google.visualization.AreaChart(document.getElementById('chart_div_average'));
+            chart.draw(data, options);
+        }
+    </script>
     <div data-role="content">
         <div id="chart_div" style="width: 450px; height: 250px;"></div>
-
+        <div id="chart_div_average" style="width: 450px; height: 250px;"></div>
+        <div>{{ dump(dataNew) }}</div>
         <table data-role="table" class="ui-responsive" id="consumption-table">
             <thead>
             <tr>
@@ -55,10 +81,14 @@
                     <td>
                         <ul>
                             <li>
-                                <a data-icon="info" data-mini="true" data-role="button" href="{{ path('consumption_show', { 'id': entity.id }) }}">{% trans %}show{% endtrans %}</a>
+                                <a data-icon="info" data-mini="true" data-role="button"
+                                   href="{{ path('consumption_show', { 'id': entity.id }) }}">{% trans %}
+                                    show{% endtrans %}</a>
                             </li>
                             <li>
-                                <a data-icon="edit" data-mini="true" data-role="button" href="{{ path('consumption_edit', { 'id': entity.id }) }}">{% trans %}edit{% endtrans %}</a>
+                                <a data-icon="edit" data-mini="true" data-role="button"
+                                   href="{{ path('consumption_edit', { 'id': entity.id }) }}">{% trans %}
+                                    edit{% endtrans %}</a>
                             </li>
                         </ul>
                     </td>

@@ -3,6 +3,7 @@
 namespace Ron\ConsumptionBundle\Controller;
 
 use Ron\ConsumptionBundle\Entity\ConsumptionImport;
+use Ron\ConsumptionBundle\Model\ConsumptionCalculation;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -24,9 +25,18 @@ class ConsumptionController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        /**
+         * @var $repo \Ron\ConsumptionBundle\Entity\ConsumptionRepository
+         */
+        $repo = $em->getRepository('RonConsumptionBundle:Consumption');
+       # $entities = $repo->findAll();
+        $entities = $repo->findBy(array(), array('createDate' => 'ASC'));
+        #$entities = $repo->findBy(array());
 
-        $entities = $em->getRepository('RonConsumptionBundle:Consumption')->findAll();
+
+      #      var_dump($entities);
         foreach ($entities as $entity) {
+            #     echo $entity->getCreateDate()->format();
             $data[] = array(
                 $entity->getCreateDate()->format('d.m.Y'),
                 round($entity->getWater()),
@@ -35,9 +45,15 @@ class ConsumptionController extends Controller
             );
         }
 
+        $calc = new ConsumptionCalculation();
+        $dataNew = $calc->getConsumptionMonthly($entities);
+      #  var_dump($dataNew);
+      #  var_dump($data);
+
         return $this->render('RonConsumptionBundle:Consumption:index.html.twig', array(
             'entities' => $entities,
-            'data' => $data
+            'data' => $data,
+            'dataNew' => $dataNew,
         ));
     }
 
@@ -226,10 +242,10 @@ class ConsumptionController extends Controller
             $file = $data['import_file'];
             var_dump($data);
             #$file->move('/tmp/','import.csv');
- #           $file->openFile('r')->fgetcsv(';')
+            #           $file->openFile('r')->fgetcsv(';')
             #var_dump($file);
 #$fileContent = file_get_contents('/tmp/import.csv');
-            while($row = $file->openFile()->fgetcsv(';')){
+            while ($row = $file->openFile()->fgetcsv(';')) {
                 var_dump($row);
                 $content[] = $row;
             }
