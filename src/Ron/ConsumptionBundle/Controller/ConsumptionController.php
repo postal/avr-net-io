@@ -35,26 +35,30 @@ class ConsumptionController extends Controller
 
 
         #      var_dump($entities);
+        $totalData = array();
         foreach ($entities as $entity) {
-            #     echo $entity->getCreateDate()->format();
-            $data[] = array(
-                $entity->getCreateDate()->format('d.m.Y'),
-                round($entity->getWater()),
-                round($entity->getEnergy()),
-                round($entity->getGas()),
-            );
+            $data['date'] = $entity->getCreateDate()->format('d.m.Y');
+            $data['energy'] = round($entity->getEnergy());
+            $data['gas'] = round($entity->getGas());
+            $data['water'] = round($entity->getWater());
+            $totalData[] = $data;
+            unset($data);
         }
 
         $calc = new ConsumptionCalculation();
         $dataNew = $calc->getConsumptionMonthly($entities);
+
         #  var_dump($dataNew);
         #  var_dump($data);
 
-        return $this->render('RonConsumptionBundle:Consumption:index.html.twig', array(
-            'entities' => $entities,
-            'data' => $data,
-            'dataAvg' => $dataNew,
-        ));
+        return $this->render(
+            'RonConsumptionBundle:Consumption:index.html.twig',
+            array(
+                'entities' => $entities,
+                'data' => $totalData,
+                'dataAvg' => $dataNew,
+            )
+        );
     }
 
     /**
@@ -76,11 +80,14 @@ class ConsumptionController extends Controller
         }
 
 
-        return $this->render('RonConsumptionBundle:Consumption:new.html.twig', array(
-            'entity' => $entity,
-            'form' => $form->createView(),
+        return $this->render(
+            'RonConsumptionBundle:Consumption:new.html.twig',
+            array(
+                'entity' => $entity,
+                'form' => $form->createView(),
 #            'data' => $data,
-        ));
+            )
+        );
     }
 
     /**
@@ -93,24 +100,27 @@ class ConsumptionController extends Controller
         $entity->setCreateDate(new \DateTime());
         $form = $this->createForm(new ConsumptionType(), $entity);
 
-        return $this->render('RonConsumptionBundle:Consumption:new.html.twig', array(
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ));
+        return $this->render(
+            'RonConsumptionBundle:Consumption:new.html.twig',
+            array(
+                'entity' => $entity,
+                'form' => $form->createView(),
+            )
+        );
     }
 
     /**
      * Finds and displays a Consumption entity.
-
-    RonConsumptionBundle_gas:
-    resource: "@RonConsumptionBundle/Resources/config/routing/gas.yml"
-    prefix:   /gas
-    RonConsumptionBundle_energy:
-    resource: "@RonConsumptionBundle/Resources/config/routing/energy.yml"
-    prefix:   /energy
-    RonConsumptionBundle_water:
-    resource: "@RonConsumptionBundle/Resources/config/routing/water.yml"
-    prefix:   /water
+     *
+     * RonConsumptionBundle_gas:
+     * resource: "@RonConsumptionBundle/Resources/config/routing/gas.yml"
+     * prefix:   /gas
+     * RonConsumptionBundle_energy:
+     * resource: "@RonConsumptionBundle/Resources/config/routing/energy.yml"
+     * prefix:   /energy
+     * RonConsumptionBundle_water:
+     * resource: "@RonConsumptionBundle/Resources/config/routing/water.yml"
+     * prefix:   /water
      *
      */
     public function showAction($id)
@@ -125,10 +135,13 @@ class ConsumptionController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('RonConsumptionBundle:Consumption:show.html.twig', array(
-            'entity' => $entity,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->render(
+            'RonConsumptionBundle:Consumption:show.html.twig',
+            array(
+                'entity' => $entity,
+                'delete_form' => $deleteForm->createView(),
+            )
+        );
     }
 
     /**
@@ -148,11 +161,14 @@ class ConsumptionController extends Controller
         $editForm = $this->createForm(new ConsumptionType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('RonConsumptionBundle:Consumption:edit.html.twig', array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->render(
+            'RonConsumptionBundle:Consumption:edit.html.twig',
+            array(
+                'entity' => $entity,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            )
+        );
     }
 
     /**
@@ -180,11 +196,14 @@ class ConsumptionController extends Controller
             return $this->redirect($this->generateUrl('consumption_edit', array('id' => $id)));
         }
 
-        return $this->render('RonConsumptionBundle:Consumption:edit.html.twig', array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->render(
+            'RonConsumptionBundle:Consumption:edit.html.twig',
+            array(
+                'entity' => $entity,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            )
+        );
     }
 
     /**
