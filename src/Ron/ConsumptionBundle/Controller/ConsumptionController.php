@@ -29,12 +29,12 @@ class ConsumptionController extends Controller
          * @var $repo \Ron\ConsumptionBundle\Entity\ConsumptionRepository
          */
         $repo = $em->getRepository('RonConsumptionBundle:Consumption');
-       # $entities = $repo->findAll();
+        # $entities = $repo->findAll();
         $entities = $repo->findBy(array(), array('createDate' => 'ASC'));
         #$entities = $repo->findBy(array());
 
 
-      #      var_dump($entities);
+        #      var_dump($entities);
         foreach ($entities as $entity) {
             #     echo $entity->getCreateDate()->format();
             $data[] = array(
@@ -47,13 +47,13 @@ class ConsumptionController extends Controller
 
         $calc = new ConsumptionCalculation();
         $dataNew = $calc->getConsumptionMonthly($entities);
-      #  var_dump($dataNew);
-      #  var_dump($data);
+        #  var_dump($dataNew);
+        #  var_dump($data);
 
         return $this->render('RonConsumptionBundle:Consumption:index.html.twig', array(
             'entities' => $entities,
             'data' => $data,
-            'dataNew' => $dataNew,
+            'dataAvg' => $dataNew,
         ));
     }
 

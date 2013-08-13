@@ -22,9 +22,9 @@ class ConsumptionCalculation
 
         # echo $this->countMonth($colConsumption);
         $consumptionPeriod = $this->initKeys($startMonth, $this->countMonth($colConsumption));
-        $allData = $this->calculateConsumptionPerMonth($colConsumption);
+        $allData = $this->calculateConsumptionPerDay($colConsumption);
 
-    #        var_dump($allData);
+        #        var_dump($allData);
         $tempMonth = null;
         $totalData = array();
         foreach ($allData as $date => $data) {
@@ -40,9 +40,9 @@ class ConsumptionCalculation
                 $totalData[$tempMonth]['water'] = $data['water'];
                 $totalData[$tempMonth]['gas'] = $data['gas'];
             } else {
-                $totalData[$tempMonth]['energy'] +=   $data['energy'];
-                $totalData[$tempMonth]['water'] +=   $data['water'];
-                $totalData[$tempMonth]['gas'] +=   $data['gas'];
+                $totalData[$tempMonth]['energy'] += $data['energy'];
+                $totalData[$tempMonth]['water'] += $data['water'];
+                $totalData[$tempMonth]['gas'] += $data['gas'];
             }
 
 
@@ -114,9 +114,12 @@ class ConsumptionCalculation
         $consumptionPeriod = new ConsumptionPeriod();
         $consumptionPeriod->setStartDatetime($dtStart);
         $consumptionPeriod->setEndDatetime($dtEnd);
-        $consumptionPeriod->setEnergy(round(($consumptionEnd->getEnergy() - $consumptionStart->getEnergy()) / $days, 2));
-        $consumptionPeriod->setGas(round(($consumptionEnd->getGas() - $consumptionStart->getGas()) / $days,2));
-        $consumptionPeriod->setWater(round(($consumptionEnd->getWater() - $consumptionStart->getWater()) / $days,2));
+
+        foreach ($consumptionPeriod::getTypes() as $type) {
+            $functionName = 'get' . ucfirst($type);
+            $value = round(($consumptionEnd->$functionName() - $consumptionStart->$functionName()) / $days, 2);
+            $consumptionPeriod->setConsumption($type, $value);
+        }
 
         return $consumptionPeriod;
     }
@@ -150,10 +153,10 @@ class ConsumptionCalculation
     }
 
     /**
-     * @param $month
      * @param $colConsumption
+     * @return array
      */
-    protected function calculateConsumptionPerMonth($colConsumption)
+    protected function calculateConsumptionPerDay($colConsumption)
     {
         $totaldata = array();
 

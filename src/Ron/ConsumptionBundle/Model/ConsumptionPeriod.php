@@ -10,8 +10,25 @@ namespace Ron\ConsumptionBundle\Model;
  * Class ConsumptionPeriod
  * @package Ron\ConsumptionBundle\Model
  */
+/**
+ * Class ConsumptionPeriod
+ * @package Ron\ConsumptionBundle\Model
+ */
 class ConsumptionPeriod
 {
+
+    /**
+     *
+     */
+    const CONSUMPTION_TYPE_ENERGY = 'energy';
+    /**
+     *
+     */
+    const CONSUMPTION_TYPE_GAS = 'gas';
+    /**
+     *
+     */
+    const CONSUMPTION_TYPE_WATER = 'water';
 
     /**
      * @var
@@ -26,6 +43,14 @@ class ConsumptionPeriod
      * @var
      */
     protected $energy;
+    /**
+     * @var
+     */
+    protected $gas;
+    /**
+     * @var
+     */
+    protected $water;
 
     /**
      * @param mixed $endDatetime
@@ -107,15 +132,6 @@ class ConsumptionPeriod
         return $this->water;
     }
 
-    /**
-     * @var
-     */
-    protected $gas;
-    /**
-     * @var
-     */
-    protected $water;
-
 
     /**
      * @param $startDatetime
@@ -129,5 +145,38 @@ class ConsumptionPeriod
         }
 
         return false;
+    }
+
+    /**
+     * @param $type
+     * @param $value
+     */
+    public function setConsumption($type, $value)
+    {
+        if ($this->isValidType($type)) {
+            $name = 'set' . ucfirst($type);
+            $this->$name($value);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public static function getTypes()
+    {
+        return array(
+            self::CONSUMPTION_TYPE_ENERGY,
+            self::CONSUMPTION_TYPE_GAS,
+            self::CONSUMPTION_TYPE_WATER,
+        );
+    }
+
+    /**
+     * @param $type
+     * @return bool
+     */
+    protected function isValidType($type)
+    {
+        return in_array($type, $this->getTypes());
     }
 }
