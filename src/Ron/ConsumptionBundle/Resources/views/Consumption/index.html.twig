@@ -109,11 +109,11 @@
                     <td>{% if entity.createDate %}{{ entity.createDate|date('d.m.Y H:i:s') }}{% endif %}</td>
                     <td>
                         <ul>
-                            <li>
+                            {#<li>
                                 <a data-icon="info" data-mini="true" data-role="button"
                                    href="{{ path('consumption_show', { 'id': entity.id }) }}">{% trans %}
                                     show{% endtrans %}</a>
-                            </li>
+                            </li>#}
                             <li>
                                 <a data-icon="edit" data-mini="true" data-role="button"
                                    href="{{ path('consumption_edit', { 'id': entity.id }) }}">{% trans %}

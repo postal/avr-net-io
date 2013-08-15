@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Raspberry Pi</title>
+    <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('bundles/ronraspberrypi/css/jquery.mobile-1.3.1.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('bundles/ronraspberrypi/css/raspberry.css') }}"/>
@@ -27,7 +27,7 @@
 
 <div data-role="page">
     {% block header %}
-        <div data-role="header">
+        <div data-role="header" data-position="fixed">
             {% block title %}<h1>Werte des Avrs</h1>{% endblock title %}
             {% if app.user %}
                 <a href="{{ path('_logout') }}" data-role="button" data-inline="true" date-mini="true">Logout</a>
