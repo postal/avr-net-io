@@ -27,7 +27,7 @@
 
 <div data-role="page">
     {% block header %}
-        <div data-role="header">
+        <div data-role="header" data-position="fixed">
             {% block title %}<h1>Werte des Avrs</h1>{% endblock title %}
             {% if app.user %}
                 <a href="{{ path('_logout') }}" data-role="button" data-inline="true" date-mini="true">Logout</a>
