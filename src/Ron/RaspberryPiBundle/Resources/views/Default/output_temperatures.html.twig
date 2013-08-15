@@ -1,16 +1,44 @@
 {% extends ("RonRaspberryPiBundle::base.html.twig") %}
 
-{% block title %}<h1>Temperaturverlauf</h1>{% endblock title %}
+{% block javascript %}
+    <script type="text/javascript">
+        $('div.ui-page').live("swipeleft", function () {
+            var nextpage = $(this).next('div[data-role="page"]');
+            // swipe using id of next page if exists
+            if (nextpage.length > 0) {
+                $.mobile.changePage(nextpage, 'slide');
+            }
+        });
+        $('div.ui-page').live("swiperight", function () {
+            var prevpage = $(this).prev('div[data-role="page"]');
+            // swipe using id of next page if exists
+            if (prevpage.length > 0) {
+                $.mobile.changePage(prevpage, 'slide', true);
+            }
+        });
+    </script>
+{% endblock javascript %}
+
 {% block page %}
     {% for period, period_title in periods %}
-        <div data-role="page" id="{{ period }}">
-
+        <div class="ui-page" data-role="page" id="{{ period }}">
+            <div data-role="header">
+                {% block title %}<h1>Temperaturverlauf {{ period_title }}</h1>{% endblock title %}
+                {% if app.user %}
+                    <a href="{{ path('_logout') }}" data-role="button" data-inline="true" date-mini="true">Logout</a>
+                {% else %}
+                    <a href="{{ path('_login') }}" data-role="button" data-inline="true" data-mini="true">Login</a>
+                {% endif %}
+            </div>
             <div data-role="content">
                 <div style="text-align: center;">
                     <img class="graphkey,-temperature" src="{{ path('avr_output_temp_image', {'period': period}) }}"
                          alt="{{ period_title }}"/>
                 </div>
             </div>
+            {% block footer %}
+                {{ parent() }}
+            {% endblock footer %}
         </div>
     {% endfor %}
 {% endblock page %}
