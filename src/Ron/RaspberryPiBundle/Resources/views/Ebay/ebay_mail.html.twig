@@ -1,0 +1,28 @@
+<html>
+<div>
+    Hallo,
+
+    es ist ein neues Angebot aufgetaucht zu Ihrer Suche.
+
+</div>
+
+
+<table>
+    <tr>
+        <th>Titel</th>
+        <th>Beschreibung</th>
+        <th>Preis</th>
+        <th>Ort</th>
+        <th>Datum</th>
+    </tr>
+    {% for angebot in data %}
+    <tr>
+        <td><a href="http://kleinanzeigen.ebay.de/{{ angebot.link }}">{{ angebot.title }}</a></td>
+        <td>{{ angebot.description }}</td>
+        <td>{{ angebot.price }}</td>
+        <td>{{ angebot.location }}</td>
+        <td>{{ angebot.date }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</html>
