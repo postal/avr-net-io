@@ -2,8 +2,7 @@
 <div>
     Hallo,
 
-    es ist ein neues Angebot aufgetaucht zu Ihrer Suche.
-
+    es ist ein neues Angebot aufgetaucht zu Ihrer <a href="{{ data.url }}">Suche</a>.
 </div>
 
 
@@ -15,14 +14,21 @@
         <th>Ort</th>
         <th>Datum</th>
     </tr>
-    {% for angebot in data %}
-    <tr>
-        <td><a href="http://kleinanzeigen.ebay.de/{{ angebot.link }}">{{ angebot.title }}</a></td>
-        <td>{{ angebot.description }}</td>
-        <td>{{ angebot.price }}</td>
-        <td>{{ angebot.location }}</td>
-        <td>{{ angebot.date }}</td>
-    </tr>
+    {% for angebot in data.anzeigen %}
+        <tr>
+            <td><a href="http://kleinanzeigen.ebay.de/{{ angebot.link }}">
+                    {% if angebot.imgLink != '' %}
+                        <img src="{{ angebot.imgLink }}"/>
+                    {% else %}
+                        {{ angebot.title }}
+                    {% endif %}
+                </a>
+            </td>
+            <td>{{ angebot.description }}</td>
+            <td>{{ angebot.price }}</td>
+            <td>{{ angebot.location }}</td>
+            <td>{{ angebot.date }}</td>
+        </tr>
     {% endfor %}
 </table>
 </html>

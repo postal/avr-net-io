@@ -1,6 +1,7 @@
 parameters:
     pir.image.path: '/home/pi/motion'
     avr.enabled: false
+    ebay_temp_dir: "/tmp"
 #    ron_raspberry_pi.example.class: Ron\RaspberryPiBundle\Example
 
 services:
