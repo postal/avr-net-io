@@ -10,18 +10,37 @@ namespace Ron\RaspberryPiBundle\Command;
 
 
 use Goutte\Client;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\Input;
-use Symfony\Component\Console\Input\InputArgument;
+use Ron\RaspberryPiBundle\Lib\EbayKleinanzeige;
+use Ron\RaspberryPiBundle\Lib\EbayKleinanzeigenClient;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\CssSelector\Node\ElementNode;
 use Symfony\Component\DomCrawler\Crawler;
 
-class EbayCommand extends Command
+/**
+ * Class EbayCommand
+ * @package Ron\RaspberryPiBundle\Command
+ */
+class EbayCommand extends ContainerAwareCommand
 {
+    /**
+     * @var string
+     */
     protected $url = 'http://kleinanzeigen.ebay.de/anzeigen/s-suchanfrage.html?keywords=hochbett+paidi&categoryId=&locationStr=Berlin&locationId=3331&radius=50&sortingField=SORTING_DATE&adType=&posterType=&pageNum=1&action=find&maxPrice=&minPrice=';
 
+    /**
+     * @var string
+     */
+    public $filename = 'last_search_result.txt';
+    /**
+     * @var string
+     */
+    protected $mail = 'siedler1@freenet.de';
+
+    /**
+     *
+     */
     protected function configure()
     {
         $this
@@ -29,49 +48,209 @@ class EbayCommand extends Command
             ->setDescription('Ebay Kleinanzeigen');
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|null|void
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        #$memcache = new \Memcache();
-        #$memcache->addServer('localhost', 11211);
+        try {
+            $this->check();
+        } catch (\Exception $e) {
+            $output->writeln('<error>' . $e->getMessage() . '</error>');
+        }
 
-        #if(false === $memcache->get('content')) {
+        $ebaySearch = new EbayKleinanzeigenClient();
+        $ebaySearch
+            ->setKeywords('hochbett paidi')
+            ->setLocationStr('Berlin')
+            ->setRadius('50')
+            ->setSortingField(EbayKleinanzeigenClient::SORT_BY_DATE);
+
         $client = new Client();
-        $crawler = $client->request('GET', $this->url);
-        #   $content = $crawler->html();
-        #  $memcache->set('content', serialize($content));
-        #}else {
-        #    $content = unserialize($memcache->get('content'));
-        #}
+        $output->writeln($ebaySearch->getUrl());
+        /**
+         * $crawler Symfony\Component\DomCrawler\Crawler
+         */
+        $crawler = $client->request('GET', $ebaySearch->getUrl());
 
-        #echo $content;
-        #$crawler = new Crawler();
-        #$crawler->addHtmlContent($content);
-        # echo $crawler->html();exit;
+        $i = 1;
+        $content = "";
+        $emailData = array();
+        $kleinanzeigeCollection = array();
         foreach ($crawler->filterXPath('//table[@id="srchrslt-adtable"]/child::tr') as $rowNode) {
             /** @var $rowNode \DOMElement */
 
-            $lineText = array();
             $crawler = new Crawler();
             $crawler->addNode($rowNode);
-            #echo  $description = $crawler->filterXPath('//td[@class="c-td-adtble-time"]')->html();
-            var_dump($crawler->filter('.c-td-adtble-dscr.h-td-first p'));
-            if ($description = $crawler->filter('.c-td-adtble-dscr.h-td-first p')) {
-                echo $description->text();
-            }
-            echo $pice = $crawler->filter('.price')->html();
-            echo $location = str_replace('<br>', ' ', ($crawler->filter('h3.c-h-adtble-lctn')->html()));
-            echo $title = $crawler->filter('a.ad-title')->html();
-            #echo  $description = $crawler->filterXPath('//td[@class="c-td-adtble-dscr "]')->text();
-            #  $crawler->first();
-            /** @var $td \DOMElement */
-            # foreach($rowNode->childNodes as $td){
-            #  #      echo "huhu";
-            #     $lineText[] = $td->textContent;
-            # }
-            #   var_dump($lineText);
-            #      $output->writeln(implode(' | ', $lineText));
 
+            $description = $crawler->filter('.c-td-adtble-dscr p');
+            if (0 == $description->count()) {
+                $description = '';
+            } else {
+                $description = $description->text();
+            }
+
+            $price = $crawler->filter('.price');
+            if (0 == $price->count()) {
+                $price = '';
+            } else {
+                $price = $price->text();
+            }
+
+            $locationStr = str_replace('<br>', ' ', ($crawler->filter('h3.c-h-adtble-lctn')->html()));
+            $title = $crawler->filter('a.ad-title')->text();
+            $imageLink = $crawler->filter('tr.c-tr-adtble td.c-td-adtble-img a.c-ad-imgbx-listitem')->attr('data-imgsrc');
+            $link = $crawler->filter('.c-td-adtble-dscr a.ad-title')->attr('href');
+            $id = $this->getIdFromLink($link);
+            $date = $crawler->filter('td.c-td-adtble-time')->text();
+            $content .= "\n" . $i . '. ' . $title . '|' . $description . '|' . $price . '|' . $locationStr;
+
+            $emailData['anzeigen'][] = array(
+                'id' => $id,
+                'title' => $title,
+                'imgLink' => $imageLink,
+                'description' => $description,
+                'price' => $price,
+                'location' => $locationStr,
+                'link' => $link,
+                'date' => $date,
+            );
+
+            $kleinanzeige = new EbayKleinanzeige();
+            $kleinanzeige->setId($id);
+            $kleinanzeige->setTitle($title);
+            $kleinanzeige->setDescription($description);
+            $kleinanzeige->setPrice($price);
+            $kleinanzeige->setLocationStr($locationStr);
+            $kleinanzeige->setLink($link);
+            $kleinanzeige->setDate($date);
+
+            $kleinanzeigeCollection[] = $kleinanzeige;
+            $i++;
+        };
+
+        $content = $this->createTempFileContent($kleinanzeigeCollection);
+
+        if ($this->getLastContent() != $content) {
+            $output->writeln('Angebote haben sich geändert.');
+
+            if ($this->getTempFilename()) {
+                file_put_contents($this->getTempFilename(), base64_encode($content));
+            }
+
+            $emailData['url'] = $ebaySearch->getUrl();
+            $message = $this->getMessage($emailData);
+            $mailer = $this->getContainer()->get('mailer');
+            $mailer->send($message);
+
+            $output->writeln('Eine E-Mail wurde versand.');
+            $spool = $mailer->getTransport()->getSpool();
+            $transport = $this->getContainer()->get('swiftmailer.transport.real');
+
+            $spool->flushQueue($transport);
+        } else {
+            $output->writeln('Die Angebote haben sich nicht geändert.');
         }
-        #$output->writeln($crawler->filterXPath('//table[id="srchrslt-adtable"]')->html());
+    }
+
+    /**
+     * build the email message
+     *
+     * @param $data
+     * @return \Swift_Message
+     */
+    private function getMessage($data)
+    {
+        $message = new \Swift_Message();
+        $message->setSubject('Neues Angebot');
+        $message->setContentType('text/html');
+        $message->setTo($this->mail);
+        $message->setBody($this->getBody($data));
+        $message->addFrom('keller.servebeer@gmail.com');
+        return $message;
+    }
+
+    /**
+     * Builds the email body
+     *
+     * @param $data
+     * @return mixed
+     */
+    protected function getBody($data)
+    {
+        $templating = $this->getContainer()->get('templating');
+        $body = $templating->render('RonRaspberryPiBundle:Ebay:ebay_mail.html.twig', array('data' => $data));
+
+        return $body;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function check()
+    {
+        $tmpDir = $this->getContainer()->getParameter('ebay_temp_dir');
+
+        if (!is_dir($tmpDir) || !is_writable($tmpDir)) {
+            throw new \Exception('Dir (' . $tmpDir . ') not exist or not writable.');
+        }
+    }
+
+    /**
+     * load last content file
+     * @return string
+     */
+    private function getLastContent()
+    {
+        $lastContent = '';
+        $path = $this->getTempFilename();
+
+        if (file_exists($path) && is_readable($path)) {
+            $lastContent = file_get_contents($path);
+        }
+
+        return $lastContent;
+    }
+
+    /**
+     * return temp filename
+     * @return string
+     */
+    protected function getTempFilename()
+    {
+        $dirName = $this->getContainer()->getParameter('ebay_temp_dir');
+        $path = $dirName .'/'. $this->filename;
+
+        return $path;
+    }
+
+    /**
+     * @param $kleinanzeigeCollection
+     * @return array
+     */
+    private function createTempFileContent($kleinanzeigeCollection)
+    {
+        $content = array();
+        foreach ($kleinanzeigeCollection as $kleinanzeige) {
+            $content[] = serialize($kleinanzeige);
+        }
+
+        return implode("\n", $content);
+    }
+
+    /**
+     * @param $link
+     * @return string
+     */
+    private function getIdFromLink($link)
+    {
+        $linkParts = explode('/', $link);
+        $idPart = end($linkParts);
+        $pos = strpos($idPart, '?');
+        $id = substr($idPart, 0, $pos);
+
+        return $id;
     }
 } 
