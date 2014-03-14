@@ -23,12 +23,14 @@ class SwitchController extends Controller
 
         if ($form->isValid()) {
 
-            foreach ($form->getData() as $key => $switch) {
+            $i = 1;
+            foreach ($form->getData() as $switch) {
                 if ($switch) {
-                    exec('/home/pi/rcwitch/send ' . $this->container->getParameter('raspi_switch_code') . $key . ' 1');
+                    exec('sudo send ' . $this->container->getParameter('raspi_switch_code') . ' ' . $i . ' 1');
                 } else {
-
+                    exec('sudo send ' . $this->container->getParameter('raspi_switch_code') . ' ' . $i . ' 0');
                 }
+                $i++;
             }
             var_dump($form->getData());
         }

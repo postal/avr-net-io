@@ -21,7 +21,7 @@ class SwitchType extends AbstractType
         $builder
             ->add('switch1', 'checkbox',
                 array(
-                    'label' => 'Flurlicht',
+                    'label' => '-----',
                     'required' => false)
             )
             ->add('switch2', 'checkbox',
@@ -31,7 +31,7 @@ class SwitchType extends AbstractType
             )
             ->add('switch3', 'checkbox',
                 array(
-                    'label' => 'Warmwasser',
+                    'label' => 'Flurlicht',
                     'required' => false)
             )
             ->add('switch4', 'checkbox',
