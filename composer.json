@@ -1,11 +1,24 @@
 {
-    "name": "symfony/framework-standard-edition",
-    "license": "MIT",
+    "name": "raspi",
+    "license": "MstablestablestableIT",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "description": "Some sensors on an raspi",
     "autoload": {
         "psr-0": { "": "src/" }
     },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "jquery/jquery",
+                "version": "1.10.2",
+                "dist": {
+                    "url": "http://code.jquery.com/jquery-1.10.2.js",
+                    "type": "file"
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.4.*",
@@ -21,7 +34,11 @@
         "jms/security-extra-bundle": "1.5.*@dev",
         "jms/di-extra-bundle": "1.4.*@dev",
         "incenteev/composer-parameter-handler": "~2.0",
-        "fabpot/goutte": "v1.0.3"
+        "fabpot/goutte": "v1.0.3",
+        "braincrafted/bootstrap-bundle": "~2.0@alpha",
+        "knplabs/knp-menu-bundle": "2.0.*@dev",
+        "twbs/bootstrap": "3.0.*",
+        "jquery/jquery":  "1.10.*"
     },
     "scripts": {
         "post-install-cmd": [
@@ -39,7 +56,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ]
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "alpha",
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
@@ -47,7 +64,7 @@
             "file": "app/config/parameters.yml"
         },
         "branch-alias": {
-            "dev-master": "2.3-dev"
+            "dev-master": "2.4-dev"
         }
     }
 }

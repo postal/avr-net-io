@@ -22,6 +22,8 @@ class AppKernel extends Kernel
             new Ron\AvrNetIoBundle\AvrNetIoBundle(),
             new Ron\RaspberryPiBundle\RonRaspberryPiBundle(),
             new Ron\ConsumptionBundle\RonConsumptionBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
