@@ -16,34 +16,52 @@
         }
 
     </style>
-    <div class="ui-grid-a ui-responsive">
-        {% if temp != '' %}
-            <div class="ui-block-a"><div class="ui-body ui-body-d">Temperatur Serverschrank</div></div>
-            <div class="ui-block-b">
-                <div class="ui-body ui-body-d">
-                    <a href="{{ path('avr_output_temp') }}">{{ temp }} °C</a>
-                </div>
-            </div>
-        {% endif %}
-        {% if motion != '' %}
-            <div class="ui-block-a"><div class="ui-body ui-body-d">Bewegung im HWR</div></div>
-            <div class="ui-block-b">
-                <div class="ui-body ui-body-d">
-                    <a href="{{ path('ron_raspberry_pi_pir', { 'period': 'day' }) }}">
-                        {% if motion == 1 %}Bewegung erkannt{% else %}Keine Bewegung erkannt{% endif %}</a>
-                </div>
-            </div>
-        {% endif %}
-        {% if false == avr  %}
-            <div class="ui-block-a"><div class="ui-body ui-body-d">Verbindung zu Avr</div></div>
-            <div class="ui-block-b"><div class="ui-body ui-body-d">fehlgeschlagen</div></div>
-        {% else %}
-            {% for i in 1..4 %}
-                <div class="ui-block-a"><div class="ui-body ui-body-d">Eingang {{ i }}</div></div>
-                <div class="ui-block-b"><div class="ui-body ui-body-d">{{ avr.adc(i) }}</div></div>
-            {% endfor %}
-        {% endif %}
+    <div class="table-responsive">
+        <table class="col-md-8 col-md-offset-2 table-condensed table-striped  zebra-striped">
+            <thead>
+            <tr>
+                <th class="col-md-4">Ort</th>
+                <th class="col-md-4">Wert</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if temp != '' %}
+                <tr>
+                    <td>Temperatur Serverschrank</td>
+                    <td>
+                        <a href="{{ path('avr_output_temp') }}">{{ temp }} °C</a>
+                    </td>
+                </tr>
+            {% endif %}
+            {% if motion != '' %}
+                <tr>
+                    <td>Bewegung im HWR</td>
+                    <td>
+                        <a href="{{ path('ron_raspberry_pi_pir', { 'period': 'day' }) }}">
+                            {% if motion == 1 %}Bewegung erkannt{% else %}Keine Bewegung erkannt{% endif %}</a>
+                    </td>
+                </tr>
+            {% endif %}
+            {% if false == avr %}
+                <tr>
+                    <td>Verbindung zu Avr</td>
+
+                    <td>fehlgeschlagen</td>
+                </tr>
+            {% else %}
+                {% for i in 1..4 %}
+                    <tr>
+                        <td>Eingang {{ i }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ avr.adc(i) }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
     </div>
+
     <div class="ui-grid-a ui-responsive">
 
     </div>

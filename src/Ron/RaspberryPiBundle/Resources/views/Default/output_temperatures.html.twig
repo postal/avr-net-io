@@ -18,30 +18,16 @@
         });
     </script>
 {% endblock javascript %}
+{% block title %}<h1>{% trans %}Temperatur{% endtrans %} {{ period }}</h1>{% endblock title %}
+{% block content %}
 
-{% block page %}
-    {% for period, period_title in periods %}
-        <div class="ui-page" data-role="page" id="{{ period }}">
-            <div data-role="header">
-                {% block title %}<h1>Temperaturverlauf {{ period_title }}</h1>{% endblock title %}
-                {% if app.user %}
-                    <a href="{{ path('_logout') }}" data-role="button" data-inline="true" date-mini="true">Logout</a>
-                {% else %}
-                    <a href="{{ path('_login') }}" data-role="button" data-inline="true" data-mini="true">Login</a>
-                {% endif %}
-            </div>
-            <div data-role="content">
-                <div style="text-align: center;">
+    {#% for period, period_title in periods %#}
+            <div class="container">
                     <img class="graphkey,-temperature" src="{{ path('avr_output_temp_image', {'period': period}) }}"
-                         alt="{{ period_title }}"/>
-                </div>
+                         alt="{{ period_title|default('Temperatur ') }}"/>
             </div>
-            {% block footer %}
-                {{ parent() }}
-            {% endblock footer %}
-        </div>
-    {% endfor %}
-{% endblock page %}
+    {#% endfor %#}
+{% endblock content %}
 
 {% block style %}
     <style type="text/css">

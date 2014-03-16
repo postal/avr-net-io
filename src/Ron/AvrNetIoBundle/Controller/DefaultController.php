@@ -92,6 +92,7 @@ class DefaultController extends Controller
 
         $params = array(
             'periods' => $this->periods,
+            'period' => $period,
         );
 
         $response = $this->render('RonRaspberryPiBundle:Default:output_temperatures.html.twig', $params);
