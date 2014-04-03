@@ -2,14 +2,18 @@
 
 
 {% block content %}
-    {{ form_start(form) }}
+    <div class="col-sm-4">
+        <div class="well">
+            {{ form_start(form) }}
 
-    <fieldset>
-        {{ form_row(form.switch1 ) }}
-        {{ form_row(form.switch2 ) }}
-        {{ form_row(form.switch3 ) }}
-        {{ form_row(form.switch4 ) }}
-    </fieldset>
+            <fieldset>
+                {{ form_row(form.switch1 ) }}
+                {{ form_row(form.switch2 ) }}
+                {{ form_row(form.switch3 ) }}
+                {{ form_row(form.switch4 ) }}
+            </fieldset>
 
-    {{ form_end(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
 {% endblock content %}

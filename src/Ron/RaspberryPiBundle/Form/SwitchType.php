@@ -39,7 +39,7 @@ class SwitchType extends AbstractType
                     'label' => '----',
                     'required' => false)
             )
-            ->add('submit', 'submit');
+            ->add('submitSwitch', 'submit',array('label' => 'schalten'));
     }
 
 

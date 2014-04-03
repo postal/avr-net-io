@@ -2,93 +2,11 @@
 
 {% block title %}<h1>{% trans %}Verbrauchsliste{% endtrans %}</h1>{% endblock title %}
 {% block content %}
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-        google.load("visualization", "1", {packages: ["corechart"]});
-        /*google.setOnLoadCallback(drawChart);*/
-        // Draws Google Chart inside a pre-existing chart_id
-        render_chart = function (chart_id, chartType, data, options) {
-            // Create and populate the data table.
-            var gData = google.visualization.arrayToDataTable(data);
-
-            // Special full width over-ride flag
-            if (options.width == '*') {
-                // Set chart width to it's containing Div's width';
-                options.width = $('#' + chart_id).width();
-                // Set height equal to width
-                if (options.height == 'width') options.height = options.width;
-            }
-
-            // Special full height over-ride flag
-            if (options.height == '*') {
-                // Set chart height to it's containing Div's width';
-                options.height = $('#' + chart_id).height();
-                // Set width equal to height
-                if (options.width == 'height') options.width = options.height;
-            }
-
-            // Create and draw the visualization.
-            new google.visualization[chartType](document.getElementById(chart_id)).draw(gData, options);
-        }
-
-        $(document).ready(function () {
-            var chart_id = 'chart_div';
-            var chartType = 'AreaChart';
-
-            var data = [
-                ['Datum', 'Strom', 'Gas', 'Wasser'],
-                {% for date, consumption in data %}
-                [
-                    '{{ consumption['date'] }}',
-                    {{ consumption['energy'] }},
-                    {{ consumption['gas'] }},
-                    {{ consumption['water'] }},
-                ],
-                {% endfor %}
-            ];
-
-            var options = {
-                title: 'Ressourcenverbrauch Gesamt',
-                hAxis: {title: 'Datum', titleTextStyle: {bold: true, italic: false}},
-                backgroundColor: 'none',
-                colors: ['#dc3912', '#ff9900', '#3366cc']
-            };
-
-            render_chart(chart_id, chartType, data, options);
-
-
-            var chart_id = 'chart_div_average';
-            var chartType = 'ColumnChart';
-            var data = [
-                ['Datum', 'Strom', 'Gas', 'Wasser'],
-                {% for date, consumption in dataAvg %}
-                [
-                    '{{ consumption['date'] }}',
-                    {{ consumption['energy'] }},
-                    {{ consumption['gas'] }},
-                    {{ consumption['water'] }},
-                ],
-                {% endfor %}
-            ];
-
-            var options = {
-                title: 'Ressourcenverbrauch Monatlich',
-                hAxis: {
-                    title: 'Monat',
-                    titleTextStyle: {bold: true, italic: false}
-                },
-                backgroundColor: 'none',
-                colors: ['#dc3912', '#ff9900', '#3366cc']
-            };
-
-
-            render_chart(chart_id, chartType, data, options);
-        })
-    </script>
     <div data-role="content">
         <div id="chart_div" style="height: 300px;"></div>
         <div id="chart_div_average" style="height: 300px;"></div>
-        <table data-role="table" class="ui-responsive" id="consumption-table">
+        <br /><br />
+        <table data-role="table" id="consumption-table" class="table table-striped table-hoverr ">
             <thead>
             <tr>
                 <th data-priority="1">{% trans %}Id{% endtrans %}</th>
@@ -108,22 +26,102 @@
                     <td>{{ entity.gas }}</td>
                     <td>{% if entity.createDate %}{{ entity.createDate|date('d.m.Y H:i:s') }}{% endif %}</td>
                     <td>
-                        <ul>
-                            {#<li>
-                                <a data-icon="info" data-mini="true" data-role="button"
-                                   href="{{ path('consumption_show', { 'id': entity.id }) }}">{% trans %}
-                                    show{% endtrans %}</a>
-                            </li>#}
-                            <li>
-                                <a data-icon="edit" data-mini="true" data-role="button"
+
+                                <a class="btn btn-default"
                                    href="{{ path('consumption_edit', { 'id': entity.id }) }}">{% trans %}
                                     edit{% endtrans %}</a>
-                            </li>
-                        </ul>
+
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+{% endblock %}
+{% block footer %}
+{{ parent() }}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", {packages: ["corechart"]});
+    /*google.setOnLoadCallback(drawChart);*/
+    // Draws Google Chart inside a pre-existing chart_id
+    render_chart = function (chart_id, chartType, data, options) {
+        // Create and populate the data table.
+        var gData = google.visualization.arrayToDataTable(data);
+
+        // Special full width over-ride flag
+        if (options.width == '*') {
+            // Set chart width to it's containing Div's width';
+            options.width = $('#' + chart_id).width();
+            // Set height equal to width
+            if (options.height == 'width') options.height = options.width;
+        }
+
+        // Special full height over-ride flag
+        if (options.height == '*') {
+            // Set chart height to it's containing Div's width';
+            options.height = $('#' + chart_id).height();
+            // Set width equal to height
+            if (options.width == 'height') options.width = options.height;
+        }
+
+        // Create and draw the visualization.
+        new google.visualization[chartType](document.getElementById(chart_id)).draw(gData, options);
+    }
+
+    $(document).ready(function () {
+        var chart_id = 'chart_div';
+        var chartType = 'AreaChart';
+
+        var data = [
+            ['Datum', 'Strom', 'Gas', 'Wasser'],
+            {% for date, consumption in data %}
+            [
+                '{{ consumption['date'] }}',
+                {{ consumption['energy'] }},
+                {{ consumption['gas'] }},
+                {{ consumption['water'] }},
+            ],
+            {% endfor %}
+        ];
+
+        var options = {
+            title: 'Ressourcenverbrauch Gesamt',
+            hAxis: {title: 'Datum', titleTextStyle: {bold: true, italic: false}},
+            backgroundColor: '#e3e3e3',
+            colors: ['#dc3912', '#ff9900', '#3366cc']
+
+        };
+
+        render_chart(chart_id, chartType, data, options);
+
+
+        var chart_id = 'chart_div_average';
+        var chartType = 'ColumnChart';
+        var data = [
+            ['Datum', 'Strom', 'Gas', 'Wasser'],
+            {% for date, consumption in dataAvg %}
+            [
+                '{{ consumption['date'] }}',
+                {{ consumption['energy'] }},
+                {{ consumption['gas'] }},
+                {{ consumption['water'] }},
+            ],
+            {% endfor %}
+        ];
+
+        var options = {
+            title: 'Ressourcenverbrauch Monatlich',
+            hAxis: {
+                title: 'Monat',
+                titleTextStyle: {bold: true, italic: false}
+            },
+            backgroundColor: '#e3e3e3',
+            colors: ['#dc3912', '#ff9900', '#3366cc']
+        };
+
+
+        render_chart(chart_id, chartType, data, options);
+    })
+</script>
 {% endblock %}

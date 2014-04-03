@@ -15,8 +15,8 @@
             top: 0.5em;
         }
         .graph-temperature {
-	        width:100%;
-            height: 100%;
+	        width:90%;
+            height: 60%;
         }
 
     </style>
@@ -25,3 +25,21 @@
         <img class="graph-temperature" src="{{ path('ron_raspberry_pi_pir_image', {'period': period}) }}" alt="{{ period_title }}" />
     </div>
 {% endblock %}
+
+{% block footer %}
+    <div class="navbar navbar-inverse navbar-fixed-bottom">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+        <div class="navbar-collapse collapse navbar-inverse-collapse">
+            {{ knp_menu_render('RonRaspberryPiBundle:Builder:menuPirFooter', { 'style': 'navbar' }) }}
+        </div>
+    </div>
+
+    {{ parent() }}
+{% endblock footer %}
