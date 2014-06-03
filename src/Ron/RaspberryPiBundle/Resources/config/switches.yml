@@ -1,0 +1,8 @@
+parameters:
+   raspi_switch_command: sudo /usr/bin/send
+   raspi_switch_code: 10001
+   raspi_switch_switches:
+     - {name: Poolpumpe, trigger_code: 1}
+     - {name: Wohnzimmerlampe, trigger_code: 2}
+     - {name: Flurlicht, trigger_code: 3}
+     - {name: Zirkulationspumpe, trigger_code: 4}

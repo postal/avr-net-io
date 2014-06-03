@@ -12,7 +12,7 @@
     <!-- HTML5 Shim and Respond.js add IE8 support of HTML5 elements and media queries -->
     {% include 'BraincraftedBootstrapBundle::ie8-support.html.twig' %}
     <script type="text/javascript">
-        $(document).ready(function () {
+  /*      $(document).ready(function () {
 
             $("select").on("change", function (event, ui) {
                 var inputName = $(this).attr('name').substr(7);
@@ -23,7 +23,7 @@
 
                 });
             });
-        });
+        });*/
     </script>
     {% block javascript %}
     {% endblock javascript %}
@@ -32,54 +32,57 @@
 </head>
 
 <body>
-
-{% block page %}
-{% block header %}
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ path('avr_net_io_homepage') }}">Raspberry Pi</a>
-        </div>
-        <div class="navbar-collapse collapse navbar-inverse-collapse">
-            {{ knp_menu_render('RonRaspberryPiBundle:Builder:mainMenu', { 'style': 'navbar' }) }}
-            {{ knp_menu_render('RonRaspberryPiBundle:Builder:menuRight', { 'style': 'navbar-right' }) }}
-        </div>
-    </div>
-{% endblock header %}
 <div class="container">
-{% block content %}
-    {{ form_start(form) }}
+    {% block page %}
+    {% block header %}
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target=".navbar-inverse-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ path('avr_net_io_homepage') }}">Raspberry Pi</a>
+                </div>
+                <div class="navbar-collapse collapse navbar-inverse-collapse">
+                    {{ knp_menu_render('RonRaspberryPiBundle:Builder:mainMenu', { 'style': 'navbar' }) }}
+                    {{ knp_menu_render('RonRaspberryPiBundle:Builder:menuRight', { 'style': 'navbar-right' }) }}
+                </div>
+            </div>
+        </div>
+    {% endblock header %}
+        <div class="container">
+            {% block content %}
+                {{ form_start(form) }}
 
-    <fieldset>
-        {{ form_row(form.switch1 ) }}
-        {{ form_row(form.switch2 ) }}
-        {{ form_row(form.switch3 ) }}
-        {{ form_row(form.switch4 ) }}
-    </fieldset>
+                <fieldset>
+                    {{ form_row(form.switch1 ) }}
+                    {{ form_row(form.switch2 ) }}
+                    {{ form_row(form.switch3 ) }}
+                    {{ form_row(form.switch4 ) }}
+                </fieldset>
 
-    {{ form_end(form) }}
-{% endblock content %}
+                {{ form_end(form) }}
+            {% endblock content %}
+        </div>
+    {% block footer %}
+        <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <!-- Include all JavaScripts, compiled by Assetic -->
+        <script src="{{ asset('/js/bootstrap.js') }}"></script>
+        <script src="{{ asset('/js/bootstrap-switch.js') }}"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(":checkbox").bootstrapSwitch();
+                $(".alert-danger").addClass("in")
+               /* window.setTimeout(function() { $(".alert-danger").alert('close'); }, 4000);*/
+            })
+        </script>
+
+    {% endblock footer %}
+    {% endblock page %}
 </div>
-{% block footer %}
-    <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
-    <script src="https://code.jquery.com/jquery.js"></script>
-    <!-- Include all JavaScripts, compiled by Assetic -->
-    <script src="{{ asset('/js/bootstrap.js') }}"></script>
-    <script src="{{ asset('/js/bootstrap-switch.js') }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("[name='raspi_switch[switch1]']").bootstrapSwitch();
-            $("[name='raspi_switch[switch2]']").bootstrapSwitch();
-            $("[name='raspi_switch[switch3]']").bootstrapSwitch();
-            $("[name='raspi_switch[switch4]']").bootstrapSwitch();
-        })
-    </script>
-
-{% endblock footer %}
-{% endblock page %}
 </body>
 </html>

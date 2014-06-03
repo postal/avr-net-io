@@ -3,10 +3,12 @@
 {% block content %}
 
     <form action="{{ path('consumption_create') }}" method="post" {{ form_enctype(form) }}>
+        <fieldset>
         {{ form_widget(form) }}
         <p>
             <button type="submit">Speichern</button>
         </p>
+        </fieldset>
     </form>
 
 {% endblock %}

@@ -9,35 +9,97 @@
 namespace Ron\RaspberryPiBundle\Controller;
 
 
+use Ron\RaspberryPiBundle\Form\SwitchesType;
 use Ron\RaspberryPiBundle\Form\SwitchType;
+use Ron\RaspberryPiBundle\SwitchEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Process\Process;
 
 class SwitchController extends Controller
 {
 
     public function indexAction(Request $request)
     {
-        $form = $this->createForm(new SwitchType());
+        $switches = $this->buildSwitches();
+        $form = $this->createForm(new SwitchesType(), array('switches' => $switches));
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-
-            $i = 1;
-            foreach ($form->getData() as $switch) {
-                if ($switch) {
-                    exec('sudo send ' . $this->container->getParameter('raspi_switch_code') . ' ' . $i . ' 1');
-                } else {
-                    exec('sudo send ' . $this->container->getParameter('raspi_switch_code') . ' ' . $i . ' 0');
+            #$data = $form->getData();
+            foreach ($form['switches'] as $switch) {
+                if (!$switch->get('submitSwitch')->isClicked()) {
+                    continue;
                 }
-                $i++;
+                $data = $switch->getData();
+                $result = $this->toggleSwitch($data);
+
+                if ($result == false) {
+                    $this->get('session')->getFlashBag()->add(
+                        'info',
+                        'Schalter ' . $data->getName() . ' eingeschaltet
+                    .'
+                    );
+                } else {
+                    $this->get('session')->getFlashBag()->add(
+                        'error',
+                        'Schalter "' . $data->getName() . '" konnte nicht geschaltet werden.' . "<br />" . $result
+                    );
+
+                }
             }
-            var_dump($form->getData());
         }
 
         $viewData = array(
             'form' => $form->createView()
         );
+
         return $this->render('RonRaspberryPiBundle:Switch:index.html.twig', $viewData);
+    }
+
+    /**
+     * @param $switch
+     * @return bool
+     */
+    protected function toggleSwitch($switch)
+    {
+
+        $status = $switch->getStatus() == true ? '1' : '0';
+        $command = '';
+        $command .= $this->container->getParameter('raspi_switch_command');
+        $command .= ' ' . $this->container->getParameter('raspi_switch_code');
+        $command .= ' ' . $switch->getCode();
+        $command .= ' ' . $status;
+
+        $process = new Process($command);
+        $error = $output = '';
+        $process->run(
+            function ($type, $buffer) use (&$error, &$output) {
+                if (Process::ERR === $type) {
+                    $error .= 'ERR > ' . $buffer;
+                } else {
+                    $output .= 'OUT > ' . $buffer;
+                }
+            }
+        );
+
+        if (!$process->isSuccessful()) {
+            return $error;
+        }
+
+        return true;
+    }
+
+    /**
+     * @return array
+     */
+    private function buildSwitches()
+    {
+        $switches = array();
+        foreach ($this->container->getParameter('raspi_switch_switches') as $switch) {
+            $switches[] = new SwitchEntity($switch['name'], $switch['trigger_code']);
+        }
+
+        return $switches;
     }
 } 

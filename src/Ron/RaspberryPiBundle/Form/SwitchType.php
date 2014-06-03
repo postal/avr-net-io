@@ -9,8 +9,10 @@
 namespace Ron\RaspberryPiBundle\Form;
 
 
+use Ron\RaspberryPiBundle\SwitchEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SwitchType extends AbstractType
 {
@@ -18,28 +20,19 @@ class SwitchType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder
-            ->add('switch1', 'checkbox',
+            ->add('code', 'hidden')
+            ->add(
+                'status',
+                'checkbox',
                 array(
-                    'label' => '-----',
-                    'required' => false)
-            )
-            ->add('switch2', 'checkbox',
-                array(
-                    'label' => 'Wohnzimmerlampe',
-                    'required' => false)
-            )
-            ->add('switch3', 'checkbox',
-                array(
-                    'label' => 'Flurlicht',
-                    'required' => false)
-            )
-            ->add('switch4', 'checkbox',
-                array(
-                    'label' => '----',
-                    'required' => false)
-            )
-            ->add('submitSwitch', 'submit',array('label' => 'schalten'));
+                    'label' => 'Status',
+                )
+            );
+
+        $builder->add('submitSwitch', 'submit', array('label' => 'schalten'));
+
     }
 
 
@@ -53,5 +46,16 @@ class SwitchType extends AbstractType
         return "raspi_switch";
     }
 
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        parent::setDefaultOptions($resolver);
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'Ron\RaspberryPiBundle\SwitchEntity',
+            )
+        );
 
-} 
+    }
+
+
+}
