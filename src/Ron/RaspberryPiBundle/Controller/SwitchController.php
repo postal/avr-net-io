@@ -26,26 +26,21 @@ class SwitchController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            #$data = $form->getData();
             foreach ($form['switches'] as $switch) {
                 if (!$switch->get('submitSwitch')->isClicked()) {
                     continue;
                 }
                 $data = $switch->getData();
                 $result = $this->toggleSwitch($data);
+                $status = 1 == $data->getStatus() ? 'eingeschaltet' : 'ausgeschaltet';
 
-                if ($result == false) {
-                    $this->get('session')->getFlashBag()->add(
-                        'info',
-                        'Schalter ' . $data->getName() . ' eingeschaltet
-                    .'
-                    );
+                if ($result == true) {
+                    $this->get('session')->getFlashBag()->add('info', $data->getName() . ' wurde ' . $status . '.');
                 } else {
                     $this->get('session')->getFlashBag()->add(
                         'error',
-                        'Schalter "' . $data->getName() . '" konnte nicht geschaltet werden.' . "<br />" . $result
+                        $data->getName() . ' konnte nicht ' . $status . ' werden.' . "<br />" . $result
                     );
-
                 }
             }
         }
