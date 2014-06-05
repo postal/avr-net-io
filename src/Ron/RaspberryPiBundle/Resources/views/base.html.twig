@@ -53,7 +53,7 @@
             </div>
         </div>
     {% endblock header %}
-        <div class="container">
+
             {% block content %}
                 {{ form_start(form) }}
 
@@ -66,7 +66,7 @@
 
                 {{ form_end(form) }}
             {% endblock content %}
-        </div>
+
     {% block footer %}
         <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
         <script src="https://code.jquery.com/jquery.js"></script>
@@ -76,8 +76,8 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $(":checkbox").bootstrapSwitch();
-                $(".alert-danger").addClass("in")
-               /* window.setTimeout(function() { $(".alert-danger").alert('close'); }, 4000);*/
+                $(".alert-danger").slideDown(1000);
+                window.setTimeout(function() { $(".alert-danger").slideUp(1000); }, 3000);
             })
         </script>
 
