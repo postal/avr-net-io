@@ -4,13 +4,13 @@
 {% block content %}
     <div class="col-sm-6">
         {% for flashMessage in app.session.flashbag.get('info') %}
-            <div class="alert alert-dismissable alert-success fade">
+            <div class="alert alert-dismissable alert-success" style="display: none">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 {{ flashMessage|raw }}
             </div>
         {% endfor %}
         {% for flashMessage in app.session.flashbag.get('error') %}
-            <div id="test" class="alert alert-dismissable alert-danger" style="display: none">
+            <div class="alert alert-dismissable alert-danger" style="display: none">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 {{ flashMessage|raw }}
             </div>

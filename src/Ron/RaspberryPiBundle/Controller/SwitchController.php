@@ -34,7 +34,7 @@ class SwitchController extends Controller
                 $result = $this->toggleSwitch($data);
                 $status = 1 == $data->getStatus() ? 'eingeschaltet' : 'ausgeschaltet';
 
-                if ($result == true) {
+                if ($result) {
                     $this->get('session')->getFlashBag()->add('info', $data->getName() . ' wurde ' . $status . '.');
                 } else {
                     $this->get('session')->getFlashBag()->add(
