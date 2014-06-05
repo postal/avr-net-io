@@ -11,7 +11,7 @@ role  :app,           domain, :primary => true
 set   :use_sudo,      true
 set   :keep_releases, 3
 set :use_composer, true
-set :update_vendors, true
+set :update_vendors, false
 set :shared_files,      ["app/config/parameters.yml"]
 set :writable_dirs,       ["app/cache", "app/logs", "web/bundles"]
 set :webserver_user,      "www-data"
