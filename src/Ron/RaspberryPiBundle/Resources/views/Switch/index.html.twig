@@ -20,10 +20,11 @@
             <fieldset>
                 <div class="container">
                 {% for switch in form.switches %}
-                    <label class="col-sm-3" style="line-height: 33px">{{  switch.vars.value.name }}</label>
-                    {{ form_widget(switch.code ) }}
-                    {{ form_widget(switch.status ) }}
-                    {{ form_widget(switch.submitSwitch ) }}
+                    <label class="col-sm-3 col-xs-5" style="line-height: 33px">{{  switch.vars.value.name }}</label>
+                    {#{ form_widget(switch.code ) }#}
+                    {#{ form_widget(switch.status ) }#}
+                    {{ form_widget(switch.submitSwitchOn, {attr:{'class': 'btn-success btn-switch'}}) }}
+                    {{ form_widget(switch.submitSwitchOff, {attr:{'class': 'btn-switch'}}) }}
                     <div class="clear"></div>
                 {% endfor %}
                 </div>

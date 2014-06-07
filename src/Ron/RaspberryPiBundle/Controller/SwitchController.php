@@ -10,7 +10,6 @@ namespace Ron\RaspberryPiBundle\Controller;
 
 
 use Ron\RaspberryPiBundle\Form\SwitchesType;
-use Ron\RaspberryPiBundle\Form\SwitchType;
 use Ron\RaspberryPiBundle\SwitchEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,16 +26,22 @@ class SwitchController extends Controller
 
         if ($form->isValid()) {
             foreach ($form['switches'] as $switch) {
-                if (!$switch->get('submitSwitch')->isClicked()) {
-                    continue;
-                }
+                $result = null;
                 $data = $switch->getData();
-                $result = $this->toggleSwitch($data);
-                $status = 1 == $data->getStatus() ? 'eingeschaltet' : 'ausgeschaltet';
+                if ($switch->get('submitSwitchOn')->isClicked()) {
+                    $result = $this->toggleSwitch($data, 1);
+                    $status = 'eingeschaltet';
+                }
 
-                if ($result) {
+                if ($switch->get('submitSwitchOff')->isClicked()) {
+                    $result = $this->toggleSwitch($data, 0);
+                    $status = 'ausgeschaltet';
+                }
+
+
+                if ($result == true) {
                     $this->get('session')->getFlashBag()->add('info', $data->getName() . ' wurde ' . $status . '.');
-                } else {
+                } elseif(null !== $result) {
                     $this->get('session')->getFlashBag()->add(
                         'error',
                         $data->getName() . ' konnte nicht ' . $status . ' werden.' . "<br />" . $result
