@@ -3,14 +3,14 @@
 
 {% block content %}
     <div class="col-sm-6">
-        {% for flashMessage in app.session.flashbag.get('notice') %}
-            <div class="alert alert-dismissable alert-success fade">
+        {% for flashMessage in app.session.flashbag.get('info') %}
+            <div class="alert alert-dismissable alert-success" style="display: none">
                 <button type="button" class="close" data-dismiss="alert">×</button>
-                {{ flashMessage }}
+                {{ flashMessage|raw }}
             </div>
         {% endfor %}
         {% for flashMessage in app.session.flashbag.get('error') %}
-            <div class="alert alert-dismissable alert-danger fade">
+            <div class="alert alert-dismissable alert-danger" style="display: none">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 {{ flashMessage|raw }}
             </div>
@@ -20,10 +20,11 @@
             <fieldset>
                 <div class="container">
                 {% for switch in form.switches %}
-                    <label class="col-sm-3" style="line-height: 33px">{{  switch.vars.value.name }}</label>
-                    {{ form_widget(switch.code ) }}
-                    {{ form_widget(switch.status ) }}
-                    {{ form_widget(switch.submitSwitch ) }}
+                    <label class="col-sm-3 col-xs-5" style="line-height: 33px">{{  switch.vars.value.name }}</label>
+                    {#{ form_widget(switch.code ) }#}
+                    {#{ form_widget(switch.status ) }#}
+                    {{ form_widget(switch.submitSwitchOn, {attr:{'class': 'btn-success btn-switch'}}) }}
+                    {{ form_widget(switch.submitSwitchOff, {attr:{'class': 'btn-switch'}}) }}
                     <div class="clear"></div>
                 {% endfor %}
                 </div>

@@ -35,6 +35,7 @@
 <div class="container">
     {% block page %}
     {% block header %}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -52,8 +53,9 @@
                 </div>
             </div>
         </div>
+    {% endif %}
     {% endblock header %}
-        <div class="container">
+
             {% block content %}
                 {{ form_start(form) }}
 
@@ -66,7 +68,7 @@
 
                 {{ form_end(form) }}
             {% endblock content %}
-        </div>
+
     {% block footer %}
         <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
         <script src="https://code.jquery.com/jquery.js"></script>
@@ -76,8 +78,8 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $(":checkbox").bootstrapSwitch();
-                $(".alert-danger").addClass("in")
-               /* window.setTimeout(function() { $(".alert-danger").alert('close'); }, 4000);*/
+                $(".alert").slideDown(1000);
+                window.setTimeout(function() { $(".alert").slideUp(1000); }, 3000);
             })
         </script>
 

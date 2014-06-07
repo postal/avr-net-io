@@ -10,7 +10,6 @@ namespace Ron\RaspberryPiBundle\Controller;
 
 
 use Ron\RaspberryPiBundle\Form\SwitchesType;
-use Ron\RaspberryPiBundle\Form\SwitchType;
 use Ron\RaspberryPiBundle\SwitchEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,26 +25,29 @@ class SwitchController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            #$data = $form->getData();
             foreach ($form['switches'] as $switch) {
-                if (!$switch->get('submitSwitch')->isClicked()) {
-                    continue;
-                }
-                $data = $switch->getData();
-                $result = $this->toggleSwitch($data);
 
-                if ($result == false) {
-                    $this->get('session')->getFlashBag()->add(
-                        'info',
-                        'Schalter ' . $data->getName() . ' eingeschaltet
-                    .'
-                    );
-                } else {
+         #       var_dump($switch->get('submitSwitchOn')->isClicked());
+                $result = null;
+                $data = $switch->getData();
+                if ($switch->get('submitSwitchOn')->isClicked()) {
+                    $result = $this->toggleSwitch($data, 1);
+                    $status = 'eingeschaltet';
+                }
+
+                if ($switch->get('submitSwitchOff')->isClicked()) {
+                    $result = $this->toggleSwitch($data, 0);
+                    $status = 'ausgeschaltet';
+                }
+
+
+                if ($result == true) {
+                    $this->get('session')->getFlashBag()->add('info', $data->getName() . ' wurde ' . $status . '.');
+                } elseif(null !== $result) {
                     $this->get('session')->getFlashBag()->add(
                         'error',
-                        'Schalter "' . $data->getName() . '" konnte nicht geschaltet werden.' . "<br />" . $result
+                        $data->getName() . ' konnte nicht ' . $status . ' werden.' . "<br />" . $result
                     );
-
                 }
             }
         }
@@ -59,12 +61,11 @@ class SwitchController extends Controller
 
     /**
      * @param $switch
+     * @param $status
      * @return bool
      */
-    protected function toggleSwitch($switch)
+    protected function toggleSwitch($switch, $status)
     {
-
-        $status = $switch->getStatus() == true ? '1' : '0';
         $command = '';
         $command .= $this->container->getParameter('raspi_switch_command');
         $command .= ' ' . $this->container->getParameter('raspi_switch_code');

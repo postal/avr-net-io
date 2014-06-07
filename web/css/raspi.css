@@ -18,3 +18,7 @@ table a.btn {
 .fade.in {
     opacity: 1;
 }
+
+.btn-switch{
+    width: 4em;
+}

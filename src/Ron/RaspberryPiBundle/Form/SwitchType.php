@@ -20,19 +20,8 @@ class SwitchType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-        $builder
-            ->add('code', 'hidden')
-            ->add(
-                'status',
-                'checkbox',
-                array(
-                    'label' => 'Status',
-                )
-            );
-
-        $builder->add('submitSwitch', 'submit', array('label' => 'schalten'));
-
+        $builder->add('submitSwitchOn', 'submit', array('label' => 'an'));
+        $builder->add('submitSwitchOff', 'submit', array('label' => 'aus'));
     }
 
 
