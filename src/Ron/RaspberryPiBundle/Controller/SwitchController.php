@@ -26,6 +26,8 @@ class SwitchController extends Controller
 
         if ($form->isValid()) {
             foreach ($form['switches'] as $switch) {
+
+         #       var_dump($switch->get('submitSwitchOn')->isClicked());
                 $result = null;
                 $data = $switch->getData();
                 if ($switch->get('submitSwitchOn')->isClicked()) {
@@ -59,12 +61,11 @@ class SwitchController extends Controller
 
     /**
      * @param $switch
+     * @param $status
      * @return bool
      */
-    protected function toggleSwitch($switch)
+    protected function toggleSwitch($switch, $status)
     {
-
-        $status = $switch->getStatus() == true ? '1' : '0';
         $command = '';
         $command .= $this->container->getParameter('raspi_switch_command');
         $command .= ' ' . $this->container->getParameter('raspi_switch_code');
