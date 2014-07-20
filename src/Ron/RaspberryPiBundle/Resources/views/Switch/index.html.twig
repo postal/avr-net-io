@@ -4,7 +4,7 @@
 {% block content %}
     <div class="middle">
         <div class="container">
-    <div class="col-sm-9 col-xs-12">
+    <div class="col-sm-6 col-sm-offset-3 col-xs-12 content">
         {% for flashMessage in app.session.flashbag.get('info') %}
             <div class="alert alert-dismissable alert-success" style="display: none">
                 <button type="button" class="close" data-dismiss="alert">×</button>
@@ -21,10 +21,11 @@
             {{ form_start(form) }}
             <fieldset>
                 {% for switch in form.switches %}
-                    <label class="col-sm-3 col-xs-6" style="line-height: 33px">{{  switch.vars.value.name }}</label>
+                    <label class="col-sm-8 col-xs-6" style="line-height: 33px">{{  switch.vars.value.name }}</label>
                     {#{ form_widget(switch.code ) }#}
                     {#{ form_widget(switch.status ) }#}
-                    {{ form_widget(switch.submitSwitchOn, {attr:{'class': 'btn-success btn-switch col-xs-2'}}) }}
+                    {{ form_widget(switch.submitSwitchOn, {attr:{'class': 'btn-success btn-switch col-sm-4 col-xs-2'}})
+                    }}
                     {{ form_widget(switch.submitSwitchOff, {attr:{'class': 'btn-switch'}}) }}
                     <div class="clear"></div>
                 {% endfor %}

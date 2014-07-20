@@ -14,12 +14,18 @@ use Ron\RaspberryPiBundle\SwitchEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class SwitchController extends Controller
 {
 
     public function indexAction(Request $request)
     {
+        if (false === $this->get('security.context')->isGranted(
+                'IS_AUTHENTICATED_REMEMBERED'
+            )) {
+            throw new AccessDeniedException();
+        }
         $switches = $this->buildSwitches();
         $form = $this->createForm(new SwitchesType(), array('switches' => $switches));
         $form->handleRequest($request);
