@@ -33,31 +33,31 @@
 </head>
 
 <body>
-<header class="top" role="header">
-    <div class="container-fluid">
-        {% block page %}
-        {% block header %}
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <div class="navbar navbar-default navbar-fixed-top">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse"
-                                data-target=".navbar-inverse-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="{{ path('avr_net_io_homepage') }}">Raspberry Pi</a>
-                    </div>
-                    <div class="navbar-collapse collapse navbar-inverse-collapse">
-                        {{ knp_menu_render('RonRaspberryPiBundle:Builder:mainMenu', { 'style': 'navbar' }) }}
-                        {{ knp_menu_render('RonRaspberryPiBundle:Builder:menuRight', { 'style': 'navbar-right' }) }}
+{% block page %}
+{% block header %}
+    <header class="top" role="menubar">
+        <div class="container-fluid">
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <div class="navbar navbar-default navbar-fixed-top">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                    data-target=".navbar-inverse-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="{{ path('avr_net_io_homepage') }}">Raspberry Pi</a>
+                        </div>
+                        <div class="navbar-collapse collapse navbar-inverse-collapse">
+                            {{ knp_menu_render('RonRaspberryPiBundle:Builder:mainMenu', { 'style': 'navbar' }) }}
+                            {{ knp_menu_render('RonRaspberryPiBundle:Builder:menuRight', { 'style': 'navbar-right' }) }}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endif %}
-    </div>
-</header>
+            {% endif %}
+        </div>
+    </header>
 {% endblock header %}
 
 {% block content %}
@@ -91,6 +91,5 @@
 
 {% endblock footer %}
 {% endblock page %}
-</div>
 </body>
 </html>
