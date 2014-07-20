@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Raspberry Pi</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet" media="screen">
@@ -12,18 +13,18 @@
     <!-- HTML5 Shim and Respond.js add IE8 support of HTML5 elements and media queries -->
     {% include 'BraincraftedBootstrapBundle::ie8-support.html.twig' %}
     <script type="text/javascript">
-  /*      $(document).ready(function () {
+        /*      $(document).ready(function () {
 
-            $("select").on("change", function (event, ui) {
-                var inputName = $(this).attr('name').substr(7);
-                $.ajax({
-                    url: "/setport/" + inputName + '/' + $(this).val(),
-                    context: ''
-                }).done(function () {
+         $("select").on("change", function (event, ui) {
+         var inputName = $(this).attr('name').substr(7);
+         $.ajax({
+         url: "/setport/" + inputName + '/' + $(this).val(),
+         context: ''
+         }).done(function () {
 
-                });
-            });
-        });*/
+         });
+         });
+         });*/
     </script>
     {% block javascript %}
     {% endblock javascript %}
@@ -32,59 +33,64 @@
 </head>
 
 <body>
-<div class="container">
-    {% block page %}
-    {% block header %}
+<header class="top" role="header">
+    <div class="container-fluid">
+        {% block page %}
+        {% block header %}
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <div class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse"
-                            data-target=".navbar-inverse-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{{ path('avr_net_io_homepage') }}">Raspberry Pi</a>
-                </div>
-                <div class="navbar-collapse collapse navbar-inverse-collapse">
-                    {{ knp_menu_render('RonRaspberryPiBundle:Builder:mainMenu', { 'style': 'navbar' }) }}
-                    {{ knp_menu_render('RonRaspberryPiBundle:Builder:menuRight', { 'style': 'navbar-right' }) }}
+            <div class="navbar navbar-default navbar-fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-inverse-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{{ path('avr_net_io_homepage') }}">Raspberry Pi</a>
+                    </div>
+                    <div class="navbar-collapse collapse navbar-inverse-collapse">
+                        {{ knp_menu_render('RonRaspberryPiBundle:Builder:mainMenu', { 'style': 'navbar' }) }}
+                        {{ knp_menu_render('RonRaspberryPiBundle:Builder:menuRight', { 'style': 'navbar-right' }) }}
+                    </div>
                 </div>
             </div>
-        </div>
-    {% endif %}
-    {% endblock header %}
+        {% endif %}
+    </div>
+</header>
+{% endblock header %}
 
-            {% block content %}
-                {{ form_start(form) }}
+{% block content %}
+    {{ form_start(form) }}
 
-                <fieldset>
-                    {{ form_row(form.switch1 ) }}
-                    {{ form_row(form.switch2 ) }}
-                    {{ form_row(form.switch3 ) }}
-                    {{ form_row(form.switch4 ) }}
-                </fieldset>
+    <fieldset>
+        {{ form_row(form.switch1 ) }}
+        {{ form_row(form.switch2 ) }}
+        {{ form_row(form.switch3 ) }}
+        {{ form_row(form.switch4 ) }}
+    </fieldset>
 
-                {{ form_end(form) }}
-            {% endblock content %}
+    {{ form_end(form) }}
+{% endblock content %}
 
-    {% block footer %}
-        <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
-        <script src="https://code.jquery.com/jquery.js"></script>
-        <!-- Include all JavaScripts, compiled by Assetic -->
-        <script src="{{ asset('/js/bootstrap.js') }}"></script>
-        <script src="{{ asset('/js/bootstrap-switch.js') }}"></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $(":checkbox").bootstrapSwitch();
-                $(".alert").slideDown(1000);
-                window.setTimeout(function() { $(".alert").slideUp(1000); }, 3000);
-            })
-        </script>
+{% block footer %}
+    <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all JavaScripts, compiled by Assetic -->
+    <script src="{{ asset('/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('/js/bootstrap-switch.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(":checkbox").bootstrapSwitch();
+            $(".alert").slideDown(1000);
+            window.setTimeout(function () {
+                $(".alert").slideUp(1000);
+            }, 3000);
+        })
+    </script>
 
-    {% endblock footer %}
-    {% endblock page %}
+{% endblock footer %}
+{% endblock page %}
 </div>
 </body>
 </html>
