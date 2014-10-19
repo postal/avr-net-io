@@ -32,3 +32,6 @@ consumption_import:
     pattern:  /import
     defaults: { _controller: "RonConsumptionBundle:Consumption:import" }
 
+consumption_compare_last_year:
+    pattern: /last-year
+    defaults: { _controller: "RonConsumptionBundle:Consumption:compareLastYear" }

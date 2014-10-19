@@ -201,4 +201,18 @@ class Builder extends ContainerAware
 
         return $menuPirFooter;
     }
+
+    public function menuStatisticFooter(FactoryInterface $factory, array $options)
+    {
+        $menuStatisticFooter = $factory->createItem('root');
+        $menuStatisticFooter->addChild(
+            'Vergleich letztes Jahr',
+            array(
+                'route' => 'consumption_compare_last_year',
+                'routeParameters' => array('period' => 'hour')
+            )
+        );
+
+        return $menuStatisticFooter;
+    }
 }

@@ -3,36 +3,58 @@
 
 {% block content %}
     <div class="middle">
-        <div class="container">
-            <div class="col-sm-6 col-sm-offset-3 col-xs-12 content">
-                {% for flashMessage in app.session.flashbag.get('info') %}
-                    <div class="alert alert-dismissable alert-success" style="display: none">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        {{ flashMessage|raw }}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Schalter</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-6 col-sm-offset-3 col-xs-12 content">
+                    {% for flashMessage in app.session.flashbag.get('info') %}
+                        <div class="alert alert-dismissable alert-success" style="display: none">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            {{ flashMessage|raw }}
+                        </div>
+                    {% endfor %}
+                    {% for flashMessage in app.session.flashbag.get('error') %}
+                        <div class="alert alert-dismissable alert-danger" style="display: none">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            {{ flashMessage|raw }}
+                        </div>
+                    {% endfor %}
+                    <div class="well">
+                        {{ form_start(form) }}
+                        <fieldset>
+                            {% for switch in form.switches %}
+                                <label class="col-sm-8 col-xs-6"
+                                       style="line-height: 33px">{{ switch.vars.value.name }}</label>
+                                {#{ form_widget(switch.code ) }#}
+                                {#{ form_widget(switch.status ) }#}
+                                {{ form_widget(switch.submitSwitchOn, {attr:{'class': 'btn-success btn-switch col-sm-4 col-xs-2' }})
+                                }}
+                                {{ form_widget(switch.submitSwitchOff, {attr:{'class': 'btn-switch' }}) }}
+                                <div class="clear"></div>
+                            {% endfor %}
+                        </fieldset>
+
+                        {{ form_end(form) }}
                     </div>
-                {% endfor %}
-                {% for flashMessage in app.session.flashbag.get('error') %}
-                    <div class="alert alert-dismissable alert-danger" style="display: none">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        {{ flashMessage|raw }}
-                    </div>
-                {% endfor %}
-                <div class="well">
-                    {{ form_start(form) }}
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Timer</h3>
+                </div>
+                <div class="panel-body">
                     <fieldset>
-                        {% for switch in form.switches %}
+                        {% for timer in formTimers.timers %}
                             <label class="col-sm-8 col-xs-6"
                                    style="line-height: 33px">{{ switch.vars.value.name }}</label>
                             {#{ form_widget(switch.code ) }#}
                             {#{ form_widget(switch.status ) }#}
-                            {{ form_widget(switch.submitSwitchOn, {attr:{'class': 'btn-success btn-switch col-sm-4 col-xs-2' }})
-                            }}
-                            {{ form_widget(switch.submitSwitchOff, {attr:{'class': 'btn-switch' }}) }}
+                            {{ form_widget(timer, {attr:{'class': 'btn-success btn-switch col-sm-4 col-xs-2' }}) }}
                             <div class="clear"></div>
                         {% endfor %}
                     </fieldset>
-
-                    {{ form_end(form) }}
                 </div>
             </div>
         </div>

@@ -10,7 +10,9 @@ namespace Ron\RaspberryPiBundle\Controller;
 
 
 use Ron\RaspberryPiBundle\Form\SwitchesType;
+use Ron\RaspberryPiBundle\Form\TimersType;
 use Ron\RaspberryPiBundle\SwitchEntity;
+use Ron\RaspberryPiBundle\TimerEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Process\Process;
@@ -19,21 +21,25 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class SwitchController extends Controller
 {
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     */
     public function indexAction(Request $request)
     {
-        if (false === $this->get('security.context')->isGranted(
-                'IS_AUTHENTICATED_REMEMBERED'
-            )) {
+        if (false === $this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             throw new AccessDeniedException();
         }
+
         $switches = $this->buildSwitches();
         $form = $this->createForm(new SwitchesType(), array('switches' => $switches));
         $form->handleRequest($request);
 
+
         if ($form->isValid()) {
             foreach ($form['switches'] as $switch) {
-
-         #       var_dump($switch->get('submitSwitchOn')->isClicked());
+                #       var_dump($switch->get('submitSwitchOn')->isClicked());
                 $result = null;
                 $data = $switch->getData();
                 if ($switch->get('submitSwitchOn')->isClicked()) {
@@ -46,10 +52,9 @@ class SwitchController extends Controller
                     $status = 'ausgeschaltet';
                 }
 
-
                 if ($result == true) {
                     $this->get('session')->getFlashBag()->add('info', $data->getName() . ' wurde ' . $status . '.');
-                } elseif(null !== $result) {
+                } elseif (null !== $result) {
                     $this->get('session')->getFlashBag()->add(
                         'error',
                         $data->getName() . ' konnte nicht ' . $status . ' werden.' . "<br />" . $result
@@ -58,8 +63,10 @@ class SwitchController extends Controller
             }
         }
 
+        $formTimers = $this->createForm(new TimersType($this->container->getParameter('raspi_timers_time')), $this->buildTimers());
         $viewData = array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'formTimers' => $formTimers,
         );
 
         return $this->render('RonRaspberryPiBundle:Switch:index.html.twig', $viewData);
@@ -108,5 +115,18 @@ class SwitchController extends Controller
         }
 
         return $switches;
+    }
+
+    /**
+     * @return array
+     */
+    private function buildTimers()
+    {
+        $timers = array();
+        foreach ($this->container->getParameter('raspi_timers_time') as $timer) {
+            $timers[] = new TimerEntity($timer['name'], $timer['trigger_code'], $timer['times']);
+        }
+
+        return $timers;
     }
 } 

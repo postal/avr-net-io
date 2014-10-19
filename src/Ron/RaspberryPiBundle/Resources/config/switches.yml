@@ -6,3 +6,5 @@ parameters:
      - {name: WZ-Lampe, trigger_code: 2}
      - {name: Flurlicht, trigger_code: 3}
      - {name: Warmwasser, trigger_code: 4}
+   raspi_timer_times:
+     - { name: Warmwasser, trigger_code: 3, times: [5,10] }

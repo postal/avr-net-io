@@ -83,7 +83,7 @@ class PirController extends Controller
             'period' => $period,
         );
 
-        $response = $this->render('RonRaspberryPiBundle:Default:output_pir.html.twig', $params);
+        $response = $this->render('RonRaspberryPiBundle:Pir:output_pir.html.twig', $params);
 
         return $response;
     }
@@ -97,7 +97,7 @@ class PirController extends Controller
             'period' => $this->getPeriods(),
         );
 
-        $response = $this->render('RonRaspberryPiBundle:Default:output_pirs.html.twig', $params);
+        $response = $this->render('RonRaspberryPiBundle:Pir:output_pirs.html.twig', $params);
 
         return $response;
     }

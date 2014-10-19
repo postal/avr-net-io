@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Ron\ConsumptionBundle\Entity\Consumption;
 use Ron\ConsumptionBundle\Form\ConsumptionType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Consumption controller.
@@ -280,5 +281,30 @@ class ConsumptionController extends Controller
 
         return $this->render('RonConsumptionBundle:Consumption:import.html.twig', array('form' => $form->createView()));
 
+    }
+
+    /**
+     * @return Response
+     */
+    public function compareLastYearAction()
+    {
+        $lastYear = new DateTime('-1 year');
+        $currentYear = new DateTime();
+
+        $em = $this->getDoctrine()->getManager();
+        /**
+         * @var $repo \Ron\ConsumptionBundle\Entity\ConsumptionRepository
+         */
+        $repo = $em->getRepository('RonConsumptionBundle:Consumption');
+
+        $query = $repo->createQueryBuilder('c')
+            ->where('c.createDateprice > :price')
+            ->setParameter('price', '19.99')
+            ->orderBy('p.price', 'ASC')
+            ->getQuery();
+        # $entities = $repo->findAll();
+        $entities = $repo->findBy(array('createDate' ), array('createDate' => 'ASC'));
+
+        return $this->render('@RonConsumption/Consumption/compare-last-year.html.twig');
     }
 }

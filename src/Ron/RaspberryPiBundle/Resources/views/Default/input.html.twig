@@ -33,6 +33,14 @@
                     </td>
                 </tr>
             {% endif %}
+            {% if pressure != '' %}
+                <tr>
+                    <td>Luftdruck Serverschrank</td>
+                    <td>
+                        <a href="{{ path('avr_output_temp') }}">{{ pressure }} hPa</a>
+                    </td>
+                </tr>
+            {% endif %}
             {% if motion != '' %}
                 <tr>
                     <td>Bewegung im HWR</td>
