@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new Ron\ConsumptionBundle\RonConsumptionBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
+            new Ron\GolemApiBundle\RonGolemApiBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

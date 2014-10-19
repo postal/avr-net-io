@@ -1,0 +1,7 @@
+parameters:
+#    rs_golem_api.example.class: Ron\GolemApiBundle\Example
+
+services:
+#    rs_golem_api.example:
+#        class: %rs_golem_api.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
