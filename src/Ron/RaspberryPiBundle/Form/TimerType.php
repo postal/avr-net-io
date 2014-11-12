@@ -74,7 +74,7 @@ class TimerType extends AbstractType
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(
             array(
-                'data_class' => 'Ron\RaspberryPiBundle\SwitchEntity',
+     #           'data_class' => 'Ron\RaspberryPiBundle\SwitchEntity',
             )
         );
 
@@ -87,8 +87,8 @@ class TimerType extends AbstractType
     protected function getTimes()
     {
         $config = $this->getConfig();
-        $times = $config['times'];
-
+    #    var_dump($config);
+        $times = $config['times'][0];
         return (array)$times;
     }
 }

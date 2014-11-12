@@ -11,6 +11,7 @@ namespace Ron\RaspberryPiBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TimersType extends AbstractType
 {
@@ -50,7 +51,7 @@ class TimersType extends AbstractType
                 array(
                     'type' => new TimerType($this->getTimerConfigs()),
                     'required' => false,
-
+                    'label' => 'timers',
                 )
             );
 

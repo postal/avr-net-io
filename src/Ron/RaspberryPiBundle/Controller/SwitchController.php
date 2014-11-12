@@ -61,12 +61,19 @@ class SwitchController extends Controller
                     );
                 }
             }
+
+            return $this->redirect($this->generateUrl('ron_raspberry_pi_switch'));
         }
 
-        $formTimers = $this->createForm(new TimersType($this->container->getParameter('raspi_timers_time')), $this->buildTimers());
+
+        $formTimers = $this->createForm(
+            new TimersType($this->container->getParameter('raspi_timers_time')),
+            array('timers' =>$this->buildTimers())
+        );
+
         $viewData = array(
             'form' => $form->createView(),
-            'formTimers' => $formTimers,
+            'formTimers' => $formTimers->createView(),
         );
 
         return $this->render('RonRaspberryPiBundle:Switch:index.html.twig', $viewData);
@@ -126,6 +133,7 @@ class SwitchController extends Controller
         foreach ($this->container->getParameter('raspi_timers_time') as $timer) {
             $timers[] = new TimerEntity($timer['name'], $timer['trigger_code'], $timer['times']);
         }
+
 
         return $timers;
     }

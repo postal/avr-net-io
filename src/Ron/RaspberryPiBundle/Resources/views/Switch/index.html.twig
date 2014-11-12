@@ -46,9 +46,9 @@
                 </div>
                 <div class="panel-body">
                     <fieldset>
-                        {% for timer in formTimers.timers %}
-                            <label class="col-sm-8 col-xs-6"
-                                   style="line-height: 33px">{{ switch.vars.value.name }}</label>
+                        {{ form(formTimers) }}
+                        {% for timer in formTimers %}
+                            <label class="col-sm-8 col-xs-6" style="line-height: 33px">{{ timer.vars.value }}</label>
                             {#{ form_widget(switch.code ) }#}
                             {#{ form_widget(switch.status ) }#}
                             {{ form_widget(timer, {attr:{'class': 'btn-success btn-switch col-sm-4 col-xs-2' }}) }}
