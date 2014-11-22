@@ -10,41 +10,16 @@ namespace Ron\RaspberryPiBundle\Form;
 
 
 use Ron\RaspberryPiBundle\SwitchEntity;
+use Ron\RaspberryPiBundle\TimerEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TimerType extends AbstractType
 {
 
-    /**
-     * @var array
-     */
-    protected $config;
-
-    /**
-     * @param mixed $config
-     */
-    public function setConfig($config)
-    {
-        $this->config = $config;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * @param array $config
-     */
-    public function __construct(array $config)
-    {
-        $this->setConfig($config);
-    }
 
     /**
      * @param FormBuilderInterface $builder
@@ -52,9 +27,21 @@ class TimerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        foreach ($this->getTimes() as $key => $time) {
-            $builder->add('submitTimer' . $key, 'submit', array('label' => $time . 's'));
-        }
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) {
+                /**
+                 * @var $timer TimerEntity
+                 */
+
+                $timer = $event->getData();
+                $form = $event->getForm();
+                foreach ($timer->getTime() as $key => $time) {
+                    $form->add('submitTimer'.$key, 'submit', array('label' => $time . 's'));
+                }
+            }
+        );
 
     }
 
@@ -74,21 +61,11 @@ class TimerType extends AbstractType
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(
             array(
-     #           'data_class' => 'Ron\RaspberryPiBundle\SwitchEntity',
+                'data_class' => 'Ron\RaspberryPiBundle\TimerEntity',
             )
         );
 
     }
 
 
-    /**
-     * @return array
-     */
-    protected function getTimes()
-    {
-        $config = $this->getConfig();
-    #    var_dump($config);
-        $times = $config['times'][0];
-        return (array)$times;
-    }
 }

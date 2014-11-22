@@ -65,10 +65,9 @@ class SwitchController extends Controller
             return $this->redirect($this->generateUrl('ron_raspberry_pi_switch'));
         }
 
-
         $formTimers = $this->createForm(
-            new TimersType($this->container->getParameter('raspi_timers_time')),
-            array('timers' =>$this->buildTimers())
+            new TimersType(),
+            array('timers' => $this->buildTimers())
         );
 
         $viewData = array(

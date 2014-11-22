@@ -25,12 +25,9 @@
                         {{ form_start(form) }}
                         <fieldset>
                             {% for switch in form.switches %}
-                                <label class="col-sm-8 col-xs-6"
-                                       style="line-height: 33px">{{ switch.vars.value.name }}</label>
-                                {#{ form_widget(switch.code ) }#}
-                                {#{ form_widget(switch.status ) }#}
-                                {{ form_widget(switch.submitSwitchOn, {attr:{'class': 'btn-success btn-switch col-sm-4 col-xs-2' }})
-                                }}
+                                <label class="col-sm-8 col-xs-6" style="line-height: 33px">{{ switch.vars.value.name }}</label>
+                                {{ form_widget(switch.submitSwitchOn, {attr:{'class': 'btn-success btn-switch
+                                col-sm-4 col-xs-2' }}) }}
                                 {{ form_widget(switch.submitSwitchOff, {attr:{'class': 'btn-switch' }}) }}
                                 <div class="clear"></div>
                             {% endfor %}
@@ -45,16 +42,24 @@
                     <h3 class="panel-title">Timer</h3>
                 </div>
                 <div class="panel-body">
-                    <fieldset>
-                        {{ form(formTimers) }}
-                        {% for timer in formTimers %}
-                            <label class="col-sm-8 col-xs-6" style="line-height: 33px">{{ timer.vars.value }}</label>
-                            {#{ form_widget(switch.code ) }#}
-                            {#{ form_widget(switch.status ) }#}
-                            {{ form_widget(timer, {attr:{'class': 'btn-success btn-switch col-sm-4 col-xs-2' }}) }}
-                            <div class="clear"></div>
-                        {% endfor %}
-                    </fieldset>
+                    <div class="col-sm-6 col-sm-offset-3 col-xs-12 content">
+                        <div class="well">
+                            {{ form_start(formTimers) }}
+                            <fieldset>
+                                {% for key, timer in formTimers.timers %}
+
+                                    <label class="col-sm-8 col-xs-6" style="line-height: 33px">{{ timer.vars.value.name }}</label>
+                                    {% for test in timer %}
+                                    {{ form_widget(test, {attr:{'class': 'btn-success btn-switch
+                                    col-sm-4
+                                    col-xs-2'
+                                    }}) }}
+                                        {% endfor %}
+                                    <div class="clear"></div>
+                                {% endfor %}
+                            </fieldset>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

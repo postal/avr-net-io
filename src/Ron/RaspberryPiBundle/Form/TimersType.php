@@ -15,31 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TimersType extends AbstractType
 {
-    protected $timerConfigs;
 
-    /**
-     * @param $timerConfigs
-     */
-    public function __construct($timerConfigs)
-    {
-        $this->setTimerConfigs($timerConfigs);
-    }
-
-    /**
-     * @param mixed $timerConfigs
-     */
-    public function setTimerConfigs($timerConfigs)
-    {
-        $this->timerConfigs = $timerConfigs;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTimerConfigs()
-    {
-        return $this->timerConfigs;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -49,9 +25,8 @@ class TimersType extends AbstractType
                 'timers',
                 'collection',
                 array(
-                    'type' => new TimerType($this->getTimerConfigs()),
+                    'type' => new TimerType(),
                     'required' => false,
-                    'label' => 'timers',
                 )
             );
 
