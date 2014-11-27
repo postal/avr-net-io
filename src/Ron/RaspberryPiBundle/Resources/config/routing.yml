@@ -46,3 +46,6 @@ ron_raspberry_pi_pirs:
 ron_raspberry_pi_switch:
     pattern: /switch
     defaults: { _controller: RonRaspberryPiBundle:Switch:index }
+ron_raspberry_pi_timer_start:
+    pattern: /timer_start
+    defaults: { _controller: RonRaspberryPiBundle:Switch:startTimer }

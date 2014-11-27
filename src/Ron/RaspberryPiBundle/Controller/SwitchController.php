@@ -68,7 +68,24 @@ class SwitchController extends Controller
         $formTimers = $this->createForm(
             new TimersType(),
             array('timers' => $this->buildTimers())
+      #      array(
+      #          'action' => $this->generateUrl('ron_raspberry_pi_timer_start')
+      #      )
         );
+
+        $formTimers->handleRequest($request);
+        if ($formTimers->isValid()) {
+            foreach ($formTimers['timers'] as $key => $timer) {
+                /**
+                 * @var $timer TimersType
+                 */
+                if ($timer->get('submitTimer' . $key)->isClicked()) {
+                    $this->startTimer();
+                    $this->get('session')->getFlashBag()->add('info', $timer->getName() . ' wurde gestartet.');
+                }
+
+            }
+        }
 
         $viewData = array(
             'form' => $form->createView(),
@@ -110,6 +127,39 @@ class SwitchController extends Controller
         return true;
     }
 
+
+    public function startTimerAction(Request $request)
+    {
+
+
+        $formTimers = $this->createForm(
+            new TimersType(),
+            array('timers' => $this->buildTimers())
+        );
+
+        $formTimers->handleRequest($request);
+
+        if ($formTimers->isValid()) {
+
+            #echo "h", exit;
+            $data = $formTimers->getData();
+#var_dump($formTimers['timers']  );
+            foreach ($formTimers['timers'] as $key => $timer) {
+                /**
+                 * @var $timer TimersType
+                 */
+                $timer->get('submitTimer' . $key)->isClicked();
+            }
+
+        }
+
+        var_dump($formTimers->getErrors(false, false));
+        exit;
+
+        # return $this->forward('RonRaspberryPiBundle:Switch:index');
+        #  return $this->redirect($this->generateUrl('ron_raspberry_pi_switch'));
+    }
+
     /**
      * @return array
      */
@@ -129,11 +179,36 @@ class SwitchController extends Controller
     private function buildTimers()
     {
         $timers = array();
-        foreach ($this->container->getParameter('raspi_timers_time') as $timer) {
+        foreach ($this->container->getParameter('raspi_timers_times') as $timer) {
             $timers[] = new TimerEntity($timer['name'], $timer['trigger_code'], $timer['times']);
         }
 
 
         return $timers;
+    }
+
+    private function startTimer($timer)
+    {
+        $command = '';
+        $command .= $this->container->getParameter('raspi_timer_command');
+        $command .= ' ' . $timer->getCode();
+
+        $process = new Process($command);
+        $error = $output = '';
+        $process->run(
+            function ($type, $buffer) use (&$error, &$output) {
+                if (Process::ERR === $type) {
+                    $error .= 'ERR > ' . $buffer;
+                } else {
+                    $output .= 'OUT > ' . $buffer;
+                }
+            }
+        );
+
+        if (!$process->isSuccessful()) {
+            return $error;
+        }
+
+        return true;
     }
 } 
