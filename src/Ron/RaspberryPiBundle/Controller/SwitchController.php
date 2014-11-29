@@ -11,6 +11,7 @@ namespace Ron\RaspberryPiBundle\Controller;
 
 use Ron\RaspberryPiBundle\Form\SwitchesType;
 use Ron\RaspberryPiBundle\Form\TimersType;
+use Ron\RaspberryPiBundle\Lib\AtClient;
 use Ron\RaspberryPiBundle\SwitchEntity;
 use Ron\RaspberryPiBundle\TimerEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -68,20 +69,21 @@ class SwitchController extends Controller
         $formTimers = $this->createForm(
             new TimersType(),
             array('timers' => $this->buildTimers())
-      #      array(
-      #          'action' => $this->generateUrl('ron_raspberry_pi_timer_start')
-      #      )
+        #      array(
+        #          'action' => $this->generateUrl('ron_raspberry_pi_timer_start')
+        #      )
         );
 
         $formTimers->handleRequest($request);
+
         if ($formTimers->isValid()) {
             foreach ($formTimers['timers'] as $key => $timer) {
                 /**
                  * @var $timer TimersType
                  */
                 if ($timer->get('submitTimer' . $key)->isClicked()) {
-                    $this->startTimer();
-                    $this->get('session')->getFlashBag()->add('info', $timer->getName() . ' wurde gestartet.');
+                    $resultTimer = $this->startTimer($timer->getData(), $timer->getData()->getTime()[$key]);
+
                 }
 
             }
@@ -141,9 +143,7 @@ class SwitchController extends Controller
 
         if ($formTimers->isValid()) {
 
-            #echo "h", exit;
             $data = $formTimers->getData();
-#var_dump($formTimers['timers']  );
             foreach ($formTimers['timers'] as $key => $timer) {
                 /**
                  * @var $timer TimersType
@@ -180,35 +180,41 @@ class SwitchController extends Controller
     {
         $timers = array();
         foreach ($this->container->getParameter('raspi_timers_times') as $timer) {
-            $timers[] = new TimerEntity($timer['name'], $timer['trigger_code'], $timer['times']);
+            $timers[] = new TimerEntity(
+                $timer['name'],
+                $timer['groupCode'],
+                $timer['trigger_code'],
+                $timer['times'],
+                $timer['timeUnit']
+            );
         }
 
 
         return $timers;
     }
 
-    private function startTimer($timer)
+    /**
+     * @param \Ron\RaspberryPiBundle\TimerEntity $timerEntity
+     * @param $time
+     * @return bool|string
+     */
+    private function startTimer(TimerEntity $timerEntity, $time)
     {
-        $command = '';
-        $command .= $this->container->getParameter('raspi_timer_command');
-        $command .= ' ' . $timer->getCode();
 
-        $process = new Process($command);
-        $error = $output = '';
-        $process->run(
-            function ($type, $buffer) use (&$error, &$output) {
-                if (Process::ERR === $type) {
-                    $error .= 'ERR > ' . $buffer;
-                } else {
-                    $output .= 'OUT > ' . $buffer;
-                }
-            }
-        );
+        $client = new AtClient();
+        $atCommand = $client->createAt();
+        $atCommand->setTime($time);
+        $atCommand->setTimeUnit($timerEntity->getTimeUnit());
+        $atCommand->setCommand('/usr/bin/send ' . $timerEntity->getGroupCode().' '.$timerEntity->getCode().' 1');
 
-        if (!$process->isSuccessful()) {
-            return $error;
+        $client->process($atCommand);
+
+        if ($client->getProcess()->isSuccessful()) {
+            $this->get('session')->getFlashBag()->add('info', $timerEntity->getName() . ' wurde gestartet.');
+        } else {
+            $this->get('session')->getFlashBag()->add('error', $client->getError() . ' wurde gestartet.');
         }
 
-        return true;
+        return $client;
     }
 } 

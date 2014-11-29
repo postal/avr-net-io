@@ -19,7 +19,15 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TimerType extends AbstractType
 {
-
+    /**
+     * @var array
+     */
+    protected $timeUnitShortcut = array(
+        'minutes' => 'min',
+        'hours' => 'h',
+        'days' => 'd',
+        'weeks' => 'W',
+    );
 
     /**
      * @param FormBuilderInterface $builder
@@ -38,7 +46,8 @@ class TimerType extends AbstractType
                 $timer = $event->getData();
                 $form = $event->getForm();
                 foreach ($timer->getTime() as $key => $time) {
-                    $form->add('submitTimer'.$key, 'submit', array('label' => $time . 's'));
+                    $label = $time . $this->getShortcutByTimeUnitName($timer->getTimeUnit());
+                    $form->add('submitTimer' . $key, 'submit', array('label' => $label));
                 }
             }
         );
@@ -67,5 +76,16 @@ class TimerType extends AbstractType
 
     }
 
+    /**
+     * @param $name
+     * @return string
+     */
+    protected function getShortcutByTimeUnitName($name)
+    {
+        if (in_array($name, array_keys($this->timeUnitShortcut))) {
+            return $this->timeUnitShortcut[$name];
+        }
 
+        return $name;
+    }
 }

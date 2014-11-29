@@ -12,15 +12,35 @@ namespace Ron\RaspberryPiBundle;
 class TimerEntity
 {
     protected $name;
+    protected $groupCode;
     protected $code;
     protected $time;
+    protected $timeUnit;
 
 
-    public function __construct($name, $code, $time)
+    public function __construct($name, $groupCode, $code, $time, $timeUnit = 'minutes')
     {
         $this->setName($name);
         $this->setCode($code);
         $this->setTime($time);
+        $this->setTimeUnit($timeUnit);
+        $this->groupCode = $groupCode;
+    }
+
+    /**
+     * @param mixed $timeUnit
+     */
+    public function setTimeUnit($timeUnit)
+    {
+        $this->timeUnit = $timeUnit;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTimeUnit()
+    {
+        return $this->timeUnit;
     }
 
     /**
@@ -69,6 +89,22 @@ class TimerEntity
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param mixed $groupCode
+     */
+    public function setGroupCode($groupCode)
+    {
+        $this->groupCode = $groupCode;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroupCode()
+    {
+        return $this->groupCode;
     }
 
 }
