@@ -205,12 +205,13 @@ class SwitchController extends Controller
         $atCommand = $client->createAt();
         $atCommand->setTime($time);
         $atCommand->setTimeUnit($timerEntity->getTimeUnit());
-        $atCommand->setCommand('/usr/bin/send ' . $timerEntity->getGroupCode().' '.$timerEntity->getCode().' 1');
+        $atCommand->setCommand('sudo /usr/bin/send ' . $timerEntity->getGroupCode().' '.$timerEntity->getCode().' 0');
 
         $client->process($atCommand);
 
         if ($client->getProcess()->isSuccessful()) {
-            $this->get('session')->getFlashBag()->add('info', $timerEntity->getName() . ' wurde gestartet.');
+            $this->get('session')->getFlashBag()->add('info', $timerEntity->getName() . ' wurde gestartet.<br />'
+                .$atCommand->getCommand());
         } else {
             $this->get('session')->getFlashBag()->add('error', $client->getError() . ' wurde gestartet.');
         }
