@@ -9,7 +9,6 @@
 namespace Ron\RaspberryPiBundle\Form;
 
 
-use Ron\RaspberryPiBundle\SwitchEntity;
 use Ron\RaspberryPiBundle\TimerEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -45,7 +44,7 @@ class TimerType extends AbstractType
 
                 $timer = $event->getData();
                 $form = $event->getForm();
-                foreach ($timer->getTime() as $key => $time) {
+                foreach ($timer->getTimes() as $key => $time) {
                     $label = $time . $this->getShortcutByTimeUnitName($timer->getTimeUnit());
                     $form->add('submitTimer' . $key, 'submit', array('label' => $label));
                 }

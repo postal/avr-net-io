@@ -15,6 +15,7 @@ use Ron\RaspberryPiBundle\Lib\AtClient;
 use Ron\RaspberryPiBundle\SwitchEntity;
 use Ron\RaspberryPiBundle\TimerEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -40,8 +41,11 @@ class SwitchController extends Controller
 
         if ($form->isValid()) {
             foreach ($form['switches'] as $switch) {
-                #       var_dump($switch->get('submitSwitchOn')->isClicked());
-                $result = null;
+                /**
+                 * @var $switch Form
+                 */
+                $result = $status = null;
+                /** @var $data SwitchEntity */
                 $data = $switch->getData();
                 if ($switch->get('submitSwitchOn')->isClicked()) {
                     $result = $this->toggleSwitch($data, 1);
@@ -69,24 +73,27 @@ class SwitchController extends Controller
         $formTimers = $this->createForm(
             new TimersType(),
             array('timers' => $this->buildTimers())
-        #      array(
-        #          'action' => $this->generateUrl('ron_raspberry_pi_timer_start')
-        #      )
         );
 
         $formTimers->handleRequest($request);
 
         if ($formTimers->isValid()) {
             foreach ($formTimers['timers'] as $key => $timer) {
-                /**
-                 * @var $timer TimersType
-                 */
-                if ($timer->get('submitTimer' . $key)->isClicked()) {
-                    $resultTimer = $this->startTimer($timer->getData(), $timer->getData()->getTime()[$key]);
-
+                /** @var $timer Form */
+                foreach ($timer->getData()->getTimes() as $keyTime => $time) {
+                    /**
+                     * @var $timer Form
+                     */
+                    {
+                        if ($timer->get('submitTimer' . $keyTime)->isClicked()) {
+                            $resultTimer = $this->startTimer($timer->getData(), $timer->getData()->getTimes()[$key]);
+                        }
+                    }
                 }
 
             }
+
+            return $this->redirect($this->generateUrl('ron_raspberry_pi_switch'));
         }
 
         $viewData = array(
@@ -104,6 +111,7 @@ class SwitchController extends Controller
      */
     protected function toggleSwitch($switch, $status)
     {
+        /** @var $switch SwitchEntity */
         $command = '';
         $command .= $this->container->getParameter('raspi_switch_command');
         $command .= ' ' . $this->container->getParameter('raspi_switch_code');
@@ -129,36 +137,6 @@ class SwitchController extends Controller
         return true;
     }
 
-
-    public function startTimerAction(Request $request)
-    {
-
-
-        $formTimers = $this->createForm(
-            new TimersType(),
-            array('timers' => $this->buildTimers())
-        );
-
-        $formTimers->handleRequest($request);
-
-        if ($formTimers->isValid()) {
-
-            $data = $formTimers->getData();
-            foreach ($formTimers['timers'] as $key => $timer) {
-                /**
-                 * @var $timer TimersType
-                 */
-                $timer->get('submitTimer' . $key)->isClicked();
-            }
-
-        }
-
-        var_dump($formTimers->getErrors(false, false));
-        exit;
-
-        # return $this->forward('RonRaspberryPiBundle:Switch:index');
-        #  return $this->redirect($this->generateUrl('ron_raspberry_pi_switch'));
-    }
 
     /**
      * @return array
@@ -189,7 +167,6 @@ class SwitchController extends Controller
             );
         }
 
-
         return $timers;
     }
 
@@ -200,18 +177,22 @@ class SwitchController extends Controller
      */
     private function startTimer(TimerEntity $timerEntity, $time)
     {
-
         $client = new AtClient();
         $atCommand = $client->createAt();
         $atCommand->setTime($time);
         $atCommand->setTimeUnit($timerEntity->getTimeUnit());
-        $atCommand->setCommand('sudo /usr/bin/send ' . $timerEntity->getGroupCode().' '.$timerEntity->getCode().' 0');
+        $atCommand->setCommand(
+            'sudo /usr/bin/send ' . $timerEntity->getGroupCode() . ' ' . $timerEntity->getCode() . ' 0'
+        );
 
         $client->process($atCommand);
 
         if ($client->getProcess()->isSuccessful()) {
-            $this->get('session')->getFlashBag()->add('info', $timerEntity->getName() . ' wurde gestartet.<br />'
-                .$atCommand->getCommand());
+            $this->get('session')->getFlashBag()->add(
+                'info',
+                $timerEntity->getName() . ' wurde gestartet.<br />'
+                . $client->getProcess()->getCommandLine()
+            );
         } else {
             $this->get('session')->getFlashBag()->add('error', $client->getError() . ' wurde gestartet.');
         }

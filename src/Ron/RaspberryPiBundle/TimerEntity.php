@@ -14,7 +14,7 @@ class TimerEntity
     protected $name;
     protected $groupCode;
     protected $code;
-    protected $time;
+    protected $times;
     protected $timeUnit;
 
 
@@ -22,7 +22,7 @@ class TimerEntity
     {
         $this->setName($name);
         $this->setCode($code);
-        $this->setTime($time);
+        $this->setTimes($time);
         $this->setTimeUnit($timeUnit);
         $this->groupCode = $groupCode;
     }
@@ -46,17 +46,17 @@ class TimerEntity
     /**
      * @param mixed $time
      */
-    public function setTime($time)
+    public function setTimes($time)
     {
-        $this->time = $time;
+        $this->times = $time;
     }
 
     /**
      * @return mixed
      */
-    public function getTime()
+    public function getTimes()
     {
-        return $this->time;
+        return $this->times;
     }
 
     /**
