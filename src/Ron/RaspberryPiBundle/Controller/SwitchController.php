@@ -81,12 +81,12 @@ class SwitchController extends Controller
             foreach ($formTimers['timers'] as $key => $timer) {
                 /** @var $timer Form */
                 foreach ($timer->getData()->getTimes() as $keyTime => $time) {
-                    /**
-                     * @var $timer Form
-                     */
                     {
+                        /**
+                         * @var $timer Form
+                         */
                         if ($timer->get('submitTimer' . $keyTime)->isClicked()) {
-                            $resultTimer = $this->startTimer($timer->getData(), $timer->getData()->getTimes()[$key]);
+                            $resultTimer = $this->startTimer($timer->getData(), $timer->getData()->getTimes()[$keyTime]);
                         }
                     }
                 }
