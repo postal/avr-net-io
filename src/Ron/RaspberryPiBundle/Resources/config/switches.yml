@@ -2,9 +2,9 @@ parameters:
    raspi_switch_command: sudo /usr/bin/send
    raspi_switch_code: 10001
    raspi_switch_switches:
-     - {name: Poolpumpe, trigger_code: 1}
-     - {name: WZ-Lampe, trigger_code: 2}
-     - {name: Flurlicht, trigger_code: 3}
-     - {name: Warmwasser, trigger_code: 4}
+     - {name: Poolpumpe, trigger_code: 1, group_code: '10001'}
+     - {name: WZ-Lampe, trigger_code: 2, group_code: '10001'}
+     - {name: Flurlicht, trigger_code: 3, group_code: '10001'}
+     - {name: Warmwasser, trigger_code: 4, group_code: '10001'}
    raspi_timers_times:
      - { name: Warmwasser, trigger_code: 3, times: [5,10] }

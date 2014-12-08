@@ -14,18 +14,24 @@ class SwitchEntity
     const STATUS_ON = 1;
     const STATUS_OFF = 0;
 
-
     protected $name;
     protected $code;
     protected $status;
 
-
-    public function __construct($name, $code, $status = self::STATUS_OFF)
+    /**
+     * @param $name
+     * @param $code
+     * @param $groupCode
+     * @param int $status
+     */
+    public function __construct($name, $code, $groupCode)
     {
         $this->setName($name);
         $this->setCode($code);
-        $this->setStatus($status);
+        $this->setGroupCode($groupCode);
+
     }
+
 
     /**
      * @param mixed $code
@@ -41,6 +47,22 @@ class SwitchEntity
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * @param mixed $groupCode
+     */
+    public function setGroupCode($groupCode)
+    {
+        $this->groupCode = $groupCode;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroupCode()
+    {
+        return $this->groupCode;
     }
 
     /**
@@ -64,7 +86,7 @@ class SwitchEntity
      */
     public function setStatus($status)
     {
-        $this->status = (bool) $status;
+        $this->status = (bool)$status;
     }
 
     /**
@@ -72,8 +94,9 @@ class SwitchEntity
      */
     public function getStatus()
     {
-        return (bool) $this->status;
+        return (bool)$this->status;
     }
+
 
 
 } 

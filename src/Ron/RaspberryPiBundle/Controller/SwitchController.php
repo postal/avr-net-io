@@ -48,12 +48,14 @@ class SwitchController extends Controller
                 /** @var $data SwitchEntity */
                 $data = $switch->getData();
                 if ($switch->get('submitSwitchOn')->isClicked()) {
-                    $result = $this->toggleSwitch($data, 1);
+                    $command = $this->buildCommand($data->getCode(), $data->getGroupCode(), 1);
+                    $result = $this->toggleSwitch($command);
                     $status = 'eingeschaltet';
                 }
 
                 if ($switch->get('submitSwitchOff')->isClicked()) {
-                    $result = $this->toggleSwitch($data, 0);
+                    $command = $this->buildCommand($data->getCode(), $data->getGroupCode(), 0);
+                    $result = $this->toggleSwitch($command);
                     $status = 'ausgeschaltet';
                 }
 
@@ -86,7 +88,10 @@ class SwitchController extends Controller
                          * @var $timer Form
                          */
                         if ($timer->get('submitTimer' . $keyTime)->isClicked()) {
-                            $resultTimer = $this->startTimer($timer->getData(), $timer->getData()->getTimes()[$keyTime]);
+                            $resultTimer = $this->startTimer(
+                                $timer->getData(),
+                                $timer->getData()->getTimes()[$keyTime]
+                            );
                         }
                     }
                 }
@@ -105,18 +110,11 @@ class SwitchController extends Controller
     }
 
     /**
-     * @param $switch
-     * @param $status
+     * @param $command
      * @return bool
      */
-    protected function toggleSwitch($switch, $status)
+    protected function toggleSwitch($command)
     {
-        /** @var $switch SwitchEntity */
-        $command = '';
-        $command .= $this->container->getParameter('raspi_switch_command');
-        $command .= ' ' . $this->container->getParameter('raspi_switch_code');
-        $command .= ' ' . $switch->getCode();
-        $command .= ' ' . $status;
 
         $process = new Process($command);
         $error = $output = '';
@@ -145,7 +143,11 @@ class SwitchController extends Controller
     {
         $switches = array();
         foreach ($this->container->getParameter('raspi_switch_switches') as $switch) {
-            $switches[] = new SwitchEntity($switch['name'], $switch['trigger_code']);
+            $switches[] = new SwitchEntity(
+                $switch['name'],
+                $switch['trigger_code'],
+                $switch['group_code']
+            );
         }
 
         return $switches;
@@ -160,10 +162,12 @@ class SwitchController extends Controller
         foreach ($this->container->getParameter('raspi_timers_times') as $timer) {
             $timers[] = new TimerEntity(
                 $timer['name'],
-                $timer['groupCode'],
+                $timer['group_code'],
                 $timer['trigger_code'],
                 $timer['times'],
-                $timer['timeUnit']
+                $timer['timeUnit'],
+                $timer['trigger_on'],
+                $timer['trigger_off']
             );
         }
 
@@ -177,13 +181,21 @@ class SwitchController extends Controller
      */
     private function startTimer(TimerEntity $timerEntity, $time)
     {
+        if ($timerEntity->isOn()) {
+            $command = $this->buildCommand($timerEntity->getCode(), $timerEntity->getGroupCode(), 1);
+            $this->toggleSwitch($command);
+        }
+
         $client = new AtClient();
         $atCommand = $client->createAt();
         $atCommand->setTime($time);
         $atCommand->setTimeUnit($timerEntity->getTimeUnit());
-        $atCommand->setCommand(
-            'sudo /usr/bin/send ' . $timerEntity->getGroupCode() . ' ' . $timerEntity->getCode() . ' 0'
-        );
+        $command = 'sudo /usr/bin/send ' . $timerEntity->getGroupCode() . ' ' . $timerEntity->getCode();
+        if ($timerEntity->isOff()) {
+            $command .= ' 0';
+        }
+
+        $atCommand->setCommand($command);
 
         $client->process($atCommand);
 
@@ -198,5 +210,22 @@ class SwitchController extends Controller
         }
 
         return $client;
+    }
+
+    /**
+     * @param $code
+     * @param $groupCode
+     * @param $status
+     * @return string
+     */
+    protected function buildCommand($code, $groupCode, $status)
+    {
+        $command = '';
+        $command .= $this->container->getParameter('raspi_switch_command');
+        $command .= ' ' . $groupCode;
+        $command .= ' ' . $code;
+        $command .= ' ' . $status;
+
+        return $command;
     }
 } 

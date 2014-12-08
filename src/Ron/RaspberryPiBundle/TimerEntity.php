@@ -16,15 +16,67 @@ class TimerEntity
     protected $code;
     protected $times;
     protected $timeUnit;
+    /**
+     * @var bool
+     */
+    protected $on;
+    /**
+     * @var bool
+     */
+    protected $off;
 
 
-    public function __construct($name, $groupCode, $code, $time, $timeUnit = 'minutes')
+    public function __construct($name, $groupCode, $code, $time, $timeUnit = 'minutes',$on, $off)
     {
         $this->setName($name);
         $this->setCode($code);
         $this->setTimes($time);
         $this->setTimeUnit($timeUnit);
         $this->groupCode = $groupCode;
+        $this->setOn($on);
+        $this->setOff($off);
+        $this->checkConfig();
+    }
+    /**
+     * @param bool $off
+     */
+    public function setOff($off)
+    {
+        $this->off = $off;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getOff()
+    {
+        return $this->off;
+    }
+
+    /**
+     * @param bool $on
+     */
+    public function setOn($on)
+    {
+        $this->on = $on;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getOn()
+    {
+        return $this->on;
+    }
+
+    public function isOn()
+    {
+        return $this->on;
+    }
+
+    public function isOff()
+    {
+        return $this->off;
     }
 
     /**
@@ -106,5 +158,13 @@ class TimerEntity
     {
         return $this->groupCode;
     }
+
+    private function checkConfig()
+    {
+        if (false === $this->isOn() and false === $this->isOff()) {
+            throw new \Exception('Invalid Config.');
+        }
+    }
+
 
 }
