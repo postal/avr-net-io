@@ -41,6 +41,22 @@
                     </td>
                 </tr>
             {% endif %}
+            {% if sunrise != '' %}
+                <tr>
+                    <td>Sonnenaufgang</td>
+                    <td>
+                        {{ sunrise|date('H:i:s') }} Uhr (morgen {{ sunrise_tomorrow|date('H:i:s') }} Uhr)
+                    </td>
+                </tr>
+            {% endif %}
+            {% if sunset != '' %}
+                <tr>
+                    <td>Sonnenuntergang</td>
+                    <td>
+                        {{ sunset|date('H:i:s') }} Uhr (morgen {{ sunset_tomorrow|date('H:i:s') }} Uhr)
+                    </td>
+                </tr>
+            {% endif %}
             {% if motion != '' %}
                 <tr>
                     <td>Bewegung im HWR</td>

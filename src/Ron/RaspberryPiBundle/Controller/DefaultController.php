@@ -4,6 +4,7 @@ namespace Ron\RaspberryPiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class DefaultController extends Controller
 {
@@ -37,6 +38,7 @@ class DefaultController extends Controller
         if (isset($this->periods[$periodId])) {
             return $this->periods[$periodId];
         }
+
         return false;
     }
 
@@ -197,20 +199,39 @@ class DefaultController extends Controller
         } else {
             $avr = false;
         }
- #       $temp = exec(
- #           'echo $(echo "scale=3; $(grep \'t=\' /sys/bus/w1/devices/w1_bus_master1/10-0008025fd9a1/w1_slave | awk
- #       -F \'t=\' \'{print $2}\') / 1000" | bc -l)'
-  #      );
+        #       $temp = exec(
+        #           'echo $(echo "scale=3; $(grep \'t=\' /sys/bus/w1/devices/w1_bus_master1/10-0008025fd9a1/w1_slave | awk
+        #       -F \'t=\' \'{print $2}\') / 1000" | bc -l)'
+        #      );
 
         $temp = exec('/home/pi/Adafruit-Raspberry-Pi-Python-Code/Adafruit_BMP085/Adafruit_BMP085_read_temp.py');
         $pressure = exec('/home/pi/Adafruit-Raspberry-Pi-Python-Code/Adafruit_BMP085/Adafruit_BMP085_read_pressure.py');
         $motion = exec('gpio -g read 7');
+
+        $date = new \DateTime('now');
+        $dateTomorrow = new \DateTime('+1 day');
+        $longitude = $this->container->getParameter('location_longitude');
+        $latitude = $this->container->getParameter('location_latitude');
 
         $params = array(
             'avr' => $avr,
             'temp' => $temp,
             'motion' => $motion,
             'pressure' => $pressure,
+            'sunrise' => date_sunrise($date->format('U'), SUNFUNCS_RET_TIMESTAMP, $latitude, $longitude),
+            'sunrise_tomorrow' => date_sunrise(
+                $dateTomorrow->format('U'),
+                SUNFUNCS_RET_TIMESTAMP,
+                $latitude,
+                $longitude
+            ),
+            'sunset' => date_sunset($date->format('U'), SUNFUNCS_RET_TIMESTAMP, $latitude, $longitude),
+            'sunset_tomorrow' => date_sunset(
+                $dateTomorrow->format('U'),
+                SUNFUNCS_RET_TIMESTAMP,
+                $latitude,
+                $longitude
+            ),
         );
 
         $response = $this->render('RonRaspberryPiBundle:Default:input.html.twig', $params);
