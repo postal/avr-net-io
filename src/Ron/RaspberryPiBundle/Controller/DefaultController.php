@@ -208,30 +208,15 @@ class DefaultController extends Controller
         $pressure = exec('/home/pi/Adafruit-Raspberry-Pi-Python-Code/Adafruit_BMP085/Adafruit_BMP085_read_pressure.py');
         $motion = exec('gpio -g read 7');
 
-        $date = new \DateTime('now');
-        $dateTomorrow = new \DateTime('+1 day');
-        $longitude = $this->container->getParameter('location_longitude');
-        $latitude = $this->container->getParameter('location_latitude');
+        $sun = $this->container->get('ron_sun_helper');
 
         $params = array(
             'avr' => $avr,
             'temp' => $temp,
             'motion' => $motion,
             'pressure' => $pressure,
-            'sunrise' => date_sunrise($date->format('U'), SUNFUNCS_RET_TIMESTAMP, $latitude, $longitude),
-            'sunrise_tomorrow' => date_sunrise(
-                $dateTomorrow->format('U'),
-                SUNFUNCS_RET_TIMESTAMP,
-                $latitude,
-                $longitude
-            ),
-            'sunset' => date_sunset($date->format('U'), SUNFUNCS_RET_TIMESTAMP, $latitude, $longitude),
-            'sunset_tomorrow' => date_sunset(
-                $dateTomorrow->format('U'),
-                SUNFUNCS_RET_TIMESTAMP,
-                $latitude,
-                $longitude
-            ),
+            'sunrise' => $sun->getNextSunrise(),
+            'sunset' => $sun->getNextSunset(),
         );
 
         $response = $this->render('RonRaspberryPiBundle:Default:input.html.twig', $params);

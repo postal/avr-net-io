@@ -45,7 +45,7 @@
                 <tr>
                     <td>Sonnenaufgang</td>
                     <td>
-                        {{ sunrise|date('H:i:s') }} Uhr (morgen {{ sunrise_tomorrow|date('H:i:s') }} Uhr)
+                        {{ sunrise|date('H:i') }} Uhr
                     </td>
                 </tr>
             {% endif %}
@@ -53,7 +53,7 @@
                 <tr>
                     <td>Sonnenuntergang</td>
                     <td>
-                        {{ sunset|date('H:i:s') }} Uhr (morgen {{ sunset_tomorrow|date('H:i:s') }} Uhr)
+                        {{ sunset|date('H:i') }} Uhr
                     </td>
                 </tr>
             {% endif %}
