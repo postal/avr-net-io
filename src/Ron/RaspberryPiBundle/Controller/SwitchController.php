@@ -106,9 +106,20 @@ class SwitchController extends Controller
             'formTimers' => $formTimers->createView(),
         );
 
-        return $this->render('RonRaspberryPiBundle:Switch:index.html.twig', $viewData);
+        $response = $this->render('RonRaspberryPiBundle:Switch:index.html.twig', $viewData);
+        $response->setSharedMaxAge(3600);
+
+        return $response;
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showFlashMessagesAction(){
+
+        return $this->render('RonRaspberryPiBundle:Switch:flash_messages.html.twig');
+
+    }
     /**
      * @param $command
      * @return bool

@@ -3,8 +3,8 @@ imports:
     - { resource: security.yml }
 
 framework:
-    #esi:             ~
-    translator:      { fallback: "%locale%" }
+    fragments: { path: /_fragment }
+    translator: { fallback: "%locale%" }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -16,7 +16,7 @@ framework:
     default_locale:  "de"
     trusted_proxies: ~
     session:         ~
-
+    esi:  { enabled: true }
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"

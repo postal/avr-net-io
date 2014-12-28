@@ -14,3 +14,16 @@ parameters:
     location_longitude: 13.2523
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+    raspi_timers_times:
+     -
+       name: Warmwasser aus
+       group_code: '10001'
+       trigger_code: 3
+       times: [1,10]
+       timeUnit: 'minutes'
+       trigger_on: true
+       trigger_off: true
+    raspi_switch_command: sudo /usr/bin/send
+    raspi_switch_code: 10001
+    raspi_switch_switches:
+      - {name: Poolpumpe, trigger_code: 1, group_code: '10001'}
