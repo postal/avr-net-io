@@ -14,6 +14,7 @@ parameters:
     location_longitude: 13.2523
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+    raspi_motion_command: sudo /usr/bin/motion
     raspi_timers_times:
      -
        name: Warmwasser aus

@@ -206,7 +206,7 @@ class DefaultController extends Controller
 
         $temp = exec('/home/pi/Adafruit-Raspberry-Pi-Python-Code/Adafruit_BMP085/Adafruit_BMP085_read_temp.py');
         $pressure = exec('/home/pi/Adafruit-Raspberry-Pi-Python-Code/Adafruit_BMP085/Adafruit_BMP085_read_pressure.py');
-        $motion = exec('gpio -g read 7');
+        $motion = exec($this->container->getParameter('raspi_motion_command'));
 
         $sun = $this->container->get('ron_sun_helper');
 
