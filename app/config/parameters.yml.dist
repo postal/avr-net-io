@@ -14,7 +14,9 @@ parameters:
     location_longitude: 13.2523
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
-    raspi_motion_command: sudo /usr/bin/motion
+    ron.read_pressure: '/usr/bin/read_pressure.sh'
+    ron.read_temperature: '/usr/bin/read_temperature.sh'
+    ron.read_motion: '/usr/bin/motion'
     raspi_timers_times:
      -
        name: Warmwasser aus

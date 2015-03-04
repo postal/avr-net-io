@@ -203,13 +203,11 @@ class DefaultController extends Controller
         #           'echo $(echo "scale=3; $(grep \'t=\' /sys/bus/w1/devices/w1_bus_master1/10-0008025fd9a1/w1_slave | awk
         #       -F \'t=\' \'{print $2}\') / 1000" | bc -l)'
         #      );
-
-        $temp = exec('/home/pi/Adafruit-Raspberry-Pi-Python-Code/Adafruit_BMP085/Adafruit_BMP085_read_temp.py');
-        $pressure = exec('/home/pi/Adafruit-Raspberry-Pi-Python-Code/Adafruit_BMP085/Adafruit_BMP085_read_pressure.py');
-        $motion = exec($this->container->getParameter('raspi_motion_command'));
-
+ 
+        $temp = exec($this->container->getParameter('ron.read_temperature'));
+        $pressure = exec($this->container->getParameter('ron.read_pressure'));
+        $motion = exec($this->container->getParameter('ron.read_motion'));
         $sun = $this->container->get('ron_sun_helper');
-
         $params = array(
             'avr' => $avr,
             'temp' => $temp,
