@@ -12,18 +12,36 @@ namespace Ron\RaspberryPiBundle\Lib;
 class At implements Command
 {
 
-    const COMMAND_NAME = 'at';
-
     /**
      * @var
      */
     protected $time;
+    /**
+     * @var string
+     */
     protected $timeUnit = 'minutes';
+    /**
+     * @var string
+     */
     protected $offsetDate = 'now';
     /**
-     * @var
+     * @var string
      */
-    protected $command;
+    protected $command = 'at';
+    /**
+     * @var string
+     */
+    protected $options;
+
+    /**
+     * @param array $params
+     */
+    public function __construct(array $params = null)
+    {
+        if (isset($params['command'])) {
+            $this->setCommand($params['command']);
+        }
+    }
 
     /**
      * @param string $offsetDate
@@ -58,9 +76,25 @@ class At implements Command
     }
 
     /**
+     * @return string
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param string $options
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
+    }
+
+    /**
      * @param string $command
      */
-    public function setCommand($command)
+    protected function setCommand($command)
     {
         $this->command = $command;
     }
@@ -96,9 +130,10 @@ class At implements Command
     public function buildCommand()
     {
         $command = '';
-        $command .= 'echo "' . $this->getCommand() . '" ';
+        $command .= 'echo "' . $this->getOptions() . '" ';
         $command .= ' | ';
-        $command .= self::COMMAND_NAME .' '. $this->getOffsetDate().' +' . $this->getTime() . $this->getTimeUnit();
+        $command .= $this->getCommand() . ' ' . $this->getOffsetDate() . ' +' . $this->getTime() .
+            $this->getTimeUnit();
 
         return $command;
     }

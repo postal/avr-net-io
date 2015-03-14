@@ -115,11 +115,13 @@ class SwitchController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showFlashMessagesAction(){
+    public function showFlashMessagesAction()
+    {
 
         return $this->render('RonRaspberryPiBundle:Switch:flash_messages.html.twig');
 
     }
+
     /**
      * @param $command
      * @return bool
@@ -193,20 +195,26 @@ class SwitchController extends Controller
     private function startTimer(TimerEntity $timerEntity, $time)
     {
         if ($timerEntity->isOn()) {
-            $command = $this->buildCommand($timerEntity->getCode(), $timerEntity->getGroupCode(), 1);
-            $this->toggleSwitch($command);
+            $options = $this->buildCommand($timerEntity->getCode(), $timerEntity->getGroupCode(), 1);
+            $this->toggleSwitch($options);
         }
 
         $client = new AtClient();
-        $atCommand = $client->createAt();
-        $atCommand->setTime($time);
-        $atCommand->setTimeUnit($timerEntity->getTimeUnit());
-        $command = 'sudo /usr/bin/send ' . $timerEntity->getGroupCode() . ' ' . $timerEntity->getCode();
-        if ($timerEntity->isOff()) {
-            $command .= ' 0';
+
+        $options = null;
+        if ($this->container->hasParameter('ron.command_at')) {
+            $options = array('command' => $this->container->getParameter('ron.command_at'));
         }
 
-        $atCommand->setCommand($command);
+        $atCommand = $client->createAt($options);
+        $atCommand->setTime($time);
+        $atCommand->setTimeUnit($timerEntity->getTimeUnit());
+        $options = 'sudo /usr/bin/send ' . $timerEntity->getGroupCode() . ' ' . $timerEntity->getCode();
+        if ($timerEntity->isOff()) {
+            $options .= ' 0';
+        }
+
+        $atCommand->setOptions($options);
 
         $client->process($atCommand);
 

@@ -96,9 +96,9 @@ class AtClient
     /**
      * @return At
      */
-    public function createAt()
+    public function createAt($params = array())
     {
-        return new At();
+        return new At($params);
     }
 
 

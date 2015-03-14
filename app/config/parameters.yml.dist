@@ -17,6 +17,7 @@ parameters:
     ron.read_pressure: '/usr/bin/read_pressure.sh'
     ron.read_temperature: '/usr/bin/read_temperature.sh'
     ron.read_motion: '/usr/bin/motion'
+    ron.command_at: 'sudo /usr/bin/at'
     raspi_timers_times:
      -
        name: Warmwasser aus
