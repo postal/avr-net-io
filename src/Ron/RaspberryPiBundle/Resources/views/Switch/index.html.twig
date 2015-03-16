@@ -4,8 +4,17 @@
 {% block content %}
     <div class="container">
         <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-toggle-on fa-lg fa-fw"></i> Schalter</h3>
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title  pull-left" style="padding-top: 6px;"><i class="fa fa-toggle-on fa-lg
+                fa-fw"></i>
+                    Schalter</h3>
+
+                {{ form_start(formAll) }}
+                <div class="btn-group pull-right">
+                    {{ form_widget(formAll.submitAllOn, {attr:{'class': 'btn btn-success btn-sm' }}) }}
+                    {{ form_widget(formAll.submitAllOff, {attr:{'class': 'btn btn-primary btn-sm' }}) }}
+                </div>
+                {{ form_end(formAll) }}
             </div>
             <div class="panel-body">
                 <div class="col-sm-6 col-sm-offset-3 col-xs-12 content">

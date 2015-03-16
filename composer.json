@@ -38,7 +38,8 @@
         "braincrafted/bootstrap-bundle": "~2.0@alpha",
         "knplabs/knp-menu-bundle": "2.0.*@dev",
         "twbs/bootstrap": "3.0.*",
-        "jquery/jquery":  "1.10.*"
+        "jquery/jquery":  "1.10.*",
+        "cmfcmf/openweathermap-php-api": "~2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

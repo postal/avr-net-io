@@ -101,9 +101,33 @@ class SwitchController extends Controller
             return $this->redirect($this->generateUrl('ron_raspberry_pi_switch'));
         }
 
+        $formBuilder = $this->createFormBuilder();
+        $formBuilder->add('submitAllOn', 'submit', array('label' => 'An'));
+        $formBuilder->add('submitAllOff', 'submit', array('label' => 'Aus'));
+        $formAll = $formBuilder->getForm();
+
+        $formAll->handleRequest($request);
+
+        if ($formAll->get('submitAllOn')->isClicked()) {
+            foreach ($switches as $switch) {
+                $command = $this->buildCommand($switch->getCode(), $switch->getGroupCode(), 1);
+                $result = $this->toggleSwitch($command);
+            }
+
+        }
+
+        if ($formAll->get('submitAllOff')->isClicked()) {
+            foreach ($switches as $switch) {
+                $command = $this->buildCommand($switch->getCode(), $switch->getGroupCode(), 0);
+                $result = $this->toggleSwitch($command);
+            }
+
+        }
+
         $viewData = array(
             'form' => $form->createView(),
             'formTimers' => $formTimers->createView(),
+            'formAll' => $formAll->createView(),
         );
 
         $response = $this->render('RonRaspberryPiBundle:Switch:index.html.twig', $viewData);
@@ -150,7 +174,7 @@ class SwitchController extends Controller
 
 
     /**
-     * @return array
+     * @return SwitchEntity[]
      */
     private function buildSwitches()
     {

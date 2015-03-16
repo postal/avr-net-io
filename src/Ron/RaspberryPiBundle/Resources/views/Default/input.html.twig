@@ -16,76 +16,96 @@
         }
 
     </style>
-    <div>
-        <table class="col-xs-12 col-md-6 col-md-offset-3 table-condensed table-striped">
-            <thead>
-            <tr>
-                <th class="col-sm-6 col-md-3">Ort</th>
-                <th class="col-sm-6 col-md-3">Wert</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% if temp != '' %}
-                <tr>
-                    <td>Temperatur Serverschrank</td>
-                    <td>
-                        <a href="{{ path('avr_output_temp') }}">{{ temp }} °C</a>
-                    </td>
-                </tr>
-            {% endif %}
-            {% if pressure != '' %}
-                <tr>
-                    <td>Luftdruck Serverschrank</td>
-                    <td>
-                        <a href="{{ path('avr_output_temp') }}">{{ pressure }} hPa</a>
-                    </td>
-                </tr>
-            {% endif %}
-            {% if sunrise != '' %}
-                <tr>
-                    <td>Sonnenaufgang</td>
-                    <td>
-                        <i class="wi wi-sunrise"></i> {{ sunrise|date('H:i') }} Uhr
-                    </td>
-                </tr>
-            {% endif %}
-            {% if sunset != '' %}
-                <tr>
-                    <td>Sonnenuntergang</td>
-                    <td>
-                        <i class="wi wi-sunset"></i> {{ sunset|date('H:i') }} Uhr
-                    </td>
-                </tr>
-            {% endif %}
-            {% if motion != '' %}
-                <tr>
-                    <td>Bewegung im HWR</td>
-                    <td>
-                        <a href="{{ path('ron_raspberry_pi_pir', { 'period': 'day' }) }}">
-                            {% if motion == 1 %}Bewegung erkannt{% else %}Keine Bewegung erkannt{% endif %}</a>
-                    </td>
-                </tr>
-            {% endif %}
-            {% if false == avr %}
-                <tr>
-                    <td>Verbindung zu Avr</td>
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">Wetter Teltow</div>
+            <div class="panel-body">
+                <table class="col-xs-12 table-condensed table-striped">
 
-                    <td>fehlgeschlagen</td>
-                </tr>
-            {% else %}
-                {% for i in 1..4 %}
+                    <tbody>
                     <tr>
-                        <td>Eingang {{ i }}</td>
+                        <td class="col-md-6">Temperatur</td>
+                        <td>
+                            {{ weather.temperature.value|number_format(1) }} °C
+                        </td>
                     </tr>
                     <tr>
-                        <td>{{ avr.adc(i) }}</td>
+                        <td>Luftdruck</td>
+                        <td>
+                            {{ weather.pressure.value }} hPa
+                        </td>
                     </tr>
-                {% endfor %}
-            {% endif %}
-            </tbody>
-        </table>
+                    <tr>
+                        <td>Sonnenaufgang</td>
+                        <td>
+                            <i class="wi wi-sunrise"></i>{{ weather.sun.rise.format('H:i') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sonnenuntergang</td>
+                        <td>
+                            <i class="wi wi-sunset"></i>{{ weather.sun.set.format('H:i') }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">HWR Daten</div>
+            <div class="panel-body">
 
+                <table class="col-xs-12 table-condensed table-striped">
+                    <tbody>
+
+                    {% if temp != '' %}
+                        <tr>
+                            <td class="col-md-6">Temperatur</td>
+                            <td>
+                                <a href="{{ path('avr_output_temp') }}">{{ temp }} °C</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if pressure != '' %}
+                        <tr>
+                            <td>Luftdruck</td>
+                            <td>
+                                <a href="{{ path('avr_output_temp') }}">{{ pressure }} hPa</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if motion != '' %}
+                        <tr>
+                            <td>Bewegung</td>
+                            <td>
+                                <a href="{{ path('ron_raspberry_pi_pir', { 'period': 'day' }) }}">
+                                    {% if motion == 1 %}Bewegung erkannt{% else %}Keine Bewegung erkannt{% endif %}</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if false == avr %}
+                        {#<tr>
+                            <td>Verbindung zu Avr</td>
+
+                            <td>fehlgeschlagen</td>
+                        </tr>#}
+                    {% else %}
+                        {% for i in 1..4 %}
+                            <tr>
+                                <td>Eingang {{ i }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ avr.adc(i) }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
     <div class="ui-grid-a ui-responsive">
 
     </div>

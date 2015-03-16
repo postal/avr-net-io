@@ -2,6 +2,7 @@
 
 namespace Ron\RaspberryPiBundle\Controller;
 
+use Cmfcmf\OpenWeatherMap;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\DateTime;
@@ -203,14 +204,29 @@ class DefaultController extends Controller
         #           'echo $(echo "scale=3; $(grep \'t=\' /sys/bus/w1/devices/w1_bus_master1/10-0008025fd9a1/w1_slave | awk
         #       -F \'t=\' \'{print $2}\') / 1000" | bc -l)'
         #      );
- 
+        $owm = new OpenWeatherMap();
+    #    $weather = $owm->getWeather('Berlin', 'de', 'metric');
+
+        try {
+            $weather = $owm->getWeather('Berlin', 'metric', 'de');
+        } catch(OpenWeatherMap\Exception $e) {
+            echo 'OpenWeatherMap exception: ' . $e->getMessage() . ' (Code ' . $e->getCode() . ').';
+            echo "<br />\n";
+        } catch(\Exception $e) {
+            echo 'General exception: ' . $e->getMessage() . ' (Code ' . $e->getCode() . ').';
+            echo "<br />\n";
+        }
+
+        $tempOutside = $weather->temperature->getValue();
         $temp = exec($this->container->getParameter('ron.read_temperature'));
         $pressure = exec($this->container->getParameter('ron.read_pressure'));
         $motion = exec($this->container->getParameter('ron.read_motion'));
         $sun = $this->container->get('ron_sun_helper');
         $params = array(
+            'weather' => $weather,
             'avr' => $avr,
             'temp' => $temp,
+            'tempOutside' => $tempOutside,
             'motion' => $motion,
             'pressure' => $pressure,
             'sunrise' => $sun->getNextSunrise(),
